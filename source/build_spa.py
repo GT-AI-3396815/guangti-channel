@@ -146,7 +146,37 @@ for i, ch in enumerate(channels):
         flags=re.S | re.I,
     )
 
-    # 7. 修复返回首页链接：光体频道.html -> #home
+    # 7. 移除ch02统计概览面板
+    if ch == "ch02":
+        body_html = re.sub(
+            r"<div[^>]*>\s*<div[^>]*>\s*统计概览\s*</div>.*?</div>\s*",
+            "",
+            body_html,
+            flags=re.S | re.I,
+        )
+        body_html = re.sub(
+            r'<div\s+class="stats-grid"[^>]*>.*?</div>\s*',
+            "",
+            body_html,
+            flags=re.S | re.I,
+        )
+        body_html = re.sub(
+            r'<div\s+class="stat-card"[^>]*>.*?</div>\s*',
+            "",
+            body_html,
+            flags=re.S | re.I,
+        )
+        body_html = re.sub(
+            r'<div\s+class="hero-stats"[^>]*>.*?</div>\s*',
+            "",
+            body_html,
+            flags=re.S | re.I,
+        )
+
+    # 8. 移除所有频道中的图片元素（保留source中的logo，保留UI图标svg）
+    body_html = re.sub(r"<img[^>]*>\s*", "", body_html, flags=re.S | re.I)
+
+    # 9. 修复返回首页链接：光体频道.html -> #home
     body_html = body_html.replace(
         'href="光体频道.html"', 'href="#home" onclick="showHome(); return false;"'
     )
