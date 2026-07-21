@@ -148,12 +148,21 @@ for i, ch in enumerate(channels):
 
     # 7. 移除ch02统计概览面板
     if ch == "ch02":
+        # 移除包含"统计概览"的标题标签（h1-h6）
+        body_html = re.sub(
+            r"<h[1-6][^>]*>\s*统计概览\s*</h[1-6]>\s*",
+            "",
+            body_html,
+            flags=re.S | re.I,
+        )
+        # 移除标题div嵌套结构
         body_html = re.sub(
             r"<div[^>]*>\s*<div[^>]*>\s*统计概览\s*</div>.*?</div>\s*",
             "",
             body_html,
             flags=re.S | re.I,
         )
+        # 移除统计网格和卡片
         body_html = re.sub(
             r'<div\s+class="stats-grid"[^>]*>.*?</div>\s*',
             "",
