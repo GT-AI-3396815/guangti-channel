@@ -10,7 +10,7 @@
 
 import re, os, base64
 
-workdir = "C:/Users/AW/.qianfan/workspace/1215894c413d46459ca886b871f8ae7b"
+workdir = os.path.dirname(os.path.abspath(__file__))
 
 # === 读取logo并转为base64 ===
 logo_path = f"{workdir}/logo.jpg"
