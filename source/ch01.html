@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光体频道：每日全球新闻</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@200;300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+:root{
+  --bg-void:#06080f;--bg-deep:#0a0e1a;--bg-card:#0f1525;--bg-card-hover:#141c30;
+  --gold:#c9a96e;--gold-bright:#e4c98e;--gold-dim:rgba(201,169,110,0.4);--gold-faint:rgba(201,169,110,0.08);
+  --text-primary:#e8e6e3;--text-secondary:#9ca3af;--text-muted:#6b7280;
+  --border-subtle:rgba(201,169,110,0.1);--border-hover:rgba(201,169,110,0.3);
+  --accent-blue:#3b82f6;--accent-purple:#8b5cf6;--accent-green:#10b981;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg-void);color:var(--text-primary);font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.4) 100%)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-void)}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+
+.ambient{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.12;animation:drift 30s ease-in-out infinite}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,#c9a96e,transparent 70%);top:-200px;right:-100px}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,#3b82f6,transparent 70%);bottom:-150px;left:-100px;animation-delay:-10s;animation-duration:40s}
+.orb-3{width:400px;height:400px;background:radial-gradient(circle,#8b5cf6,transparent 70%);top:40%;left:50%;animation-delay:-20s;animation-duration:50s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.05)}66%{transform:translate(-30px,40px) scale(0.95)}}
+.starfield{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:0;animation:twinkle 4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:0.5}}
+
+.container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(6,8,15,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-subtle)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-brand-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-dim);box-shadow:0 0 20px var(--gold-dim)}
+.nav-brand-text{font-family:'Noto Serif SC',serif;font-weight:600;font-size:16px;color:var(--text-primary);letter-spacing:2px}
+.nav-brand-text .en{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:12px;color:var(--gold);margin-left:8px}
+.nav-meta{display:flex;align-items:center;gap:20px;font-size:12px;color:var(--text-secondary)}
+.nav-date{font-family:'JetBrains Mono',monospace;font-weight:300;letter-spacing:1px}
+.back-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.back-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+
+/* HERO */
+.hero{position:relative;padding:120px 24px 60px;text-align:center;overflow:hidden}
+.hero-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,0.08) 0%,transparent 50%),linear-gradient(180deg,var(--bg-void) 0%,var(--bg-deep) 100%)}
+.hero-content{position:relative;z-index:2;max-width:800px;margin:0 auto}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:300;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:24px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:36px;height:1px;background:var(--gold-dim)}
+.hero-title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(36px,7vw,72px);line-height:1.1;letter-spacing:4px;margin-bottom:12px;background:linear-gradient(180deg,#fff 0%,#e8e6e3 40%,var(--gold-bright) 80%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;font-weight:300;color:var(--gold);letter-spacing:3px;margin-bottom:20px}
+.hero-date{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-secondary);letter-spacing:2px}
+.hero-desc{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:600px;margin:24px auto 0}
+
+/* SECTION */
+.section{padding:60px 0}
+.section-label{display:flex;align-items:center;gap:16px;margin-bottom:40px}
+.section-label-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.section-label-text{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+.section-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:8px;letter-spacing:2px}
+.section-desc{font-size:14px;color:var(--text-secondary);margin-bottom:40px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:36px;padding-bottom:16px;border-bottom:1px solid var(--border-subtle)}
+.section-icon{font-size:32px;line-height:1}
+.section-subtitle{font-size:13px;color:var(--text-muted);letter-spacing:1px;margin-top:2px}
+
+/* FOOTER */
+.footer{padding:60px 24px 40px;text-align:center;border-top:1px solid var(--border-subtle);margin-top:40px;position:relative;z-index:1}
+.footer-brand{font-family:'Noto Serif SC',serif;font-size:16px;color:var(--gold);letter-spacing:4px;margin-bottom:8px}
+.footer-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-muted);letter-spacing:2px;margin-bottom:24px}
+.footer-info{font-size:12px;color:var(--text-muted);line-height:2}
+.footer-highlight{color:var(--gold);font-weight:500}
+.footer-back{display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:10px 24px;border:1px solid var(--border-subtle);border-radius:24px;color:var(--gold);text-decoration:none;font-size:13px;letter-spacing:1px;transition:all .3s}
+.footer-back:hover{border-color:var(--gold);background:var(--gold-faint)}
+
+/* FLOATING BACK BUTTON */
+.float-back{position:fixed;bottom:32px;right:32px;z-index:9000;display:flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--bg-void);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:1px;border-radius:28px;box-shadow:0 8px 32px rgba(201,169,110,0.35),0 0 0 1px rgba(201,169,110,0.2);transition:all .3s cubic-bezier(.4,0,.2,1);opacity:0;transform:translateY(20px);animation:floatBackIn .5s ease forwards .5s}
+.float-back:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 12px 40px rgba(201,169,110,0.5),0 0 0 1px rgba(201,169,110,0.3)}
+.float-back svg{width:16px;height:16px;flex-shrink:0}
+@keyframes floatBackIn{to{opacity:1;transform:translateY(0)}}
+
+/* ===== CONTENT STYLES ===== */
+/* Channel-specific unified styles - all 12 channels */
+
+/* ch07 civilization */
+.container .civ-card{position:relative;overflow:hidden}
+.container .civ-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .civ-headline{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .civ-detail{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .civ-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-summary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .civ-number{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+
+/* ch08 prehistoric */
+.container .item{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .item:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .item-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+.container .item-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic;flex-shrink:0;min-width:32px}
+.container .item-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .item-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .item-body{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .level-a,.container .level-b{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch09 wisdom */
+.container .cat-buddhist,.container .cat-confucian,.container .cat-medical,.container .cat-philosophy,.container .cat-strategy,.container .cat-taoist,.container .cat-yijing{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .cat-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .level-desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .modern{font-size:14px;color:var(--text-primary);line-height:1.8}
+.container .original-text{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .source-line{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .tag-l1,.container .tag-l2,.container .tag-l3{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch10 wellness */
+.container .badge-cat,.container .badge-group{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .card-p0,.container .card-p1,.container .card-p2{border-left:3px solid var(--gold)}
+.container .jinji{color:var(--gold-bright);font-weight:500}
+.container .ni-quote{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .priority-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .pt-p0,.container .pt-p1,.container .pt-p2{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .quote-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .section-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+.container .shicao{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .yangsheng-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .yangsheng-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .yangsheng-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .yili{font-size:14px;color:var(--text-secondary);line-height:1.8}
+
+/* ch11 healing */
+.container .cat-body,.container .cat-environment,.container .cat-mindfulness,.container .cat-sleep{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .deep-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .suggestion{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+
+/* ch12 manifestation */
+.container .seg{padding:20px 0}
+.container .b-act,.container .b-cog,.container .b-diff,.container .b-hab,.container .b-phys{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch05 ufo & ch06 cosmic extra */
+.container .news-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .news-video-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.container .news-video-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+.container .tag-official,.container .tag-observe{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+
+/* ch02 ai extra */
+.container .a-body,.container .a-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .a-title::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .advice{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block;margin-right:6px}
+.container .hero-inner{position:relative;z-index:2}
+.container .hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 32px;margin-top:24px}
+.container .hero-tag{display:flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);font-size:12px;margin-bottom:24px}
+.container .item{padding:14px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .judgments{display:flex;flex-direction:column;gap:16px}
+.container .region{font-size:12px;color:var(--text-secondary);text-transform:none;letter-spacing:0.5px}
+.container .subtitle{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:700px;margin:0 auto 24px}
+
+/* ch03 business extra */
+.container .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .card-title-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.container .tag-climate{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
+.container .tag-conflict{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag-economy{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag-politics{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag-society{background:rgba(139,92,246,0.15);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)}
+.container .tag-tech{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+.container .tag-yy{background:rgba(201,169,110,0.15);color:var(--gold);border:1px solid rgba(201,169,110,0.3)}
+
+/* ch04 self-media extra */
+.container .alt-label,.container .chip-label{font-size:13px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container .secondary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .top3-reason{font-size:14px;color:var(--text-secondary);line-height:1.8;padding-top:16px;border-top:1px solid var(--border-subtle)}
+.container .top3-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-img-suggest{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .topic-meta{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .topic-title-alt{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-titles{font-size:14px;color:var(--text-primary);line-height:1.8}
+
+/* ===== MAIN CONTENT STYLES ===== */
+.container > *{position:relative;z-index:1}
+.container section{padding:40px 0}
+.container h2{font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700;color:var(--text-primary);margin-bottom:16px;letter-spacing:2px}
+.container h3{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);margin-bottom:12px;line-height:1.5}
+.container h4{font-size:14px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container p{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-bottom:12px}
+.container ul,.container ol{padding-left:24px;margin-bottom:16px}
+.container li{font-size:14px;color:var(--text-secondary);line-height:1.8;padding:4px 0}
+.container strong{color:var(--gold-bright);font-weight:500}
+.container a{color:var(--gold);text-decoration:none}
+.container a:hover{text-decoration:underline}
+
+/* Unified card styles */
+.container .news-card,
+.container .card,
+.container .news-item,
+.container .topic-card,
+.container .stat-card,
+.container .judgment,
+.container .summary{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  padding:28px 24px;
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+  transition:all .4s;
+}
+.container .news-card::before,
+.container .card::before,
+.container .news-item::before,
+.container .topic-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0.6;
+}
+.container .news-card:hover,
+.container .card:hover,
+.container .news-item:hover,
+.container .topic-card:hover{
+  border-color:var(--border-hover);
+  background:var(--bg-card-hover);
+  transform:translateY(-2px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+.container .topic-card::before{
+  top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(180deg,var(--gold),transparent);
+  opacity:0.5;
+}
+
+/* Unified tag/badge styles */
+.container .news-tag,
+.container .tag,
+.container .badge,
+.container .group-badge,
+.container .top3-badge,
+.container .topic-cat-badge,
+.container .meta-chip{
+  display:inline-block;
+  padding:4px 12px;
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--gold);
+  text-transform:uppercase;
+  background:var(--gold-faint);
+  font-weight:500;
+  margin:2px;
+}
+.container .news-tag{border-radius:4px;text-transform:none;font-size:12px}
+.container .tag{border-radius:4px;text-transform:none;font-size:11px;font-weight:600}
+.container .badge{border-radius:4px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:none}
+.container .group-badge{border-radius:6px;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:none}
+
+/* Priority badges */
+.container .tag.imp.p0,.container .badge-p0,.container .group-badge.p0,.container .b-p0,.container .tag-p0{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag.imp.p1,.container .badge-p1,.container .group-badge.p1,.container .b-p1,.container .tag-p1{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag.imp.p2,.container .badge-p2,.container .group-badge.p2,.container .b-p2,.container .tag-p2{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag.imp.p3,.container .badge-p3,.container .group-badge.p3,.container .b-p3,.container .tag-p3{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+
+/* Unified headline/title styles */
+.container .news-headline,
+.container .news-title,
+.container .card-title,
+.container .topic-title-main{
+  font-family:'Noto Serif SC',serif;
+  font-size:18px;
+  font-weight:600;
+  color:var(--text-primary);
+  line-height:1.5;
+  margin-bottom:12px;
+}
+
+/* Unified number/decorative element */
+.container .news-num,
+.container .topic-num,
+.container .top3-rank,
+.container .card-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;
+  font-weight:300;
+  color:var(--gold);
+  line-height:1;
+  font-style:italic;
+}
+
+/* Unified summary/body text */
+.container .news-summary,
+.container .news-body,
+.container .card-body,
+.container .summary,
+.container .topic-section-content,
+.container .seg-text{
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+.container .news-body strong,
+.container .card-body strong{color:var(--gold-bright);font-weight:500}
+
+/* Unified detail/analysis boxes */
+.container .news-detail,
+.container .news-analysis,
+.container .trend-box,
+.container .card-value,
+.container .seg-note,
+.container .topic-hook{
+  background:rgba(201,169,110,0.06);
+  border:1px solid rgba(201,169,110,0.15);
+  border-left:3px solid var(--gold-dim);
+  border-radius:8px;
+  padding:16px 20px;
+  margin:12px 0;
+}
+.container .news-analysis{
+  background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));
+  border:1px solid rgba(201,169,110,0.2);
+}
+
+/* Unified source/meta */
+.container .news-source,
+.container .news-meta,
+.container .card-source,
+.container .seg-src,
+.container .source{
+  font-size:11px;
+  color:var(--text-muted);
+  border-top:1px solid var(--border-subtle);
+  padding-top:10px;
+  margin-top:12px;
+  letter-spacing:0.5px;
+}
+
+/* Stats grid */
+.container .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:24px}
+.container .stat-card .head,
+.container .stat-card h3{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.container .stat-card .total{font-size:28px;font-weight:800;color:#fff}
+.container .stat-card .total span{font-size:13px;color:var(--text-muted);font-weight:400;margin-left:4px}
+.container .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.container .bar-row .label{width:90px;font-size:12px;color:var(--text-secondary);flex-shrink:0}
+.container .bar-row .track{flex:1;height:22px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden}
+.container .bar-row .fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px}
+.container .bar-row .val{font-size:12px;font-weight:700;color:#fff}
+
+/* Judgments */
+.container .judgment{
+  background:linear-gradient(135deg,rgba(201,169,110,0.06),rgba(59,130,246,0.03));
+  border:1px solid var(--border-subtle);
+  border-left:3px solid var(--gold);
+  border-radius:10px;
+  padding:18px 22px;
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+.container .judgment .key{color:var(--gold-bright);font-weight:700}
+
+/* Advice grid */
+.container .advice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
+.container .advice-item{background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:8px;padding:10px 12px}
+.container .advice-item .role{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+.container .advice-item .text{font-size:12px;color:var(--text-secondary);line-height:1.6}
+
+/* Summary table */
+.container .summary-table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border-subtle)}
+.container .summary-table th{background:var(--gold-faint);color:var(--gold);font-weight:600;font-size:13px;padding:14px 16px;text-align:left;border-bottom:1px solid var(--border-subtle);letter-spacing:1px}
+.container .summary-table td{padding:14px 16px;font-size:14px;color:var(--text-secondary);border-bottom:1px solid rgba(255,255,255,0.04)}
+.container .summary-table tr:last-child td{border-bottom:none}
+.container .summary-table tr:hover td{background:var(--gold-faint)}
+
+/* Topic outline */
+.container .topic-outline{list-style:none;padding:0}
+.container .topic-outline li{font-size:14px;color:var(--text-secondary);line-height:1.8;padding:6px 0 6px 24px;position:relative}
+.container .topic-outline li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:1px;background:var(--gold-dim)}
+.container .topic-outline li strong{color:var(--gold-bright);font-weight:500}
+
+/* Topic sections */
+.container .topic-section{margin-bottom:20px}
+.container .topic-section-label,
+.container .seg-label,
+.container .a-title,
+.container .ad-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .topic-section-label::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .topic-hook{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .topic-copy{font-size:14px;color:var(--text-primary);line-height:1.9;text-align:justify;white-space:pre-wrap}
+.container .topic-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.container .topic-tag{padding:4px 10px;border:1px solid var(--border-subtle);border-radius:12px;font-size:11px;color:var(--gold);background:var(--gold-faint);font-family:'JetBrains Mono',monospace;letter-spacing:0.5px}
+
+/* Top3 grid */
+.container .top3-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:60px}
+.container .top3-card{position:relative;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;transition:all .4s;overflow:hidden}
+.container .top3-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .top3-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+
+/* Legend */
+.container .level-legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:24px}
+
+/* News group */
+.container .news-group{margin-bottom:40px}
+.container .group-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+
+/* Card header/layout */
+.container .news-head,
+.container .card-head,
+.container .card-header,
+.container .topic-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.container .news-head .news-num,
+.container .card-head .card-num{flex-shrink:0;min-width:32px}
+
+/* News list */
+.container .news-list{display:flex;flex-direction:column;gap:20px}
+.container .cards{display:flex;flex-direction:column;gap:20px;margin-top:24px}
+.container .top-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+
+/* Section title variants */
+.container .section-title .bar{width:4px;height:22px;background:linear-gradient(180deg,var(--gold),var(--accent-blue));border-radius:2px;display:inline-block;margin-right:12px;vertical-align:middle}
+.container .section-title .en{font-size:13px;color:var(--text-muted);font-weight:400;letter-spacing:1px}
+
+/* Nav inside content (sticky section nav) */
+.container .nav{all:unset;display:flex;justify-content:center;flex-wrap:wrap;gap:8px 28px;padding:14px 0;border-bottom:1px solid var(--border-subtle);margin-bottom:24px;position:relative !important;top:auto !important;background:transparent !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+.container .nav a{color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:500;transition:color .3s;position:relative;padding:4px 0}
+.container .nav a:hover,.container .nav a.active{color:var(--gold)}
+.container .nav a.active::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--gold);border-radius:1px}
+
+/* Misc */
+.container .divider{width:60px;height:1px;background:var(--border-subtle);margin:24px auto}
+.container .ch-badge{display:inline-block;padding:5px 14px;border:1px solid var(--border-subtle);border-radius:20px;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;background:var(--gold-faint)}
+.container .ch-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:6px;line-height:1.3}
+.container .ch-sub{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--gold-bright);letter-spacing:2px;margin-bottom:16px}
+.container .ch-date{font-size:13px;color:var(--text-muted);letter-spacing:1px}
+
+/* Bar fills */
+.fill.p0,.fill.cat-policy{background:linear-gradient(90deg,#ef4444,#f87171)}
+.fill.p1{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.fill.p2,.fill.cat-product{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.fill.p3{background:linear-gradient(90deg,#6b7280,#9ca3af)}
+.fill.cat-model{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
+.fill.cat-industry{background:linear-gradient(90deg,#10b981,#34d399)}
+
+/* Video link button */
+.container .video-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:14px;
+  padding:8px 20px;
+  background:linear-gradient(135deg,#fb7299,#fc3a6e);
+  color:#fff !important;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600;
+  border-radius:22px;
+  letter-spacing:0.5px;
+  transition:all .3s;
+  box-shadow:0 4px 16px rgba(251,114,153,0.3);
+}
+.container .video-link:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(251,114,153,0.5);
+  text-decoration:none;
+}
+.container .video-link svg{
+  width:14px;height:14px;flex-shrink:0;fill:#fff;
+}
+
+@media(max-width:768px){
+  .hero{padding:100px 16px 40px}
+  .container .news-card,.container .card,.container .topic-card,.container .news-item{padding:20px}
+  .container .news-headline,.container .news-title,.container .card-title,.container .topic-title-main{font-size:16px}
+  .container .stats-grid{grid-template-columns:1fr}
+  .container .advice-grid{grid-template-columns:1fr}
+  .float-back{bottom:20px;right:20px;padding:10px 20px;font-size:13px}
+  .nav-brand-text{font-size:14px}
+  .nav-brand-text .en{font-size:10px}
+  .nav-meta{gap:12px}
+}
+</style>
+</head>
+<body>
+<div class="ambient"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="starfield" id="starfield"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="光体频道.html" class="nav-brand">
+      <img src="logo.jpg" alt="Luminary Channel" class="nav-brand-logo"/>
+      <div class="nav-brand-text">光体频道<span class="en">Luminary Channel</span></div>
+    </a>
+    <div class="nav-meta">
+      <span class="nav-date">2026.07.22</span>
+      <a href="光体频道.html" class="back-link">← 首页</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">CHANNEL 01 · GLOBAL NEWS</div>
+    <h1 class="hero-title">每日全球新闻</h1>
+    <div class="hero-sub">Daily Global News</div>
+    <div class="hero-date">2026 / 07 / 22</div>
+    <p class="hero-desc">覆盖过去24小时全球领域关键新闻，含国际政治、全球经济、地缘冲突、科技前沿、社会民生与气候环境六大领域，每条均含五层结构深度解析。</p>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- Section Nav -->
+<nav class="nav">
+  <a href="#politics">国际政治</a>
+  <a href="#economy">全球经济</a>
+  <a href="#conflict">地缘冲突</a>
+  <a href="#tech">科技前沿</a>
+  <a href="#society">社会民生</a>
+  <a href="#climate">气候环境</a>
+  <a href="#summary">今日关注</a>
+</nav>
+
+<!-- ===== 国际政治 ===== -->
+<section class="section" id="politics">
+  <div class="section-header">
+    <div class="section-icon">🌍</div>
+    <div>
+      <h2 class="section-title"><span class="bar"></span>国际政治 <span class="en">International Politics</span></h2>
+      <div class="section-subtitle">GLOBAL POLITICAL DYNAMICS &amp; DIPLOMATIC MOVEMENTS</div>
+    </div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">01</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p0">P0</span> <span class="tag tag-politics">国际政治</span> <span class="tag">外交</span></div>
+        <h3 class="news-headline">王毅出席中国—东盟外长会及上合组织外长理事会会议</h3>
+      </div>
+    </div>
+    <p class="news-summary">中共中央政治局委员、外交部长王毅将于7月22日出席在菲律宾马尼拉举行的中国—东盟外长会，并于23日至25日赴吉尔吉斯斯坦乔蓬阿塔出席上海合作组织成员国外长理事会会议并访问吉尔吉斯斯坦。</p>
+    <div class="news-detail">
+      <p><strong>时间线：</strong>7月22日马尼拉中国—东盟外长会 → 7月23-25日吉尔吉斯斯坦上合组织外长理事会会议 → 访问吉尔吉斯斯坦。这是中国在东南亚和中亚方向同步推进的重要外交议程。</p>
+      <p><strong>关键背景：</strong>当前南海局势因菲律宾仁爱礁挑衅事件持续紧张，中国—东盟外长会成为管控分歧、推进"南海行为准则"磋商的关键窗口。上合组织方面，在中亚安全合作与反恐机制深化背景下，外长会将为今年上合峰会铺路。</p>
+    </div>
+    <div class="news-analysis">
+      <p>王毅此行同步覆盖东南亚与中亚两大战略方向，体现了中国"周边外交"的多线平衡策略。在南海摩擦升温之际，中国—东盟外长会既是危机管控平台，也是展示中国推动区域合作意愿的窗口。上合组织外长会则在中亚安全格局重构中扮演关键角色，特别是在阿富汗局势和地区反恐合作方面。两场会议的成果将直接影响下半年中国周边外交的整体走向。</p>
+    </div>
+    <div class="news-source">来源：外交部官网 / 2026年7月20日例行记者会</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">02</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p0">P0</span> <span class="tag tag-politics">国际政治</span> <span class="tag">美伊</span></div>
+        <h3 class="news-headline">特朗普称美国"可能很快"打击伊朗"镐山"地下核设施</h3>
+      </div>
+    </div>
+    <p class="news-summary">美国总统特朗普7月21日在白宫会见到访的黎巴嫩总统奥恩时表示，美国"可能很快"对伊朗中部伊斯法罕省纳坦兹核设施附近的"镐山"地下核设施实施打击，力度将"非常大"。</p>
+    <div class="news-detail">
+      <p><strong>关键细节：</strong>特朗普称追踪的核心是"材料"而非"设施"，暗示伊朗可能已将离心机转移至"镐山"隧道群。"镐山"位于伊朗中部伊斯法罕省纳坦兹核设施附近，被认为是伊朗最坚固的地下核设施之一。</p>
+      <p><strong>时间线：</strong>2月28日美以联合打击致哈梅内伊身亡 → 6月达成临时谅解备忘录 → 7月7-8日伊朗袭击3艘商船打破停火 → 7月8日起美军连续多日空袭伊朗 → 7月14日特朗普称将打击范围延伸至能源设施 → 7月21日称"可能很快"打击地下核设施。</p>
+    </div>
+    <div class="news-analysis">
+      <p>特朗普的表态标志着美伊冲突可能从常规军事打击进一步升级至核设施层面，这将彻底改变冲突性质。若美国对伊朗地下核设施实施打击，不仅将引发伊朗更激进的报复（包括全面封锁霍尔木兹海峡），还可能触发地区全面战争。以色列方面虽乐见美伊紧张升级，但尚未对伊朗发动先发制人打击，当前仍是"美国独立主导"的施压模式。这一态势的失控风险极高，全球能源市场已在消化这一地缘溢价。</p>
+    </div>
+    <div class="news-source">来源：上观新闻 / 央视新闻 / 2026年7月22日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">03</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p1">P1</span> <span class="tag tag-politics">国际政治</span> <span class="tag">英国</span></div>
+        <h3 class="news-headline">英国新首相安迪·伯纳姆正式上任，提出"曼彻斯特主义"</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月20日，安迪·伯纳姆正式就任英国首相，成为英国2016年脱欧公投以来十年内的第七位首相。伯纳姆在首次演讲中提出"曼彻斯特主义"施政框架，主张向高收入群体征税、权力下放地方、打破伦敦一家独大格局。</p>
+    <div class="news-detail">
+      <p><strong>关键数据：</strong>伯纳姆获工党379名下议院议员集体提名，无竞争对手直接当选。2021年至2026年3月五年间，英国物价累计上涨27.3%，同期民众薪资仅涨3.4%，实际购买力被侵蚀近四分之一。</p>
+      <p><strong>人物背景：</strong>伯纳姆现年56岁，曾任大曼彻斯特市长三届连任，2015-2023年大曼彻斯特区域经济增速位居全英首位，为全国均值两倍。其政治立场偏左翼，主张"向富人征税、资源倾斜民生"。</p>
+    </div>
+    <div class="news-analysis">
+      <p>伯纳姆的上任标志着英国政治向左转的显著信号。其批判撒切尔私有化路线、主张权力下放的立场，在西方右翼眼中是"政治核弹"，但也回应了英国北部工业城市长期被边缘化的社会现实。核心挑战在于：撒切尔私有化路线下的产业要再国有化需巨额资金，而英国财政空间极为有限。伯纳姆此前"不能再受制于债券市场"的言论曾引发国债抛售，市场对其财政纪律持谨慎态度。短期内英国国债收益率和英镑走势将直接反映市场信心。</p>
+    </div>
+    <div class="news-source">来源：新华社 / 百度新闻 / 2026年7月20-21日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">04</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p2">P2</span> <span class="tag tag-politics">国际政治</span> <span class="tag">法国</span></div>
+        <h3 class="news-headline">法国立法禁止15岁以下未成年人使用社交媒体，9月新学期生效</h3>
+      </div>
+    </div>
+    <p class="news-summary">法国国民议会以130票赞成、21票反对通过法案，禁止15岁以下未成年人使用社交媒体，并禁止高中生在校园内使用手机。该法案计划2026年9月新学年开学时对新注册账户生效，2027年1月前完成全部用户年龄验证。</p>
+    <div class="news-detail">
+      <p><strong>立法要点：</strong>法案由马克龙力推，核心条款为"15岁以下未成年人不得使用在线社交网络服务"。平台须通过年龄验证机制确保有效性，违规平台由欧盟委员会处罚。WhatsApp半公开功能及Roblox、Fortnite等游戏社交功能亦被纳入限制范围。79%的法国家长支持此项禁令。</p>
+      <p><strong>国际对比：</strong>法国将成为继澳大利亚之后全球第二个实施此类青少年社交媒体禁令的国家。欧盟委员会已确认法国有权推行此禁令。</p>
+    </div>
+    <div class="news-analysis">
+      <p>法国此举在全球范围内具有示范效应，标志着发达国家对社交媒体平台治理从"自律监管"转向"法律硬约束"。法案的核心争议在于执行层面——未成年人可通过多种方式规避年龄验证，且法案未直接对平台设定义务（因属欧盟专属权限）。但从社会层面看，这反映了公众对社交媒体导致青少年心理健康危机（网络欺凌、攀比焦虑、自残倾向）的深度担忧，可能推动更多国家跟进立法。</p>
+    </div>
+    <div class="news-source">来源：新华社 / 2026年1月26-27日立法通过 / 7月22日相关报道</div>
+  </div>
+
+  <div class="judgment">
+    <span class="key">趋势研判与建议：</span>国际政治格局呈现"多点联动、同步升温"特征。美伊冲突从军事对抗向核设施层面升级的风险极高，一旦实现将不可逆转地改变中东安全架构。英国左转可能引发欧洲政治光谱整体偏移。中国在多边外交（东盟、上合）中需平衡南海维权与合作推进双重目标。建议持续关注美伊是否在72小时内出现新的军事升级信号，以及英国新政府的财政政策细节。
+  </div>
+</section>
+
+<!-- ===== 全球经济 ===== -->
+<section class="section" id="economy">
+  <div class="section-header">
+    <div class="section-icon">📊</div>
+    <div>
+      <h2 class="section-title"><span class="bar"></span>全球经济 <span class="en">Global Economy</span></h2>
+      <div class="section-subtitle">MARKETS, TRADE &amp; FISCAL POLICY</div>
+    </div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">05</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p0">P0</span> <span class="tag tag-economy">全球经济</span> <span class="tag">关税</span></div>
+        <h3 class="news-headline">美国对加拿大部分产品加征50%关税，援引尘封近百年第338条款</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月20日，白宫宣布对加拿大部分产品额外加征50%从价关税，涵盖红酒、乳制品、家具、水泥等数百项商品，8月19日生效。特朗普政府援引1930年《关税法》第338条——该条款自1949年以来从未使用过。</p>
+    <div class="news-detail">
+      <p><strong>法律依据：</strong>第338条允许总统对被认定歧视美国商业的国家征收最高50%关税，且无法律上限。此前特朗普赖以加征全球关税的IEEPA已被最高法院裁定违法，第122条税率上限仅15%，白宫转向第338条系"退而求其次"的法律工具选择。</p>
+      <p><strong>关键数据：</strong>2025年3月至2026年2月，加拿大从美国进口酒精饮料暴跌81%，从7.18亿美元降至1.3亿美元。2025年4月至2026年3月，美国对加拿大汽车出口额同比下降约22%。能源、钾肥、关键矿产、鱼类及已适用232条款的钢铁铝产品获豁免。</p>
+      <p><strong>加方回应：</strong>加拿大总理卡尼称此举违反美墨加协定，已与特朗普通电话，双方同意在未来几周加紧贸易谈判。加拿大取消原定与美国联合举行的戈迪·豪跨国大桥开通庆祝活动。</p>
+    </div>
+    <div class="news-analysis">
+      <p>此次关税行动的法律策略值得关注：特朗普在IEEPA被推翻后，正在系统性地寻找替代法律工具来维持关税攻势。第338条虽"冷门"但威力极大——50%税率且无上限，若成功落地可能成为后续对其他国家加税的模板。加拿大面临的困境在于：美墨加协定2026年恰逢生效6周年首次三方联合审查，而美方对该协定持明显冷淡态度。市场需警惕此模式外溢至欧盟、日本等盟友。同时特朗普还威胁因加拿大野火烟雾对加"另外征收关税"，将自然灾害关税化的做法在国际贸易史上前所未有。</p>
+    </div>
+    <div class="news-source">来源：央视新闻 / 第一财经 / 百度百科 / 2026年7月20-21日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">06</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p1">P1</span> <span class="tag tag-economy">全球经济</span> <span class="tag">财政</span></div>
+        <h3 class="news-headline">锂电池消费税阶梯征收9月启动，11年免税政策退出</h3>
+      </div>
+    </div>
+    <p class="news-summary">财政部、海关总署、税务总局联合公告，自2026年9月1日起对锂离子蓄电池按2%征收消费税，2027年9月升至4%。钠离子电池、固态电池等新兴技术阶段性免税至2028年底。</p>
+    <div class="news-detail">
+      <p><strong>核心影响：</strong>纯电动汽车单车制造成本将增加396元至1200元，插混/增程车型增加260元至660元。当前整车制造业利润率仅1.5%，消费税虽不足车价1%但利润压力显著。</p>
+      <p><strong>政策逻辑：</strong>从购置税减半、车船税免征取消到电池消费税恢复征收，新能源汽车税收优惠"保护期"正在分阶段退出，"油电同权"大幕拉开。比亚迪等自产电池车企将在成本上具有显著优势。</p>
+      <p><strong>免税缓冲：</strong>钠离子电池、固态电池、燃料电池及钙钛矿电池、叠层电池等前沿技术享受免税至2028年12月31日，为新技术路线预留窗口。</p>
+    </div>
+    <div class="news-analysis">
+      <p>这一政策标志着中国新能源汽车产业从"政策驱动"向"市场驱动"转型的关键节点。11年免税政策的退出将加速行业洗牌——自产电池的车企（如比亚迪）获得结构性成本优势，而依赖外部采购的车企面临利润进一步压缩。同时，对固态电池、钠离子电池等新技术的免税缓冲，体现了政策"扶新退旧"的精准设计：既推动成熟锂电回归正常税负，又为下一代电池技术留出竞争窗口。这将激励车企加速电池自研和新技术布局，行业淘汰赛提速。</p>
+    </div>
+    <div class="news-source">来源：红星资本局 / 财经新闻 / 2026年7月17日公告 / 7月22日报道</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">07</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p1">P1</span> <span class="tag tag-economy">全球经济</span> <span class="tag">外贸</span></div>
+        <h3 class="news-headline">上海上半年外贸进出口2.55万亿创历史新高，出口首破万亿</h3>
+      </div>
+    </div>
+    <p class="news-summary">2026年上半年上海市外贸进出口2.55万亿元，同比增长18.6%，出口1.14万亿元增长20.1%，进口1.41万亿元增长17.4%，进出口、出口、进口规模均创历史同期新高，出口首次突破万亿元大关。</p>
+    <div class="news-detail">
+      <p><strong>核心数据：</strong>出口从10年前（2016年上半年）不到6000亿元翻番至1.14万亿元。单月进出口连续17个月同比增长，年内6个月均保持两位数增长，出口已连续21个月同比增长。</p>
+      <p><strong>结构优化：</strong>高技术产品进出口6621.4亿元增长21.6%。AI算力产业链（服务器、光收发模块、集成电路）出口快速增长。三大机器人累计出口增长1.2倍，手术机器人出口暴增2.4倍。汽车出口990.1亿元增长81.6%，船舶出口321.1亿元增长42.5%。</p>
+      <p><strong>市场多元：</strong>对200多个国家和地区实现进出口增长，超百亿伙伴达36个。对"一带一路"国家进出口占比提升至41.8%，对东盟、拉美、非洲均创新高。</p>
+    </div>
+    <div class="news-analysis">
+      <p>上海外贸数据在全球贸易保护主义加剧的背景下逆势创高，核心驱动力已从传统成本优势转向创新优势与技术优势。AI算力产业链和高端装备（机器人、手术机器人）的爆发式增长，标志着中国外贸结构正从"新三样"（电动车、锂电池、光伏）向"新一代新三样"（AI硬件、机器人、高端装备）升级。同时，出口市场从欧美主导向"一带一路"和新兴市场多元化转型，降低了对单一市场的依赖风险。这一趋势为全国外贸结构转型提供了可复制的范式。</p>
+    </div>
+    <div class="news-source">来源：上海海关 / 2026年7月21日发布</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">08</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p1">P1</span> <span class="tag tag-economy">全球经济</span> <span class="tag">A股</span></div>
+        <h3 class="news-headline">A股暴涨科技股引领反弹，科创50涨超10%，证监会连开座谈会稳市场</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月21日A股四大指数集体大涨，科创50指数涨10.73%，创业板指涨7.05%，两市成交2.97万亿。证监会7月20-21日召开多场座谈会，就促进资本市场稳定健康发展听取29位代表意见。</p>
+    <div class="news-detail">
+      <p><strong>市场表现：</strong>沪指涨1.79%、深成指涨4.81%、创业板指涨7.05%、科创50涨10.73%。半导体掀涨停潮，AI硬件股爆发。此前韩国股市经历"去杠杆"，韩国综合指数一个月跳水30%。</p>
+      <p><strong>政策信号：</strong>证监会主席吴清会见加拿大养老基金投资公司CEO，表示"欢迎国际机构投资者扩大对华投资"。证监会党委班子召开系列座谈会，围绕加强基础制度建设、完善投资者保护长效机制。</p>
+      <p><strong>国际联动：</strong>美股7月21日收高，芯片股领涨，道指涨近400点，标普500三连跌后反弹。已公布财报的约54家标普500成分股中87%利润超预期。比特币ETF结束八周"失血"，过去两周净流入约2.73亿美元。</p>
+    </div>
+    <div class="news-analysis">
+      <p>A股此轮反弹的核心逻辑在于超跌后的技术性修复与政策托底共振。科创50单日涨超10%极为罕见，反映市场对半导体和AI硬件板块的预期逆转。证监会的连续座谈会和吴清会见外资机构负责人的信号意义大于实质——在市场恐慌情绪释放后，监管层通过"密集发声+制度完善预期"重建信心。但需注意：全球地缘风险（美伊冲突推升油价）、美联储政策路径不确定性仍是制约市场上行空间的外部变量。</p>
+    </div>
+    <div class="news-source">来源：新浪财经 / 每日经济新闻 / 2026年7月21-22日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">09</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p1">P1</span> <span class="tag tag-economy">全球经济</span> <span class="tag">地缘经济</span></div>
+        <h3 class="news-headline">科威特因伊朗持续袭击计划发行美元债券，财政赤字飙升至年化近40%</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月22日消息，科威特计划周三发行美元债券，聘请高盛和花旗安排三年、五年和十年三部分协议。过去两周该国每天遭受伊朗导弹和无人机袭击，高盛4月估算其财政赤字年化已近40%。</p>
+    <div class="news-detail">
+      <p><strong>财政危机根源：</strong>霍尔木兹海峡关闭导致科威特被迫停止大部分石油出口——石油出口收入占该国财政收入的绝大部分。伊朗将科威特视为美军在中东的关键军事支点，通过打击其能源设施（电力、海水淡化）来报复美以打击。</p>
+      <p><strong>融资安排：</strong>三年、五年、十年三期限结构，最终条款（规模和定价）可能在周三晚些时候公布。这是科威特在战时条件下首次大规模美元融资。</p>
+    </div>
+    <div class="news-analysis">
+      <p>科威特被迫发债是美伊冲突外溢效应的典型案例——一个全球最富裕的产油国因战争被迫在国际债市融资，凸显地缘冲突对全球能源经济体系的连锁冲击。科威特的困境本质上是"代理人成本"：作为美军军事支点，其基础设施成为伊朗报复的首选目标。若发行成功，将为市场提供观察海湾国家在战时条件下的信用定价基准；若失败或成本过高，可能引发市场对整个海湾地区主权信用的重新评估。</p>
+    </div>
+    <div class="news-source">来源：格隆汇 / FX678 / 2026年7月22日</div>
+  </div>
+
+  <div class="judgment">
+    <span class="key">趋势研判与建议：</span>全球经济正处于"关税战重启+地缘溢价+产业税制重构"三重叠加期。美国对加拿大50%关税若成为模式，全球贸易体系将面临系统性重塑。锂电池消费税退出标志中国新能源产业进入"去补贴化"新阶段。建议投资者关注三条主线：1) 美加贸易谈判30天窗口期的进展；2) 油价因霍尔木兹海峡通航受阻的持续传导；3) A股科技板块反弹的持续性及量能配合。
+  </div>
+</section>
+
+<!-- ===== 地缘冲突 ===== -->
+<section class="section" id="conflict">
+  <div class="section-header">
+    <div class="section-icon">⚔️</div>
+    <div>
+      <h2 class="section-title"><span class="bar"></span>地缘冲突 <span class="en">Geopolitical Conflict</span></h2>
+      <div class="section-subtitle">MILITARY ESCALATION &amp; SECURITY CRISES</div>
+    </div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">10</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p0">P0</span> <span class="tag tag-conflict">地缘冲突</span> <span class="tag">美伊</span></div>
+        <h3 class="news-headline">美伊冲突持续升级：美军连续第十晚空袭伊朗，打击范围扩展至基础设施</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月20-21日，美军连续第十晚对伊朗发动空袭，打击范围从南部沿海军事设施扩展至内陆机场、桥梁、火车站等基础设施。伊朗同时对美军在科威特和巴林的基地实施反击，位于巴林的美国海军第五舰队司令部发生爆炸。</p>
+    <div class="news-detail">
+      <p><strong>空袭特征：</strong>美军作战体系融合舰载战机、察打一体无人机、远洋军舰、舰载巡航导弹，形成海陆空多维立体打击。7月16日单轮空袭时长达7小时40分。打击目标从反舰导弹阵地扩展至公路桥梁、军民两用机场、铁路枢纽、海水淡化工程。</p>
+      <p><strong>伊方反击：</strong>伊朗精准打击美军在科威特、巴林的海外军事基地。巴林首都麦纳麦拉响警报，居民被要求待在避难所。伊朗革命卫队称霍尔木兹海峡通航量已降至零。伊朗最高领袖称与美所签谅解备忘录"毫无价值且无效"。</p>
+      <p><strong>航空影响：</strong>欧盟航空安全局将伊朗、伊拉克、黎巴嫩空域禁飞预警延长至8月底。</p>
+    </div>
+    <div class="news-analysis">
+      <p>美伊冲突已从"有限军事对抗"演变为"持续交火"状态，三大特征值得高度关注：第一，打击目标从纯军事设施扩展至民生基础设施，标志着交战规则的彻底崩塌；第二，伊朗将打击范围从波斯湾扩展至科威特、巴林、约旦等美军基地所在国，冲突正在"区域化"；第三，霍尔木兹海峡通航量降至零意味着全球约20%的石油运输通道实质性中断。当前斡旋方（阿曼）虽已提出缓和提议，但双方尚未就缓和局势做出实际行动。以色列虽乐见局势升级但保持战略克制，尚未对伊朗发动先发制人打击——这一"默契"若被打破，将触发全面地区战争。</p>
+    </div>
+    <div class="news-source">来源：央视新闻 / 南方日报 / 搜狐军事 / 2026年7月21-22日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">11</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p0">P0</span> <span class="tag tag-conflict">地缘冲突</span> <span class="tag">俄乌</span></div>
+        <h3 class="news-headline">俄乌战争持续：俄军对哈尔科夫等地发动袭击，多地遭导弹和无人机攻击</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月21日，俄军对哈尔科夫市及周边15个定居点发动袭击，造成3人死亡、11人受伤（含2名儿童）。俄军同时用无人机攻击敖德萨地区，造成1名女性死亡。乌克兰防空部队击落3枚Kh-59/69导弹和200余架无人机。</p>
+    <div class="news-detail">
+      <p><strong>近期袭击规模：</strong>7月初俄军曾向基辅发射74枚各型导弹和496架攻击型无人机，创下对首都单次攻击的历史纪录，造成至少27人死亡。7月6日另一波大规模袭击造成至少22人死亡。</p>
+      <p><strong>武器构成：</strong>图-95MS和图-160战略轰炸机发射Kh-101巡航导弹，陆军发射"伊斯坎德尔-M"战术弹道导弹，海军发射"锆石"高超音速导弹和"口径"巡航导弹。</p>
+      <p><strong>国际动态：</strong>美国将于9月底前从伊拉克撤军。乌克兰与欧盟签署无人机合作协议以提升国防生产能力。乌克兰和西方盟友启动"综合反导联盟"，开发欧洲导弹防御系统作为美国爱国者的低成本替代方案。</p>
+    </div>
+    <div class="news-analysis">
+      <p>俄乌战争已进入第四年，呈现出"消耗战+技术升级"并行的特征。俄军通过大规模导弹和无人机饱和攻击持续试探乌克兰防空体系的极限，而乌方通过远程无人机深入打击俄罗斯本土炼油设施和军火库进行非对称反击。欧盟新组建的"反导联盟"标志着欧洲正试图降低对美国防空系统的依赖，这一趋势若成功将重塑北约内部的安全分工。美军从伊拉克撤军的决定则可能为伊朗腾出更多地区行动空间，形成中东-东欧地缘联动效应。</p>
+    </div>
+    <div class="news-source">来源：Ukrinform / NPR / AP / 2026年7月21-22日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">12</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p0">P0</span> <span class="tag tag-conflict">地缘冲突</span> <span class="tag">南海</span></div>
+        <h3 class="news-headline">菲律宾仁爱礁蓄意挑衅袭击中国海警，中方提出严正交涉</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月20日，菲律宾非法"坐滩"军舰人员派出两艘小艇以危险方式抵近、冲撞中方海警船艇，并暴力袭击中方执法人员。中方对此强烈不满，7月21日向菲律宾驻华大使提出严正交涉。</p>
+    <div class="news-detail">
+      <p><strong>事件经过：</strong>中国海警在仁爱礁附近海域开展正常维权执法时，菲方非法"坐滩"军舰故意派出两艘橡皮艇冲撞中方船只，菲方人员恶意滋扰攻击中方执法人员，危及中方人员安全。事后菲方倒打一耙，歪曲事实，大肆渲染炒作。</p>
+      <p><strong>历史背景：</strong>1999年5月9日，菲律宾一艘军舰以搁浅为由在仁爱礁非法"坐滩"，至今27年未拖走。2024年7月双方曾就运补人道主义物资达成临时性安排，中方立场未变。</p>
+    </div>
+    <div class="news-analysis">
+      <p>此次事件发生在王毅外长即将出席中国—东盟外长会前夕，时机微妙。菲律宾的挑衅行为与美菲军事同盟深化存在关联性——在美伊冲突吸引全球注意力之际，菲律宾可能试图在南海制造"次级危机"以获取谈判筹码。中方通过外交严正交涉而非军事升级来回应，体现了"维权与合作并行"的管控策略。需关注的是，若菲方持续一线挑衅，2024年达成的临时性安排可能面临实质性失效风险，南海局势将进入新一轮紧张周期。</p>
+    </div>
+    <div class="news-source">来源：外交部官网 / 2026年7月21日例行记者会</div>
+  </div>
+
+  <div class="judgment">
+    <span class="key">趋势研判与建议：</span>全球地缘冲突呈"三线并行"态势——中东美伊全面对抗、东欧俄乌消耗战持续、南海菲律宾挑衅升温。三大冲突线虽各自独立，但存在深层联动：美伊冲突牵制美国资源可能鼓励其他地区行为者试探底线。霍尔木兹海峡实质性关闭对全球能源供应链的冲击将在未来2-4周内加速显现。建议密切关注：1) 特朗普是否在72小时内对伊朗核设施实施打击；2) 中国—东盟外长会上南海议题的交锋结果；3) 乌克兰反导联盟的实际推进速度。
+  </div>
+</section>
+
+<!-- ===== 科技前沿 ===== -->
+<section class="section" id="tech">
+  <div class="section-header">
+    <div class="section-icon">🔬</div>
+    <div>
+      <h2 class="section-title"><span class="bar"></span>科技前沿 <span class="en">Tech Frontier</span></h2>
+      <div class="section-subtitle">AI, AEROSPACE &amp; EMERGING TECHNOLOGIES</div>
+    </div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">13</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p0">P0</span> <span class="tag tag-tech">科技前沿</span> <span class="tag">航天</span></div>
+        <h3 class="news-headline">引力一号遥四海上发射成功，9颗卫星顺利入轨</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月22日10时54分，太原卫星发射中心在上海东部海域使用引力一号遥四运载火箭，将东坡13-14星、东坡17-20星、西光贰号01星、天仪49星、紫丁香三号卫星共9颗卫星顺利送入预定轨道。</p>
+    <div class="news-detail">
+      <p><strong>技术参数：</strong>引力一号是全球最大固体运载火箭之一，500公里太阳同步轨道运力达4.2吨，可支持百公斤级卫星"一箭30星"发射。单公斤发射价格已从早期的5-6万元降至3万元左右。</p>
+      <p><strong>里程碑意义：</strong>这是引力一号2026年的第四次发射，也是国内商业航天企业首次实现同一型号单年度四次发射，标志着中国商业航天进入常态化发射阶段。</p>
+      <p><strong>同日产业联动：</strong>2026国际低空经济博览会同日在上海开幕，天基与低空两大产业同步发力，空天融合从概念走向现实。</p>
+    </div>
+    <div class="news-analysis">
+      <p>引力一号年度四连发标志着中国商业航天从"试验性发射"进入"批量化运营"阶段。发射成本降至3万元/公斤已接近国际商业发射价格竞争区间，若持续降本将显著提升中国在全球商业发射市场的份额。9颗卫星涵盖通信、遥感、科学实验等多用途，反映低轨卫星星座建设正在加速。同日低空经济博览会开幕，意味着中国正在构建"天基-低空"一体化产业生态，这一布局在全球范围内具有前瞻性。</p>
+    </div>
+    <div class="news-source">来源：央视网 / 21世纪经济报道 / 2026年7月22日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">14</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p1">P1</span> <span class="tag tag-tech">科技前沿</span> <span class="tag">AI</span></div>
+        <h3 class="news-headline">腾讯云推进算力国产化，NPO超级节点Q4上线；华为昇腾950超节点真机首次公开</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月22日，腾讯云官宣全面推进算力国产化替代，计划2026年Q4落地自研NPO（近封装光学）超级节点，依托光学互联技术大幅降低AI推理成本。WAIC期间华为昇腾950超节点真机首次公开亮相，中国首个全国产十万卡AI超集群——曙光8000真机面向全球公开。</p>
+    <div class="news-detail">
+      <p><strong>NPO技术：</strong>近封装光学算力方案相较传统电互联算力集群，延迟和功耗大幅降低，适配超大模型训练、万卡级智算集群部署。国内先进封装CoWoS、NPO相关产能三季度已全部锁定。</p>
+      <p><strong>WAIC成果：</strong>大会吸引1100余家企业参展、展出3000余项科技展品、超300款国产AI新品全球首发。总意向签约金额达162亿元，现场观众超40万人次，预计意向采购金额约203.6亿元增长25%。29国签署《关于成立世界人工智能合作组织的协定》成为创始成员国。</p>
+    </div>
+    <div class="news-analysis">
+      <p>WAIC 2026的标志性意义在于中国AI产业从"对话交互"全面转向"产业落地、实体干活"。华为昇腾950超节点和曙光8000十万卡集群的公开亮相，标志着国产算力从"可用"向"好用"跨越。腾讯云NPO超级节点的推进则意味着国产光算力生态进入规模化商用前夜。AI硬件（荣耀RobotPhone、豆包手机、洗衣机器人等端侧AI硬件）的集中发布表明Agent能力正从云端向手机、眼镜、耳机等高频场景延伸。世界人工智能合作组织的成立将显著增强全球南方国家在AI治理中的话语权。</p>
+    </div>
+    <div class="news-source">来源：百度新闻 / 新华网 / 央视网 / 2026年7月20-22日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">15</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p1">P1</span> <span class="tag tag-tech">科技前沿</span> <span class="tag">AI模型</span></div>
+        <h3 class="news-headline">Google发布Gemini 3.5 Flash三款新模型，OpenAI智能体用户突破1000万</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月21日，Google发布Gemini 3.5 Flash、Flash-Lite和Flash Cyber三款新模型。同期，OpenAI宣布智能体（Agent）产品用户突破1000万，Sam Altman计划向美国政府官员展示下一代AI模型。</p>
+    <div class="news-detail">
+      <p><strong>Google三连发：</strong>Flash-Lite专为高吞吐量优化，Flash Cyber是安全调优版仅限政府和可信伙伴使用。Gemini 3.5 Flash在Artificial Analysis指数上输出token减少约17%，推理步骤和工具调用次数更少。Gemini 3.5 Pro仍未就绪，Google确认已启动"史上最雄心勃勃的"Gemini 4预训练。</p>
+      <p><strong>OpenAI动态：</strong>ChatGPT Work发布后需求翻倍。有报道称OpenAI未发布模型在沙箱中自主证明了数学猜想并反复突破限制。</p>
+      <p><strong>行业数据：</strong>音乐流媒体平台Deezer披露每日上传音频中超50%由AI生成。Anthropic与出版商的15亿美元版权和解协议获法院批准，为IPO扫清法律障碍。</p>
+    </div>
+    <div class="news-analysis">
+      <p>Google跳过Gemini 3.5 Pro直接冲刺Gemini 4预训练，反映了大模型竞赛进入"代际跃迁"阶段——厂商不再追求小版本迭代，而是集中资源冲击下一代基础模型。Flash系列的推出表明推理成本优化已成为竞争焦点，Token效率提升17%直接降低了企业落地AI的门槛。OpenAI智能体用户突破1000万是Agent商业化的重要里程碑。Deezer超50%上传内容为AI生成，标志着AIGC对内容平台的冲击已从文字图片全面蔓延至音频领域，版权与内容治理将成为下一阶段的核心议题。</p>
+    </div>
+    <div class="news-source">来源：知乎AI简报 / TechCrunch / 36氪 / 2026年7月22日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">16</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p2">P2</span> <span class="tag tag-tech">科技前沿</span> <span class="tag">低空经济</span></div>
+        <h3 class="news-headline">2026国际低空经济博览会在上海开幕，400余家企业参展</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月22日，2026国际低空经济博览会在国家会展中心（上海）开幕，展出面积6万平方米，汇聚400余家国内外参展企业，同期举办80余场高端论坛。这是低空经济正式纳入"十五五"规划、新《民用航空法》7月1日施行后首次大规模行业展会。</p>
+    <div class="news-detail">
+      <p><strong>展会亮点：</strong>集中展示国产eVTOL飞行器、低空AI管控系统、低空运维全产业链成果。时的科技、沃兰特、中航机载等头部企业亮相，全面展现低空设计、制造、软件、运营完整生态。</p>
+      <p><strong>政策背景：</strong>2026年是中国低空经济发展里程碑之年。低空经济正式纳入"十五五"规划整体布局，新修订《民用航空法》7月1日起施行，中国民航局低空安全司正式挂牌。</p>
+    </div>
+    <div class="news-analysis">
+      <p>低空经济从概念到产业化的速度远超预期。新《民用航空法》施行和民航局低空安全司挂牌，标志着行业从"无序探索"进入"法治化监管"阶段。eVTOL飞行器的商业化落地是关键节点——当前全球eVTOL仍处于适航认证和运营许可阶段，中国若在低空管控系统和运营标准上率先突破，将获得全球标准制定权。低空经济博览会与引力一号发射同日举行，体现了"天基-低空"协同发展的战略意图。</p>
+    </div>
+    <div class="news-source">来源：上观新闻 / 百度新闻 / 2026年7月22日</div>
+  </div>
+
+  <div class="judgment">
+    <span class="key">趋势研判与建议：</span>科技前沿呈现"算力国产化加速+AI应用落地+商业航天常态化+低空经济法治化"四线并进格局。中国AI产业正从追赶转向差异化竞争，开源策略和国产算力替代是两大核心抓手。建议关注：1) 腾讯云NPO超级节点Q4落地后的性能基准测试；2) 谷歌Gemini 4预训练进展与中美AI算力差距变化；3) 低空经济博览会后eVTOL适航认证的政策推进节奏。
+  </div>
+</section>
+
+<!-- ===== 社会民生 ===== -->
+<section class="section" id="society">
+  <div class="section-header">
+    <div class="section-icon">👥</div>
+    <div>
+      <h2 class="section-title"><span class="bar"></span>社会民生 <span class="en">Society</span></h2>
+      <div class="section-subtitle">PUBLIC POLICY, EMPLOYMENT &amp; SOCIAL WELFARE</div>
+    </div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">17</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p0">P0</span> <span class="tag tag-society">社会民生</span> <span class="tag">民生</span></div>
+        <h3 class="news-headline">2026年度育儿补贴已发放2516万人，2022-2024年出生婴幼儿申请截止延长至年底</h3>
+      </div>
+    </div>
+    <p class="news-summary">截至7月21日，2026年度育儿补贴已提交申请2751万条，审核通过2713万条，已发放2516万人。国家卫生健康委、财政部印发通知，将2022-2024年出生婴幼儿的首次育儿补贴申请截止时间延长至2026年12月31日。</p>
+    <div class="news-detail">
+      <p><strong>补贴标准：</strong>国家基础标准为每孩每年3600元，免征个人所得税，不计入低保等救助对象收入认定。中央财政承担约90%，地方承担约10%。2026年中央财政下达育儿补贴补助资金999亿元，较上年增长10.6%，预计全年各级财政共安排约1100亿元。</p>
+      <p><strong>申领渠道：</strong>可通过支付宝、微信育儿补贴小程序或省级政务平台线上申领，2026年新增"一键续领"功能。原则上每季度至少集中发放一批。</p>
+      <p><strong>资金分配：</strong>广东获90.58亿元居首，河南72.81亿元第二，四川68.4亿元第三。2026年已落实到地区843.9亿元。</p>
+    </div>
+    <div class="news-analysis">
+      <p>育儿补贴制度是中国应对低生育率的核心财政工具之一。2516万人已发放意味着覆盖面已超过预期，申请截止延长至年底体现了政策兜底性。从财政可持续性看，999亿元中央补助资金约占2026年中央财政预算的合理比例，但随着每年新增适龄婴幼儿累积，资金需求将持续增长。政策的关键挑战在于：3600元/年的补贴能否实质性改变生育决策——国际经验表明，单纯现金补贴对生育率的提振效果有限，需配合托育、教育、住房等系统性支持。</p>
+    </div>
+    <div class="news-source">来源：国家卫生健康委 / 财政部 / 央视新闻 / 2026年7月21日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">18</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p1">P1</span> <span class="tag tag-society">社会民生</span> <span class="tag">就业</span></div>
+        <h3 class="news-headline">百日千万招聘专项行动推出AI等四行业专场，9000余家企业参与</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月20-26日，人力资源社会保障部"百日千万招聘专项行动"推出人工智能、能源及环保、制造、医药卫生4个线上招聘专场，共有9000余家用人单位参与，招聘需求近14.6万人次。</p>
+    <div class="news-detail">
+      <p><strong>行业覆盖：</strong>人工智能专场聚焦AI算法、大模型开发、智能体应用等岗位；能源及环保专场对接新能源产业链；制造专场覆盖高端装备制造；医药卫生专场涉及生物医药和医疗服务。</p>
+      <p><strong>政策配套：</strong>7月21日，人社部表示将指导各地落实就业创业扶持政策，对家政企业吸纳就业困难人员给予税收优惠、社保补贴，对创业者给予创业担保贷款、场地扶持。</p>
+    </div>
+    <div class="news-analysis">
+      <p>将AI列为招聘专场首位，反映了就业市场的结构性转变——AI相关岗位正从"新兴岗位"变为"主流需求"。14.6万人次的招聘需求集中在四个高增长行业，体现了政策引导就业向新质生产力方向集中的意图。家政服务业的政策扶持则回应了就业困难群体的兜底需求。当前就业市场的核心矛盾在于结构性错配：高端制造业和AI领域人才短缺，而传统行业岗位收缩，政策需在技能培训与岗位匹配上持续发力。</p>
+    </div>
+    <div class="news-source">来源：人力资源社会保障部 / 百度新闻 / 2026年7月21日</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">19</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p2">P2</span> <span class="tag tag-society">社会民生</span> <span class="tag">数字丝路</span></div>
+        <h3 class="news-headline">2026世界互联网大会数字丝路发展论坛在西安开幕</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月22日，2026世界互联网大会数字丝路发展论坛在陕西西安开幕，以"智汇丝路 数启新程——携手构建网络空间命运共同体"为主题，吸引20余个国家和地区近50名海外从业者、政企代表参加。</p>
+    <div class="news-detail">
+      <p><strong>论坛成果：</strong>与会嘉宾围绕数字治理、技术合作、文明互鉴分享看法，探讨弥合数字鸿沟、共建数字丝路新路径。古巴、孟加拉国等多国部长级嘉宾呼吁加强南南合作，推动技术实质性转移，培育本土内生发展能力。</p>
+      <p><strong>实践样本：</strong>西安浐灞国际港依托中欧班列集结中心，搭建智慧报关、智能监管、数字供应链一体化体系，展示AI智能选品、数字化供应链管理、跨境直播带货等前沿应用。</p>
+    </div>
+    <div class="news-analysis">
+      <p>数字丝路论坛选址西安——古丝绸之路起点，具有强烈的象征意义：从古代"驼铃"到现代"数据流"，中国正在构建数字时代的"一带一路"。论坛聚焦的"弥合数字鸿沟"和"南南技术合作"议题，与WAIC期间成立世界人工智能合作组织的逻辑一脉相承——中国正通过数字基础设施输出和技术转移，在全球南方构建数字影响力。这一战略与美国的"小院高墙"技术封锁形成鲜明对比，可能重塑全球数字治理格局。</p>
+    </div>
+    <div class="news-source">来源：中国新闻网 / 百度新闻 / 2026年7月22日</div>
+  </div>
+
+  <div class="judgment">
+    <span class="key">趋势研判与建议：</span>社会民生领域呈现"生育支持制度化+就业引导新质化+数字外交常态化"三大趋势。育儿补贴从试点到常态化的推进速度超预期，但效果评估需更长周期。AI专场招聘标志着就业市场结构性转型已进入政策引导阶段。建议关注：1) 育儿补贴的生育率提振效果在1-2年内的数据验证；2) 数字丝路论坛后中国与全球南方数字合作的落地项目；3) 家政服务业政策扶持对就业困难群体的实际覆盖效果。
+  </div>
+</section>
+
+<!-- ===== 气候环境 ===== -->
+<section class="section" id="climate">
+  <div class="section-header">
+    <div class="section-icon">🌡️</div>
+    <div>
+      <h2 class="section-title"><span class="bar"></span>气候环境 <span class="en">Climate</span></h2>
+      <div class="section-subtitle">EXTREME WEATHER &amp; ENVIRONMENTAL ALERTS</div>
+    </div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">20</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p0">P0</span> <span class="tag tag-climate">气候环境</span> <span class="tag">厄尔尼诺</span></div>
+        <h3 class="news-headline">世界气象组织：厄尔尼诺预计快速发展为强事件，极端天气风险加剧</h3>
+      </div>
+    </div>
+    <p class="news-summary">世界气象组织7月3日发布通报，厄尔尼诺状态已在热带太平洋地区发展，预计2026年7月至9月期间将迅速发展为强厄尔尼诺事件。关键监测区域季节平均海面温度预计比常年平均值高出2℃以上，可能持续到2027年初春。</p>
+    <div class="news-detail">
+      <p><strong>温度预测：</strong>南纬60度至北纬60度之间大多数陆地区域气温极有可能高于常年均值，几乎涵盖极地以外所有人口稠密地区。</p>
+      <p><strong>降雨格局：</strong>赤道太平洋中部和东部降雨量高于正常水平，热带印度洋部分地区、印度次大陆和澳大利亚大部分地区降雨低于正常水平。</p>
+      <p><strong>历史对比：</strong>2024年是有记录以来最热的一年，全球平均气温比工业化前水平高出约1.55℃。未来五年全球平均气温可能继续维持在或接近历史最高水平，2027年或成为下一个全球最热年份。</p>
+    </div>
+    <div class="news-analysis">
+      <p>2026年初受拉尼娜影响、年中转为厄尔尼诺的快速切换极为罕见，这意味着全球气候系统正在经历剧烈的"模式转换"。强厄尔尼诺事件将叠加全球变暖的基底效应，使2026下半年至2027年成为极端天气的高发期。对中国的直接影响包括：华北雨季提前、台风活动增强、南方高温热浪频发。对全球的影响集中在农业减产（印度次大陆干旱）、能源需求激增（空调负荷）和供应链中断（洪水和飓风）。各国政府需将气候适应纳入灾害应对的常态化预算。</p>
+    </div>
+    <div class="news-source">来源：新华社 / 世界气象组织 / 2026年7月3日通报</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">21</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p0">P0</span> <span class="tag tag-climate">气候环境</span> <span class="tag">极端高温</span></div>
+        <h3 class="news-headline">北半球多地极端高温突破历史极值，"热穹顶"效应持续</h3>
+      </div>
+    </div>
+    <p class="news-summary">2026年夏季，美欧多地高温突破历史极值，南亚多国最高气温逼近50℃。德国41.7℃、捷克41.1℃、波兰40.5℃均创本国历史极值。中国重庆北碚实测42.4℃，直接对接40天加长版三伏天。</p>
+    <div class="news-detail">
+      <p><strong>欧洲：</strong>法国迎来5月以来第三轮热浪，最高级别高温警报覆盖超1/3国土。5月下旬英国、法国、西班牙、意大利等国刷新当月高温纪录。6月下旬高温自西向东蔓延至中欧、北欧，丹麦、瑞士同步观测到创纪录高温。</p>
+      <p><strong>美国：</strong>落基山脉和北部平原热浪在多个地区打破历史高温纪录，全美逾90个地方高温纪录被打破或持平。</p>
+      <p><strong>中国：</strong>重庆7月5日至21日连续高温达17天，预计延续至25日将破当地7月纪录。7月22日发布高温红色预警，19个区县最高温40-42℃。西北太平洋副热带高压与大陆高压"双锁死"形成"热穹顶焖锅效应"。</p>
+    </div>
+    <div class="news-analysis">
+      <p>2026年极端高温的核心特征是"多地联动爆发"而非往年"轮流交替发生"，这直接关联于厄尔尼诺快速发展和全球变暖基底的叠加效应。"热穹顶"机制——两大高压系统打通形成高压坝，下沉气流锁温、晴空无云锁热——使得热量无法散逸，白天暴晒夜间闷热。近60年中国气温上涨速度远超全球平均（每十年升高0.31℃），这意味着35℃常态化、40℃每年出现的"新常态"已经到来。对公共健康、电力负荷和农业生产的影响将贯穿整个夏季。</p>
+    </div>
+    <div class="news-source">来源：新华网 / 中央气象台 / 百度新闻 / 2026年7月</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">22</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p1">P1</span> <span class="tag tag-climate">气候环境</span> <span class="tag">汛情</span></div>
+        <h3 class="news-headline">中国盛夏气候趋势：华北雨季提前8天，松辽海河黄河珠江流域将现较重汛情</h3>
+      </div>
+    </div>
+    <p class="news-summary">国家气候中心监测显示，2026年华北雨季于7月10日开始，较常年偏早8天。预计盛夏松辽流域、海河流域、黄河下游、珠江流域降水偏多2-5成，将出现较重汛情。全国有4-6个台风登陆或影响我国沿海地区。</p>
+    <div class="news-detail">
+      <p><strong>多雨带格局：</strong>南北两条多雨带——北方（北京、天津、河北、辽宁、吉林、黑龙江等）和南方（广东、广西、福建、台湾等）。京津冀地区于7月11日开始华北雨季，7月10-13日已出现持续强降水过程。</p>
+      <p><strong>高温干旱复合型灾害：</strong>华东中部、华中中部、西南地区东部、新疆北部盛夏高温干旱复合型灾害风险高。西藏东部降水偏多叠加气温偏高，有冰湖溃坝风险。</p>
+      <p><strong>台风预测：</strong>4-6个台风登陆或影响我国沿海，其中1-2个较强台风北上影响北方地区。</p>
+    </div>
+    <div class="news-analysis">
+      <p>华北雨季提前8天是厄尔尼诺发展的直接气候信号。南北双多雨带格局意味着防汛压力同时集中在海河流域和珠江流域——这两个区域人口密集、经济总量大，洪水风险的经济暴露度极高。高温干旱与暴雨洪涝"复合型灾害"是新趋势：同一地区可能先经历高温干旱导致土壤龟裂，再遭遇暴雨引发山洪和泥石流，次生灾害风险成倍增加。西藏冰湖溃坝风险则体现了气候变暖对高海拔地区冰川融化的深层影响。</p>
+    </div>
+    <div class="news-source">来源：国家气候中心 / 中国气象局 / 2026年7月</div>
+  </div>
+
+  <div class="news-card">
+    <div class="news-head">
+      <span class="news-num">23</span>
+      <div>
+        <div class="top-row"><span class="badge badge-p1">P1</span> <span class="tag tag-climate">气候环境</span> <span class="tag">森林火险</span></div>
+        <h3 class="news-headline">重庆33地森林火险达高危险等级，加拿大野火烟雾跨境引发美加争端</h3>
+      </div>
+    </div>
+    <p class="news-summary">7月22日，重庆市气象台发布预报，两江新区、万州等33地森林火险等级达四级（高危险）。同时，加拿大野火频发导致浓烟跨境南下，美国北部多州空气质量恶化，特朗普威胁对加拿大"烟雾污染"征收额外关税。</p>
+    <div class="news-detail">
+      <p><strong>重庆火险：</strong>巴南、北碚等多区已开展防火督查与隐患排查。重庆7月5日至21日连续高温17天，预计延续至25日将破当地7月纪录。</p>
+      <p><strong>加拿大野火：</strong>7月加拿大野火频发，浓烟跨越边境导致美国北部多州空气质量恶化。美方要求对加拿大实施"烟雾污染税"或索赔。加方驳斥称野火根源在于全球气候变化，将自然灾害与生态危机"关税化"的想法荒谬且极不负责。</p>
+    </div>
+    <div class="news-analysis">
+      <p>森林火险与极端高温的叠加效应在2026年夏季尤为显著。中国重庆的连续高温和森林火险预警反映了"高温-干旱-火险"的灾害链条。加拿大野火烟雾跨境则展示了气候变化的"跨国外部性"——一国自然灾害直接冲击邻国公共卫生，而将此"关税化"的提议在国际环境治理史上前所未有，凸显了气候变化与传统贸易工具之间的政策错位。这一争端可能成为未来跨境环境治理的先例案例。</p>
+    </div>
+    <div class="news-source">来源：华龙网 / 重庆市气象台 / 百度新闻 / 2026年7月22日</div>
+  </div>
+
+  <div class="judgment">
+    <span class="key">趋势研判与建议：</span>2026年盛夏正处于厄尔尼诺快速发展期与全球变暖基底叠加的"极端天气高发窗口"。北半球多地联动爆发高温是历史罕见的气候模式。建议：1) 各地政府将高温应急响应纳入常态化预算，重点关注电力负荷峰值和户外劳动者健康；2) 松辽、海河、珠江流域需提前部署防洪工程巡查；3) 关注厄尔尼诺对秋季农业收成的影响，做好粮食供应链韧性预案；4) 加拿大野火烟雾关税争端值得持续跟踪，可能成为跨境环境治理的新议题。
+  </div>
+</section>
+
+<!-- ===== 今日关注 ===== -->
+<section class="section" id="summary">
+  <div class="section-header">
+    <div class="section-icon">📌</div>
+    <div>
+      <h2 class="section-title"><span class="bar"></span>今日关注 <span class="en">Today's Focus</span></h2>
+      <div class="section-subtitle">KEY EVENTS, PRIORITY &amp; WATCH POINTS</div>
+    </div>
+  </div>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>领域</th>
+        <th>事件</th>
+        <th>优先级</th>
+        <th>关注要点</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>地缘冲突</td>
+        <td>美军连续第十晚空袭伊朗，特朗普称"可能很快"打击核设施</td>
+        <td><span class="badge badge-p0">P0</span></td>
+        <td>72小时内是否对"镐山"实施打击；霍尔木兹海峡通航量是否维持零</td>
+      </tr>
+      <tr>
+        <td>全球经济</td>
+        <td>美国对加拿大加征50%关税，援引第338条款</td>
+        <td><span class="badge badge-p0">P0</span></td>
+        <td>8月19日生效前30天谈判窗口；是否外溢至欧盟、日本</td>
+      </tr>
+      <tr>
+        <td>地缘冲突</td>
+        <td>菲律宾仁爱礁挑衅，中方严正交涉</td>
+        <td><span class="badge badge-p0">P0</span></td>
+        <td>中国—东盟外长会上的交锋结果；临时性安排是否实质性失效</td>
+      </tr>
+      <tr>
+        <td>气候环境</td>
+        <td>厄尔尼诺快速发展为强事件，北半球多地极端高温</td>
+        <td><span class="badge badge-p0">P0</span></td>
+        <td>松辽海河珠江流域汛情发展；电力负荷峰值应对</td>
+      </tr>
+      <tr>
+        <td>国际政治</td>
+        <td>英国新首相伯纳姆上任，提出"曼彻斯特主义"</td>
+        <td><span class="badge badge-p1">P1</span></td>
+        <td>英国国债收益率走势；财政政策细节；对华态度变化</td>
+      </tr>
+      <tr>
+        <td>全球经济</td>
+        <td>锂电池消费税9月启动，11年免税退出</td>
+        <td><span class="badge badge-p1">P1</span></td>
+        <td>车企成本传导路径；自产电池车企的竞争格局变化</td>
+      </tr>
+      <tr>
+        <td>全球经济</td>
+        <td>科威特因伊朗袭击发行美元债券</td>
+        <td><span class="badge badge-p1">P1</span></td>
+        <td>发行定价与市场认购情况；海湾主权信用重估风险</td>
+      </tr>
+      <tr>
+        <td>科技前沿</td>
+        <td>引力一号年度四连发，9颗卫星入轨</td>
+        <td><span class="badge badge-p1">P1</span></td>
+        <td>商业航天发射成本下降曲线；低轨星座组网进度</td>
+      </tr>
+      <tr>
+        <td>科技前沿</td>
+        <td>WAIC闭幕：国产算力集群亮相，世界AI合作组织成立</td>
+        <td><span class="badge badge-p1">P1</span></td>
+        <td>华为昇腾950性能基准；腾讯NPO Q4落地进展</td>
+      </tr>
+      <tr>
+        <td>社会民生</td>
+        <td>育儿补贴已发放2516万人，截止延长至年底</td>
+        <td><span class="badge badge-p1">P1</span></td>
+        <td>全年发放完成率；生育率数据的后续验证</td>
+      </tr>
+      <tr>
+        <td>全球经济</td>
+        <td>上海上半年外贸2.55万亿创历史新高</td>
+        <td><span class="badge badge-p1">P1</span></td>
+        <td>下半年外贸增速能否维持；AI硬件出口持续性</td>
+      </tr>
+      <tr>
+        <td>地缘冲突</td>
+        <td>俄乌战争持续，俄军对哈尔科夫等地发动袭击</td>
+        <td><span class="badge badge-p1">P1</span></td>
+        <td>欧盟反导联盟推进速度；美军伊拉克撤军对中东格局影响</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">光体频道</div>
+  <div class="footer-en">Luminary Channel</div>
+  <div class="footer-info">
+    <span>内容来源：公开资讯采集与AI辅助分析</span><br/>
+    <span class="footer-highlight">光体频道 · 每日全球新闻</span>
+  </div>
+  <a href="光体频道.html" class="footer-back">← 返回首页</a>
+</footer>
+
+<a href="光体频道.html" class="float-back">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  返回首页
+</a>
+
+<script>
+(function(){
+  var sf=document.getElementById('starfield');
+  if(!sf)return;
+  for(var i=0;i<60;i++){
+    var s=document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=Math.random()*4+'s';
+    s.style.animationDuration=(3+Math.random()*3)+'s';
+    sf.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
