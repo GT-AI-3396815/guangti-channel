@@ -284,6 +284,14 @@ spa_css = """
   padding: 24px 0 60px;
 }
 
+/* 强制覆盖：导航栏全宽布局 */
+.nav-inner {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+}
+
 /* 强制覆盖：日期推到最右边 */
 .nav-meta {
   margin-left: auto !important;
