@@ -83,6 +83,105 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
 @keyframes floatBackIn{to{opacity:1;transform:translateY(0)}}
 
 /* ===== CONTENT STYLES ===== */
+/* Channel-specific unified styles - all 12 channels */
+
+/* ch07 civilization */
+.container .civ-card{position:relative;overflow:hidden}
+.container .civ-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .civ-headline{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .civ-detail{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .civ-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-summary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .civ-number{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+
+/* ch08 prehistoric */
+.container .item{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .item:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .item-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+.container .item-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic;flex-shrink:0;min-width:32px}
+.container .item-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .item-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .item-body{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .level-a,.container .level-b{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch09 wisdom */
+.container .cat-buddhist,.container .cat-confucian,.container .cat-medical,.container .cat-philosophy,.container .cat-strategy,.container .cat-taoist,.container .cat-yijing{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .cat-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .level-desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .modern{font-size:14px;color:var(--text-primary);line-height:1.8}
+.container .original-text{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .source-line{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .tag-l1,.container .tag-l2,.container .tag-l3{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch10 wellness */
+.container .badge-cat,.container .badge-group{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .card-p0,.container .card-p1,.container .card-p2{border-left:3px solid var(--gold)}
+.container .jinji{color:var(--gold-bright);font-weight:500}
+.container .ni-quote{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .priority-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .pt-p0,.container .pt-p1,.container .pt-p2{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .quote-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .section-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+.container .shicao{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .yangsheng-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .yangsheng-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .yangsheng-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .yili{font-size:14px;color:var(--text-secondary);line-height:1.8}
+
+/* ch11 healing */
+.container .cat-body,.container .cat-environment,.container .cat-mindfulness,.container .cat-sleep{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .deep-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .suggestion{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+
+/* ch12 manifestation */
+.container .seg{padding:20px 0}
+.container .b-act,.container .b-cog,.container .b-diff,.container .b-hab,.container .b-phys{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch05 ufo & ch06 cosmic extra */
+.container .news-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .news-video-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.container .news-video-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+.container .tag-official,.container .tag-observe{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+
+/* ch02 ai extra */
+.container .a-body,.container .a-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .a-title::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .advice{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block;margin-right:6px}
+.container .hero-inner{position:relative;z-index:2}
+.container .hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 32px;margin-top:24px}
+.container .hero-tag{display:flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);font-size:12px;margin-bottom:24px}
+.container .item{padding:14px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .judgments{display:flex;flex-direction:column;gap:16px}
+.container .region{font-size:12px;color:var(--text-secondary);text-transform:none;letter-spacing:0.5px}
+.container .subtitle{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:700px;margin:0 auto 24px}
+
+/* ch03 business extra */
+.container .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .card-title-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.container .tag-climate{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
+.container .tag-conflict{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag-economy{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag-politics{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag-society{background:rgba(139,92,246,0.15);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)}
+.container .tag-tech{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+.container .tag-yy{background:rgba(201,169,110,0.15);color:var(--gold);border:1px solid rgba(201,169,110,0.3)}
+
+/* ch04 self-media extra */
+.container .alt-label,.container .chip-label{font-size:13px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container .secondary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .top3-reason{font-size:14px;color:var(--text-secondary);line-height:1.8;padding-top:16px;border-top:1px solid var(--border-subtle)}
+.container .top3-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-img-suggest{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .topic-meta{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .topic-title-alt{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-titles{font-size:14px;color:var(--text-primary);line-height:1.8}
+
+/* ===== MAIN CONTENT STYLES ===== */
 .container > *{position:relative;z-index:1}
 .container section{padding:40px 0}
 .container h2{font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700;color:var(--text-primary);margin-bottom:16px;letter-spacing:2px}
