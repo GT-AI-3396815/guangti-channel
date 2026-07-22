@@ -284,6 +284,11 @@ spa_css = """
   padding: 24px 0 60px;
 }
 
+/* 强制覆盖：日期推到最右边 */
+.nav-meta {
+  margin-left: auto !important;
+}
+
 /* 主页容器 */
 #home-section {
   display: block;
