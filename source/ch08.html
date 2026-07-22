@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光体频道：每日史前文明解读</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@200;300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+:root{
+  --bg-void:#06080f;--bg-deep:#0a0e1a;--bg-card:#0f1525;--bg-card-hover:#141c30;
+  --gold:#c9a96e;--gold-bright:#e4c98e;--gold-dim:rgba(201,169,110,0.4);--gold-faint:rgba(201,169,110,0.08);
+  --text-primary:#e8e6e3;--text-secondary:#9ca3af;--text-muted:#6b7280;
+  --border-subtle:rgba(201,169,110,0.1);--border-hover:rgba(201,169,110,0.3);
+  --accent-blue:#3b82f6;--accent-purple:#8b5cf6;--accent-green:#10b981;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg-void);color:var(--text-primary);font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.4) 100%)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-void)}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+
+.ambient{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.12;animation:drift 30s ease-in-out infinite}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,#c9a96e,transparent 70%);top:-200px;right:-100px}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,#3b82f6,transparent 70%);bottom:-150px;left:-100px;animation-delay:-10s;animation-duration:40s}
+.orb-3{width:400px;height:400px;background:radial-gradient(circle,#8b5cf6,transparent 70%);top:40%;left:50%;animation-delay:-20s;animation-duration:50s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.05)}66%{transform:translate(-30px,40px) scale(0.95)}}
+.starfield{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:0;animation:twinkle 4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:0.5}}
+
+.container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(6,8,15,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-subtle)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-brand-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-dim);box-shadow:0 0 20px var(--gold-dim)}
+.nav-brand-text{font-family:'Noto Serif SC',serif;font-weight:600;font-size:16px;color:var(--text-primary);letter-spacing:2px}
+.nav-brand-text .en{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:12px;color:var(--gold);margin-left:8px}
+.nav-meta{display:flex;align-items:center;gap:20px;font-size:12px;color:var(--text-secondary)}
+.nav-date{font-family:'JetBrains Mono',monospace;font-weight:300;letter-spacing:1px}
+.back-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.back-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+
+/* HERO */
+.hero{position:relative;padding:120px 24px 60px;text-align:center;overflow:hidden}
+.hero-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,0.08) 0%,transparent 50%),linear-gradient(180deg,var(--bg-void) 0%,var(--bg-deep) 100%)}
+.hero-content{position:relative;z-index:2;max-width:800px;margin:0 auto}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:300;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:24px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:36px;height:1px;background:var(--gold-dim)}
+.hero-title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(36px,7vw,72px);line-height:1.1;letter-spacing:4px;margin-bottom:12px;background:linear-gradient(180deg,#fff 0%,#e8e6e3 40%,var(--gold-bright) 80%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;font-weight:300;color:var(--gold);letter-spacing:3px;margin-bottom:20px}
+.hero-date{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-secondary);letter-spacing:2px}
+.hero-desc{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:600px;margin:24px auto 0}
+
+/* SECTION */
+.section{padding:60px 0}
+.section-label{display:flex;align-items:center;gap:16px;margin-bottom:40px}
+.section-label-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.section-label-text{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+.section-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:8px;letter-spacing:2px}
+.section-desc{font-size:14px;color:var(--text-secondary);margin-bottom:40px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:36px;padding-bottom:16px;border-bottom:1px solid var(--border-subtle)}
+.section-icon{font-size:32px;line-height:1}
+.section-subtitle{font-size:13px;color:var(--text-muted);letter-spacing:1px;margin-top:2px}
+
+/* FOOTER */
+.footer{padding:60px 24px 40px;text-align:center;border-top:1px solid var(--border-subtle);margin-top:40px;position:relative;z-index:1}
+.footer-brand{font-family:'Noto Serif SC',serif;font-size:16px;color:var(--gold);letter-spacing:4px;margin-bottom:8px}
+.footer-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-muted);letter-spacing:2px;margin-bottom:24px}
+.footer-info{font-size:12px;color:var(--text-muted);line-height:2}
+.footer-highlight{color:var(--gold);font-weight:500}
+.footer-back{display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:10px 24px;border:1px solid var(--border-subtle);border-radius:24px;color:var(--gold);text-decoration:none;font-size:13px;letter-spacing:1px;transition:all .3s}
+.footer-back:hover{border-color:var(--gold);background:var(--gold-faint)}
+
+/* FLOATING BACK BUTTON */
+.float-back{position:fixed;bottom:32px;right:32px;z-index:9000;display:flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--bg-void);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:1px;border-radius:28px;box-shadow:0 8px 32px rgba(201,169,110,0.35),0 0 0 1px rgba(201,169,110,0.2);transition:all .3s cubic-bezier(.4,0,.2,1);opacity:0;transform:translateY(20px);animation:floatBackIn .5s ease forwards .5s}
+.float-back:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 12px 40px rgba(201,169,110,0.5),0 0 0 1px rgba(201,169,110,0.3)}
+.float-back svg{width:16px;height:16px;flex-shrink:0}
+@keyframes floatBackIn{to{opacity:1;transform:translateY(0)}}
+
+/* ===== CONTENT STYLES ===== */
+/* Channel-specific unified styles - all 12 channels */
+
+/* ch07 civilization */
+.container .civ-card{position:relative;overflow:hidden}
+.container .civ-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .civ-headline{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .civ-detail{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .civ-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-summary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .civ-number{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+
+/* ch08 prehistoric */
+.container .item{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .item:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .item-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+.container .item-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic;flex-shrink:0;min-width:32px}
+.container .item-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .item-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .item-body{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .level-a,.container .level-b{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch09 wisdom */
+.container .cat-buddhist,.container .cat-confucian,.container .cat-medical,.container .cat-philosophy,.container .cat-strategy,.container .cat-taoist,.container .cat-yijing{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .cat-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .level-desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .modern{font-size:14px;color:var(--text-primary);line-height:1.8}
+.container .original-text{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .source-line{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .tag-l1,.container .tag-l2,.container .tag-l3{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch10 wellness */
+.container .badge-cat,.container .badge-group{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .card-p0,.container .card-p1,.container .card-p2{border-left:3px solid var(--gold)}
+.container .jinji{color:var(--gold-bright);font-weight:500}
+.container .ni-quote{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .priority-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .pt-p0,.container .pt-p1,.container .pt-p2{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .quote-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .section-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+.container .shicao{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .yangsheng-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .yangsheng-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .yangsheng-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .yili{font-size:14px;color:var(--text-secondary);line-height:1.8}
+
+/* ch11 healing */
+.container .cat-body,.container .cat-environment,.container .cat-mindfulness,.container .cat-sleep{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .deep-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .suggestion{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+
+/* ch12 manifestation */
+.container .seg{padding:20px 0}
+.container .b-act,.container .b-cog,.container .b-diff,.container .b-hab,.container .b-phys{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch05 ufo & ch06 cosmic extra */
+.container .news-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .news-video-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.container .news-video-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+.container .tag-official,.container .tag-observe{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+
+/* ch02 ai extra */
+.container .a-body,.container .a-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .a-title::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .advice{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block;margin-right:6px}
+.container .hero-inner{position:relative;z-index:2}
+.container .hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 32px;margin-top:24px}
+.container .hero-tag{display:flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);font-size:12px;margin-bottom:24px}
+.container .item{padding:14px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .judgments{display:flex;flex-direction:column;gap:16px}
+.container .region{font-size:12px;color:var(--text-secondary);text-transform:none;letter-spacing:0.5px}
+.container .subtitle{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:700px;margin:0 auto 24px}
+
+/* ch03 business extra */
+.container .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .card-title-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.container .tag-climate{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
+.container .tag-conflict{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag-economy{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag-politics{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag-society{background:rgba(139,92,246,0.15);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)}
+.container .tag-tech{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+.container .tag-yy{background:rgba(201,169,110,0.15);color:var(--gold);border:1px solid rgba(201,169,110,0.3)}
+
+/* ch04 self-media extra */
+.container .alt-label,.container .chip-label{font-size:13px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container .secondary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .top3-reason{font-size:14px;color:var(--text-secondary);line-height:1.8;padding-top:16px;border-top:1px solid var(--border-subtle)}
+.container .top3-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-img-suggest{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .topic-meta{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .topic-title-alt{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-titles{font-size:14px;color:var(--text-primary);line-height:1.8}
+
+/* ===== MAIN CONTENT STYLES ===== */
+.container > *{position:relative;z-index:1}
+.container section{padding:40px 0}
+.container h2{font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700;color:var(--text-primary);margin-bottom:16px;letter-spacing:2px}
+.container h3{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);margin-bottom:12px;line-height:1.5}
+.container h4{font-size:14px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container p{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-bottom:12px}
+.container ul,.container ol{padding-left:24px;margin-bottom:16px}
+.container li{font-size:14px;color:var(--text-secondary);line-height:1.8;padding:4px 0}
+.container strong{color:var(--gold-bright);font-weight:500}
+.container a{color:var(--gold);text-decoration:none}
+.container a:hover{text-decoration:underline}
+
+/* Unified card styles */
+.container .news-card,
+.container .card,
+.container .news-item,
+.container .topic-card,
+.container .stat-card,
+.container .judgment,
+.container .summary{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  padding:28px 24px;
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+  transition:all .4s;
+}
+.container .news-card::before,
+.container .card::before,
+.container .news-item::before,
+.container .topic-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0.6;
+}
+.container .news-card:hover,
+.container .card:hover,
+.container .news-item:hover,
+.container .topic-card:hover{
+  border-color:var(--border-hover);
+  background:var(--bg-card-hover);
+  transform:translateY(-2px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+.container .topic-card::before{
+  top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(180deg,var(--gold),transparent);
+  opacity:0.5;
+}
+
+/* Unified tag/badge styles */
+.container .news-tag,
+.container .tag,
+.container .badge,
+.container .group-badge,
+.container .top3-badge,
+.container .topic-cat-badge,
+.container .meta-chip{
+  display:inline-block;
+  padding:4px 12px;
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--gold);
+  text-transform:uppercase;
+  background:var(--gold-faint);
+  font-weight:500;
+  margin:2px;
+}
+.container .news-tag{border-radius:4px;text-transform:none;font-size:12px}
+.container .tag{border-radius:4px;text-transform:none;font-size:11px;font-weight:600}
+.container .badge{border-radius:4px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:none}
+.container .group-badge{border-radius:6px;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:none}
+
+/* Priority badges */
+.container .tag.imp.p0,.container .badge-p0,.container .group-badge.p0,.container .b-p0,.container .tag-p0{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag.imp.p1,.container .badge-p1,.container .group-badge.p1,.container .b-p1,.container .tag-p1{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag.imp.p2,.container .badge-p2,.container .group-badge.p2,.container .b-p2,.container .tag-p2{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag.imp.p3,.container .badge-p3,.container .group-badge.p3,.container .b-p3,.container .tag-p3{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+
+/* Unified headline/title styles */
+.container .news-headline,
+.container .news-title,
+.container .card-title,
+.container .topic-title-main{
+  font-family:'Noto Serif SC',serif;
+  font-size:18px;
+  font-weight:600;
+  color:var(--text-primary);
+  line-height:1.5;
+  margin-bottom:12px;
+}
+
+/* Unified number/decorative element */
+.container .news-num,
+.container .topic-num,
+.container .top3-rank,
+.container .card-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;
+  font-weight:300;
+  color:var(--gold);
+  line-height:1;
+  font-style:italic;
+}
+
+/* Unified summary/body text */
+.container .news-summary,
+.container .news-body,
+.container .card-body,
+.container .summary,
+.container .topic-section-content,
+.container .seg-text{
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+.container .news-body strong,
+.container .card-body strong{color:var(--gold-bright);font-weight:500}
+
+/* Unified detail/analysis boxes */
+.container .news-detail,
+.container .news-analysis,
+.container .trend-box,
+.container .card-value,
+.container .seg-note,
+.container .topic-hook{
+  background:rgba(201,169,110,0.06);
+  border:1px solid rgba(201,169,110,0.15);
+  border-left:3px solid var(--gold-dim);
+  border-radius:8px;
+  padding:16px 20px;
+  margin:12px 0;
+}
+.container .news-analysis{
+  background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));
+  border:1px solid rgba(201,169,110,0.2);
+}
+
+/* Unified source/meta */
+.container .news-source,
+.container .news-meta,
+.container .card-source,
+.container .seg-src,
+.container .source{
+  font-size:11px;
+  color:var(--text-muted);
+  border-top:1px solid var(--border-subtle);
+  padding-top:10px;
+  margin-top:12px;
+  letter-spacing:0.5px;
+}
+
+/* Stats grid */
+.container .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:24px}
+.container .stat-card .head,
+.container .stat-card h3{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.container .stat-card .total{font-size:28px;font-weight:800;color:#fff}
+.container .stat-card .total span{font-size:13px;color:var(--text-muted);font-weight:400;margin-left:4px}
+.container .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.container .bar-row .label{width:90px;font-size:12px;color:var(--text-secondary);flex-shrink:0}
+.container .bar-row .track{flex:1;height:22px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden}
+.container .bar-row .fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px}
+.container .bar-row .val{font-size:12px;font-weight:700;color:#fff}
+
+/* Judgments */
+.container .judgment{
+  background:linear-gradient(135deg,rgba(201,169,110,0.06),rgba(59,130,246,0.03));
+  border:1px solid var(--border-subtle);
+  border-left:3px solid var(--gold);
+  border-radius:10px;
+  padding:18px 22px;
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+.container .judgment .key{color:var(--gold-bright);font-weight:700}
+
+/* Advice grid */
+.container .advice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
+.container .advice-item{background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:8px;padding:10px 12px}
+.container .advice-item .role{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+.container .advice-item .text{font-size:12px;color:var(--text-secondary);line-height:1.6}
+
+/* Summary table */
+.container .summary-table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border-subtle)}
+.container .summary-table th{background:var(--gold-faint);color:var(--gold);font-weight:600;font-size:13px;padding:14px 16px;text-align:left;border-bottom:1px solid var(--border-subtle);letter-spacing:1px}
+.container .summary-table td{padding:14px 16px;font-size:14px;color:var(--text-secondary);border-bottom:1px solid rgba(255,255,255,0.04)}
+.container .summary-table tr:last-child td{border-bottom:none}
+.container .summary-table tr:hover td{background:var(--gold-faint)}
+
+/* Topic outline */
+.container .topic-outline{list-style:none;padding:0}
+.container .topic-outline li{font-size:14px;color:var(--text-secondary);line-height:1.8;padding:6px 0 6px 24px;position:relative}
+.container .topic-outline li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:1px;background:var(--gold-dim)}
+.container .topic-outline li strong{color:var(--gold-bright);font-weight:500}
+
+/* Topic sections */
+.container .topic-section{margin-bottom:20px}
+.container .topic-section-label,
+.container .seg-label,
+.container .a-title,
+.container .ad-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .topic-section-label::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .topic-hook{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .topic-copy{font-size:14px;color:var(--text-primary);line-height:1.9;text-align:justify;white-space:pre-wrap}
+.container .topic-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.container .topic-tag{padding:4px 10px;border:1px solid var(--border-subtle);border-radius:12px;font-size:11px;color:var(--gold);background:var(--gold-faint);font-family:'JetBrains Mono',monospace;letter-spacing:0.5px}
+
+/* Top3 grid */
+.container .top3-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:60px}
+.container .top3-card{position:relative;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;transition:all .4s;overflow:hidden}
+.container .top3-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .top3-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+
+/* Legend */
+.container .level-legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:24px}
+
+/* News group */
+.container .news-group{margin-bottom:40px}
+.container .group-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+
+/* Card header/layout */
+.container .news-head,
+.container .card-head,
+.container .card-header,
+.container .topic-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.container .news-head .news-num,
+.container .card-head .card-num{flex-shrink:0;min-width:32px}
+
+/* News list */
+.container .news-list{display:flex;flex-direction:column;gap:20px}
+.container .cards{display:flex;flex-direction:column;gap:20px;margin-top:24px}
+.container .top-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+
+/* Section title variants */
+.container .section-title .bar{width:4px;height:22px;background:linear-gradient(180deg,var(--gold),var(--accent-blue));border-radius:2px;display:inline-block;margin-right:12px;vertical-align:middle}
+.container .section-title .en{font-size:13px;color:var(--text-muted);font-weight:400;letter-spacing:1px}
+
+/* Nav inside content (sticky section nav) */
+.container .nav{all:unset;display:flex;justify-content:center;flex-wrap:wrap;gap:8px 28px;padding:14px 0;border-bottom:1px solid var(--border-subtle);margin-bottom:24px;position:relative !important;top:auto !important;background:transparent !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+.container .nav a{color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:500;transition:color .3s;position:relative;padding:4px 0}
+.container .nav a:hover,.container .nav a.active{color:var(--gold)}
+.container .nav a.active::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--gold);border-radius:1px}
+
+/* Misc */
+.container .divider{width:60px;height:1px;background:var(--border-subtle);margin:24px auto}
+.container .ch-badge{display:inline-block;padding:5px 14px;border:1px solid var(--border-subtle);border-radius:20px;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;background:var(--gold-faint)}
+.container .ch-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:6px;line-height:1.3}
+.container .ch-sub{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--gold-bright);letter-spacing:2px;margin-bottom:16px}
+.container .ch-date{font-size:13px;color:var(--text-muted);letter-spacing:1px}
+
+/* Bar fills */
+.fill.p0,.fill.cat-policy{background:linear-gradient(90deg,#ef4444,#f87171)}
+.fill.p1{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.fill.p2,.fill.cat-product{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.fill.p3{background:linear-gradient(90deg,#6b7280,#9ca3af)}
+.fill.cat-model{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
+.fill.cat-industry{background:linear-gradient(90deg,#10b981,#34d399)}
+
+/* Video link button */
+.container .video-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:14px;
+  padding:8px 20px;
+  background:linear-gradient(135deg,#fb7299,#fc3a6e);
+  color:#fff !important;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600;
+  border-radius:22px;
+  letter-spacing:0.5px;
+  transition:all .3s;
+  box-shadow:0 4px 16px rgba(251,114,153,0.3);
+}
+.container .video-link:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(251,114,153,0.5);
+  text-decoration:none;
+}
+.container .video-link svg{
+  width:14px;height:14px;flex-shrink:0;fill:#fff;
+}
+
+@media(max-width:768px){
+  .hero{padding:100px 16px 40px}
+  .container .news-card,.container .card,.container .topic-card,.container .news-item{padding:20px}
+  .container .news-headline,.container .news-title,.container .card-title,.container .topic-title-main{font-size:16px}
+  .container .stats-grid{grid-template-columns:1fr}
+  .container .advice-grid{grid-template-columns:1fr}
+  .float-back{bottom:20px;right:20px;padding:10px 20px;font-size:13px}
+  .nav-brand-text{font-size:14px}
+  .nav-brand-text .en{font-size:10px}
+  .nav-meta{gap:12px}
+}
+</style>
+</head>
+<body>
+<div class="ambient"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="starfield" id="starfield"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="光体频道.html" class="nav-brand">
+      <img src="logo.jpg" alt="Luminary Channel" class="nav-brand-logo"/>
+      <div class="nav-brand-text">光体频道<span class="en">Luminary Channel</span></div>
+    </a>
+    <div class="nav-meta">
+      <span class="nav-date">2026.07.23</span>
+      <a href="光体频道.html" class="back-link">← 首页</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">CHANNEL 08 · PREHISTORIC CIVILIZATION</div>
+    <h1 class="hero-title">每日史前文明解读</h1>
+    <div class="hero-sub">Daily Prehistoric Civilization</div>
+    <div class="hero-date">2026 / 07 / 23</div>
+    <p class="hero-desc">每日整合全球史前遗址、远古器物、史前未知技术的考古资讯与学术解读，挖掘史前高维文明痕迹，按考古实证>学术推演>合理猜想分级。</p>
+  </div>
+</header>
+
+<div class="container">
+
+<section>
+<div class="section-label">
+<div class="section-label-text">PREHISTORIC CIVILIZATION DAILY · 12 ENTRIES</div>
+<div class="section-label-line"></div>
+</div>
+<h2 class="section-title"><span class="bar"></span>每日史前文明解读 <span class="en">Daily Prehistoric Civilization Analysis</span></h2>
+<p class="section-desc">2026年7月23日 · 按考古实证 &gt; 学术推演 &gt; 合理猜想分级排序 · 共12条</p>
+
+<div class="level-legend">
+<span class="badge badge-p0">P0 考古实证</span>
+<span class="badge badge-p1">P1 学术推演</span>
+<span class="badge badge-p2">P2 合理猜想</span>
+</div>
+</section>
+
+<section>
+<div class="news-group">
+<div class="group-header"><h3>P0 · 考古实证</h3></div>
+<div class="news-list">
+
+<!-- Item 1 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">01</span>
+<div>
+<div class="news-headline">古DNA揭示：鼠疫早在5500年前已在狩猎采集者中致命传播</div>
+<div class="top-row"><span class="badge badge-p0">P0 考古实证</span><span class="tag">古DNA</span><span class="tag">鼠疫</span><span class="tag">贝加尔湖</span><span class="tag">《Nature》</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>国际学术期刊《Nature》2026年6月发表研究：英国牛津大学与丹麦哥本哈根大学联合团队分析了西伯利亚贝加尔湖周边四处墓地的<strong>42名狩猎采集者</strong>的古代DNA，在18名个体中检测到鼠疫耶尔森菌，检出率高达<strong>39%</strong>。</p>
+<p>研究重建了个体间的亲缘关系谱系，证实受影响的均为小型家庭群体，符合人际传播特征。两次独立鼠疫疫情分别发生在距今<strong>5520-5265年前</strong>和5315-4235年前。最严重的感染出现在<strong>8至11岁儿童</strong>身上，表明急性致死特征。</p>
+<p>这些菌株的基因组不同于已知的古代和现代鼠疫菌株，推测其约在5700年前就已出现，将鼠疫起源时间前推。研究挑战了"新石器时代农业转型带来的人口密度增加是鼠疫流行前提"的传统认知——狩猎采集者社群中同样发生了致命瘟疫。</p>
+<div class="news-analysis">
+<strong>文明疑点：</strong>这些早期鼠疫菌株缺乏引发腺鼠疫所需的毒力因子（直到约3800年前才出现），但其高致死率表明可能以败血症或肺鼠疫形式传播。狩猎采集者低人口密度下的人传人机制如何维持？是否有动物宿主参与传播链？这些问题仍待解答。
+</div>
+</div>
+<div class="news-source">来源：Nature (doi:10.1038/s41586-026-10540-5) · ScienceDaily · 中新网 · 2026.06</div>
+</div>
+
+<!-- Item 2 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">02</span>
+<div>
+<div class="news-headline">中埃联合考古队发现阿普里斯法老卜塔神庙百年悬案关键线索</div>
+<div class="top-row"><span class="badge badge-p0">P0 考古实证</span><span class="tag">古埃及</span><span class="tag">孟菲斯</span><span class="tag">卜塔神庙</span><span class="tag">中埃合作</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>山东省文物考古研究院联合北京大学考古文博学院、埃及最高文物委员会组成的中埃联合考古队，于2025年10月至12月在孟菲斯遗址区北部<strong>阿齐兹遗址</strong>首次发现古埃及第26王朝法老阿普里斯所建卜塔神庙的关键线索，并发现更大范围内可能存在神庙建筑群的迹象。</p>
+<p>各国考古队苦寻<strong>百年无果</strong>的阿普里斯神庙遗迹，终于在中埃考古人员努力下即将破土而出。这是山东省文物考古研究院首次"出海"开展田野考古工作，即在全球瞩目遗址取得重大发现。</p>
+<div class="news-analysis">
+<strong>技术特征：</strong>孟菲斯作为古埃及最早的首都，其卜塔神庙是古王国时期最重要的宗教中心之一。阿普里斯法老（公元前589-570年）统治时期的建筑风格融合了晚期王朝的衰落与外来文化影响，神庙规模与结构将为研究第26王朝宗教建筑提供一手材料。
+</div>
+</div>
+<div class="news-source">来源：人民网 · 百度百家号 · 搜狐 · 2026.03</div>
+</div>
+
+<!-- Item 3 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">03</span>
+<div>
+<div class="news-headline">吉林长白山发现超千处旧石器遗址群：22万年前人类活动记录</div>
+<div class="top-row"><span class="badge badge-p0">P0 考古实证</span><span class="tag">旧石器时代</span><span class="tag">黑曜石工具</span><span class="tag">东北亚</span><span class="tag">2025十大考古</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>吉林省东部长白山旧石器时代遗址群覆盖超过<strong>10万平方公里</strong>，识别出<strong>1000余处</strong>新地点，包含石制品遗存。该发现记录了约<strong>22万年至1.3万年前</strong>的技术演化与人类适应过程，尤其以独特的黑曜石工具工业为标志。</p>
+<p>这是长白山地区已知最早的人类活动记录，入选2025年度全国十大考古新发现。发现将重塑学界对东北亚史前人类活动的理解，为跨区域文化交流提供关键证据。</p>
+<div class="news-analysis">
+<strong>学术争议：</strong>黑曜石工具的原料溯源显示其来自长白山天池火山口区域，运输距离达数十至数百公里。这种长距离原料获取网络暗示了旧石器时代晚期人类已具备复杂的资源规划能力和社会协作机制。但这些人属何种古人类类型？与后续新石器时代东北亚人群的连续性如何？尚需古DNA研究回答。
+</div>
+</div>
+<div class="news-source">来源：新华社 · 中国社科院考古研究所 · 2026.05</div>
+</div>
+
+<!-- Item 4 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">04</span>
+<div>
+<div class="news-headline">新疆呼斯塔遗址出土中国最早青铜刀之一：距今4800年</div>
+<div class="top-row"><span class="badge badge-p0">P0 考古实证</span><span class="tag">青铜时代</span><span class="tag">锡青铜</span><span class="tag">天山</span><span class="tag">2025六大考古</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>中国社会科学院考古研究所与新疆文物考古研究所联合发掘的呼斯塔遗址位于温泉县阿拉套山南麓草原，是西天山地区发现的<strong>最大青铜时代聚落遗址</strong>。在东区墓地Z1号大墓中出土了一把锡青铜刀，年代为公元前<strong>2800-2600年</strong>。</p>
+<p>这是迄今中国境内发现的最早青铜器之一。大墓的墓制结构独特且前所未见，比核心区早约1200年，是新疆迄今发现最早的青铜时代遗存之一。呼斯塔遗址入选2025年中国六大考古发现。</p>
+<div class="news-analysis">
+<strong>文明疑点：</strong>公元前2800年的锡青铜技术远早于中原地区二里头文化（约公元前1900年）的青铜铸造。这支技术来自西亚的草原青铜之路？还是本地独立起源？呼斯塔独特的大型墓葬结构与欧亚草原其他地区的同时代墓葬有何关联？这些问题对重构欧亚大陆早期冶金技术传播路径具有关键意义。
+</div>
+</div>
+<div class="news-source">来源：新疆日报 · 中国社科院考古研究所 · 2026.02</div>
+</div>
+
+<!-- Item 5 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">05</span>
+<div>
+<div class="news-headline">甘肃大地湾遗址：6万年前至新石器时代完整连续地层重见天日</div>
+<div class="top-row"><span class="badge badge-p0">P0 考古实证</span><span class="tag">旧石器晚期</span><span class="tag">连续地层</span><span class="tag">彩陶</span><span class="tag">原始混凝土</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>甘肃秦安大地湾遗址DDW06探方通过综合测年分析，清理出从约<strong>6万年前</strong>到新石器时代的完整连续地层，将大地湾人类活动史前推至旧石器时代晚期。这一几万年连续不断的地层堆积在世界范围内极为少见。</p>
+<p>大地湾遗址还坐拥多项"中国之最"：最早的彩陶（距今约<strong>8000年</strong>的200余件紫红色彩陶）、最早的文字符号雏形、最早的宫殿式建筑（F901）、最早的"混凝土"地面、最早的绘画作品、最早的旱作农作物标本。遗址总面积275万平方米，目前仅发掘约0.5%。</p>
+<div class="news-analysis">
+<strong>技术特征：</strong>F901宫殿的原始混凝土地面经建筑材料专家鉴定，其成分与现代混凝土惊人相似，却早了数千年。这种技术的来源和失传原因仍是未解之谜。6万年连续地层意味着大地湾可能是少数几个见证人类从狩猎采集到农业定居全过程的遗址之一。
+</div>
+</div>
+<div class="news-source">来源：人民网甘肃频道 · 天水市政府 · 2026.05</div>
+</div>
+
+<!-- Item 6 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">06</span>
+<div>
+<div class="news-headline">中埃联合考古在卡纳克神庙发现未记录的"南圣湖"</div>
+<div class="top-row"><span class="badge badge-p0">P0 考古实证</span><span class="tag">古埃及</span><span class="tag">卡纳克</span><span class="tag">蒙图神殿</span><span class="tag">圣湖</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>中埃联合考古队在卢克索卡纳克神庙群蒙图神殿区域内发现一处此前从未被记录的古代<strong>"圣湖"</strong>，面积超过50平方米，结构完整且保存良好。该湖位于玛特神殿以西，与已知的蒙图神殿圣湖南北对应，形成卡纳克围墙内<strong>双圣湖</strong>的独特布局。</p>
+<p>中方负责人贾笑滨指出，这是埃及考古史上<strong>唯一一座</strong>经过系统科学发掘的圣湖。中国团队引入了数字摄影测量工具，将传统需2000-3000张照片的记录流程革新为高效精确的3D渲染。团队还使用了基于洛阳铲的地下勘探技术。</p>
+<div class="news-analysis">
+<strong>文明疑点：</strong>圣湖是古埃及神庙建筑的必要组成部分，被视为神圣水源，区别于日常用水，专供宗教仪式使用。双圣湖布局是否对应蒙图神的某种特殊宇宙观？南北双湖的水源系统如何运作？这些发现为理解卡纳克神庙群的宗教功能规划提供了全新视角。
+</div>
+</div>
+<div class="news-source">来源：新华社 · 人民网 · 2026.01</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<section>
+<div class="news-group">
+<div class="group-header"><h3>P1 · 学术推演</h3></div>
+<div class="news-list">
+
+<!-- Item 7 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">07</span>
+<div>
+<div class="news-headline">托巴超级火山7.4万年前喷发：人类并非濒临灭绝而是展现了惊人适应力</div>
+<div class="news-top-row"><span class="badge badge-p1">P1 学术推演</span><span class="tag">超级火山</span><span class="tag">人类生存</span><span class="tag">气候变化</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>约<strong>7.4万年前</strong>，印尼托巴火山的超级喷发是过去200万年中最大规模的火山事件之一，可能使地球陷入长达数年的黑暗与寒冷。部分学者曾据此提出"人类几乎灭绝"假说，认为人口骤降至数千人。</p>
+<p>然而最新考古证据显示，人类不仅存活下来，还展现出令人难以置信的适应能力。在印度和南非的遗址中，跨越托巴喷发层的工具序列表现出<strong>连续性</strong>而非断裂，表明当地人群在灾难后迅速恢复了正常生活。</p>
+<div class="news-analysis">
+<strong>学术争议：</strong>托巴喷发的气候影响程度本身存在分歧——部分模型预测全球降温仅3-5°C而非此前估计的15°C。"人口瓶颈"是否真由托巴引发而非其他因素？古DNA研究显示的现代人基因多样性低谷，可能对应的是非洲干旱期而非火山冬天。这一案例提醒我们：单一灾难事件对人类文明的影响，往往被低估了人类的韧性，也被高估了气候模型的精确性。
+</div>
+</div>
+<div class="news-source">来源：ScienceDaily · 2026.05</div>
+</div>
+
+<!-- Item 8 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">08</span>
+<div>
+<div class="news-headline">日本基因组研究颠覆"双重起源"理论：发现第三祖先群</div>
+<div class="top-row"><span class="badge badge-p1">P1 学术推演</span><span class="tag">古基因组</span><span class="tag">日本起源</span><span class="tag">人群迁移</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>科学家分析了日本各地数千人的基因组后发现了一个此前被忽视的<strong>第三个祖先群</strong>的证据，挑战了长期被接受的"双重起源"理论——即现代日本人由绳文时代狩猎采集者和弥生时代稻作农民融合形成。</p>
+<p>新识别的祖先成分似乎与某个尚未确定的东北亚人群相关，暗示日本列岛的人群构成比此前认知更为复杂。这一发现可能改写日本史前人群迁移历史。</p>
+<div class="news-analysis">
+<strong>文明疑点：</strong>第三祖先群何时、通过何种路线抵达日本列岛？是经朝鲜半岛陆桥还是沿千岛-勘察加海上走廊？该人群的语言和文化对绳文和弥生文化分别贡献了什么？基因证据与考古学器物传统之间的对应关系如何？这些问题需要将古DNA分析与考古学文化序列交叉验证。
+</div>
+</div>
+<div class="news-source">来源：ScienceDaily · 2026.05</div>
+</div>
+
+<!-- Item 9 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">09</span>
+<div>
+<div class="news-headline">胡夫金字塔抗震之谜：结构频率分布揭示4600年屹立不倒的工程智慧</div>
+<div class="top-row"><span class="badge badge-p1">P1 学术推演</span><span class="tag">胡夫金字塔</span><span class="tag">抗震</span><span class="tag">振动频率</span><span class="tag">《Scientific Reports》</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>《Scientific Reports》发表研究：埃及国家天文与地球物理研究所团队在胡夫金字塔内部密室、建筑石块和周边土壤的<strong>37个测点</strong>记录了环境振动数据。</p>
+<p>研究发现金字塔内部<strong>76%</strong>的振动频率集中在2.0-2.6赫兹之间，表明机械应力在整个结构中分布均匀。相比之下，周围土壤的振动频率约为0.6赫兹。这种频率差异限制了结构与土壤之间的相互作用，从而避免了地震时振动的放大。国王陵寝的振动放大系数为基岩水平的4.0倍，但其正上方的缓冲室将系数降至3.0，形成了天然的减震层。</p>
+<div class="news-analysis">
+<strong>技术特征：</strong>古埃及建筑师是否有意设计了这种减震结构？4600年前的人类对振动频率和结构共振的理解达到了何种程度？缓冲室的布局与现代减震设计理念一致，这是巧合还是工程经验的结晶？考虑到金字塔经历了包括1847年6.8级地震在内的多次大震而未受重大破坏，其结构韧性确实令人深思。
+</div>
+</div>
+<div class="news-source">来源：《Scientific Reports》 · 中新网 · 2026.05</div>
+</div>
+
+<!-- Item 10 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">10</span>
+<div>
+<div class="news-headline">郑州大学古DNA实证：中原人群3000年遗传稳定性</div>
+<div class="top-row"><span class="badge badge-p1">P1 学术推演</span><span class="tag">古基因组</span><span class="tag">中原</span><span class="tag">遗传稳定性</span><span class="tag">《Science Bulletin》</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>郑州大学"中华源"考古实验室在《Science Bulletin》发表论文，成功提取和测序了从西周、春秋、唐代到明清时期中原地区<strong>38个古人</strong>的基因组，论证了3000年来中原地区人群遗传结构的长期稳定性。</p>
+<p>团队还在《BMC Biology》发表研究，分析了唐代遗址的7例古基因组数据，首次从遗传学角度揭示唐代长安城人群的遗传结构特征及其与丝绸之路文化交流的关系。在《Molecular Biology and Evolution》发表的清代古基因组研究进一步实证了中原地区人群遗传谱系的连续传承。</p>
+<div class="news-analysis">
+<strong>学术争议：</strong>3000年遗传稳定性是否意味着中原地区是一个"封闭"的人群系统？唐代长安城的古DNA显示存在与欧亚大陆的基因交流，但这种交流的规模是否足以改变整体遗传结构？"熔炉"模型（持续吸收外来基因但核心稳定）比"封闭"模型更能解释这一数据。这种稳定性对中华文明连续性的意义，需要从文化基因和生物基因两个层面交叉理解。
+</div>
+</div>
+<div class="news-source">来源：郑州大学官网 · Science Bulletin · BMC Biology · 2026</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<section>
+<div class="news-group">
+<div class="group-header"><h3>P2 · 合理猜想</h3></div>
+<div class="news-list">
+
+<!-- Item 11 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">11</span>
+<div>
+<div class="news-headline">塔什石阵项目五周年：哥贝克力石阵不是孤例，史前仪式网络浮现</div>
+<div class="top-row"><span class="badge badge-p2">P2 合理猜想</span><span class="tag">哥贝克力石阵</span><span class="tag">塔什石阵</span><span class="tag">新石器时代</span><span class="tag">柏林展览</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>土耳其"塔什石阵"（Taş Tepeler）项目进入第五年，揭示了一个横跨安纳托利亚东南部的<strong>互联新石器时代遗址网络</strong>。除了联合国教科文组织世界遗产哥贝克力石阵外，卡拉汉石阵、塞费尔特佩和阿扬拉尔休于克等遗址的发掘正在改写人类文明起源叙事。</p>
+<p>塞费尔特佩遗址发现了一对采用高浮雕与浅浮雕对比技法雕刻的人面浮雕，以及一件由黑色蛇纹石制成的<strong>双面珠子</strong>——中心穿孔，两侧雕刻有生动人脸。2026年柏林詹姆斯-西蒙画廊举办"建造社区：哥贝克力石阵、塔什石阵与12000年前的生活"展览，展出来自土耳其东南部的原始文物。</p>
+<div class="news-analysis">
+<strong>合理猜想：</strong>哥贝克力石阵的建造者并非某个孤立社群，而是一个覆盖数百平方公里的仪式网络中的节点。如果这些遗址的T形石柱、动物浮雕和人面雕刻共享同一套符号系统，那么在农业出现之前，是否存在一个跨区域的"宗教共同体"？塞费尔特佩的双面珠子与约旦艾因加扎勒的双头雕像、恰约努的双头石板之间的相似性，暗示了一个从安纳托利亚到黎凡特的更广泛新石器时代符号传播模式。这些"最早的纪念碑"可能不仅是宗教场所，更是信息交换和社会凝聚的中心——人类可能在学会种地之前，就先学会了建造。
+</div>
+</div>
+<div class="news-source">来源：karahantepe.net · 搜狐历史 · Archaeology Mag · 2026</div>
+</div>
+
+<!-- Item 12 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">12</span>
+<div>
+<div class="news-headline">考古学"第三次科学革命"：古DNA与大数据是否正在重塑学科范式？</div>
+<div class="top-row"><span class="badge badge-p2">P2 合理猜想</span><span class="tag">考古学理论</span><span class="tag">古DNA</span><span class="tag">范式转换</span><span class="tag">《四川大学学报》</span></div>
+</div>
+</div>
+<div class="news-body">
+<p>四川大学考古科学中心主任吕红亮在《四川大学学报》发表论文，探讨古DNA、同位素和大数据分析深度介入考古学是否标志着"第三次科学革命"。论文以两个案例进行批判性剖析：一是古DNA与颜那亚人及泛欧亚语系起源之争；二是气候变化与赫梯帝国及西周灭亡的关联。</p>
+<p>基于库恩的科学革命理论，论文认为当前的科技化更像"常规科学"的推进，而非真正的范式转换，因此这场革命仍是<strong>"未竟的革命"</strong>。越来越多自然科学背景的科学家投身考古研究，"白大褂"似乎正在全面压倒"金手铲"。</p>
+<div class="news-analysis">
+<strong>合理猜想：</strong>考古学是否正在经历一次真正的范式革命？关键在于：古DNA提供的是新的"数据"还是新的"问题"？如果它只是在回答传统考古学提出的迁移与起源问题，那确实是"常规科学"的延伸。但如果古DNA开始提出传统器物类型学无法想象的问题——如古代人群的亲缘结构、病原体演化与文明崩溃的关系——那么它确实在重塑学科的认识论基础。"白大褂"压倒"金手铲"的背后，是考古学从"物"的学科向"人"的学科转变的深层逻辑。这场革命的"未竟"之处，恰恰在于考古学界尚未发展出一套整合分子证据与物质证据的新理论框架。
+</div>
+</div>
+<div class="news-source">来源：四川大学学报(哲学社会科学版) · 微信公众平台 · 2026.06</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<section>
+<div class="news-analysis" style="margin-top:40px">
+<strong>今日整编说明：</strong>本期12条资讯覆盖古DNA研究（贝加尔湖鼠疫、日本祖先群、中原遗传稳定性）、古埃及考古（阿普里斯神庙、卡纳克圣湖、胡夫金字塔抗震）、中国史前考古（长白山旧石器、呼斯塔青铜器、大地湾连续地层）、全球史前仪式网络（塔什石阵）及考古学理论反思。按"考古实证 &gt; 学术推演 &gt; 合理猜想"分级，P0条目均基于第一手发掘报告或同行评议论文，P1条目为基于证据的学术推演，P2条目为有据可依的合理猜想。严格过滤了网红杜撰史前传说、无依据文明猜想和营销类内容。
+</div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">光体频道</div>
+  <div class="footer-en">Luminary Channel</div>
+  <div class="footer-info">
+    <span>内容来源：公开资讯采集与AI辅助分析</span><br/>
+    <span class="footer-highlight">光体频道 · 每日史前文明解读</span>
+  </div>
+  <a href="光体频道.html" class="footer-back">← 返回首页</a>
+</footer>
+
+<a href="光体频道.html" class="float-back">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  返回首页
+</a>
+
+<script>
+(function(){
+  var sf=document.getElementById('starfield');
+  if(!sf)return;
+  for(var i=0;i<60;i++){
+    var s=document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=Math.random()*4+'s';
+    s.style.animationDuration=(3+Math.random()*3)+'s';
+    sf.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
