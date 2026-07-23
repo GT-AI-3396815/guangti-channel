@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光体频道：每日UFO热点</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@200;300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+:root{
+  --bg-void:#06080f;--bg-deep:#0a0e1a;--bg-card:#0f1525;--bg-card-hover:#141c30;
+  --gold:#c9a96e;--gold-bright:#e4c98e;--gold-dim:rgba(201,169,110,0.4);--gold-faint:rgba(201,169,110,0.08);
+  --text-primary:#e8e6e3;--text-secondary:#9ca3af;--text-muted:#6b7280;
+  --border-subtle:rgba(201,169,110,0.1);--border-hover:rgba(201,169,110,0.3);
+  --accent-blue:#3b82f6;--accent-purple:#8b5cf6;--accent-green:#10b981;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg-void);color:var(--text-primary);font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.4) 100%)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-void)}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+
+.ambient{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.12;animation:drift 30s ease-in-out infinite}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,#c9a96e,transparent 70%);top:-200px;right:-100px}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,#3b82f6,transparent 70%);bottom:-150px;left:-100px;animation-delay:-10s;animation-duration:40s}
+.orb-3{width:400px;height:400px;background:radial-gradient(circle,#8b5cf6,transparent 70%);top:40%;left:50%;animation-delay:-20s;animation-duration:50s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.05)}66%{transform:translate(-30px,40px) scale(0.95)}}
+.starfield{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:0;animation:twinkle 4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:0.5}}
+
+.container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(6,8,15,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-subtle)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-brand-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-dim);box-shadow:0 0 20px var(--gold-dim)}
+.nav-brand-text{font-family:'Noto Serif SC',serif;font-weight:600;font-size:16px;color:var(--text-primary);letter-spacing:2px}
+.nav-brand-text .en{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:12px;color:var(--gold);margin-left:8px}
+.nav-meta{display:flex;align-items:center;gap:20px;font-size:12px;color:var(--text-secondary)}
+.nav-date{font-family:'JetBrains Mono',monospace;font-weight:300;letter-spacing:1px}
+.back-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.back-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+
+/* HERO */
+.hero{position:relative;padding:120px 24px 60px;text-align:center;overflow:hidden}
+.hero-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,0.08) 0%,transparent 50%),linear-gradient(180deg,var(--bg-void) 0%,var(--bg-deep) 100%)}
+.hero-content{position:relative;z-index:2;max-width:800px;margin:0 auto}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:300;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:24px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:36px;height:1px;background:var(--gold-dim)}
+.hero-title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(36px,7vw,72px);line-height:1.1;letter-spacing:4px;margin-bottom:12px;background:linear-gradient(180deg,#fff 0%,#e8e6e3 40%,var(--gold-bright) 80%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;font-weight:300;color:var(--gold);letter-spacing:3px;margin-bottom:20px}
+.hero-date{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-secondary);letter-spacing:2px}
+.hero-desc{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:600px;margin:24px auto 0}
+
+/* SECTION */
+.section{padding:60px 0}
+.section-label{display:flex;align-items:center;gap:16px;margin-bottom:40px}
+.section-label-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.section-label-text{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+.section-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:8px;letter-spacing:2px}
+.section-desc{font-size:14px;color:var(--text-secondary);margin-bottom:40px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:36px;padding-bottom:16px;border-bottom:1px solid var(--border-subtle)}
+.section-icon{font-size:32px;line-height:1}
+.section-subtitle{font-size:13px;color:var(--text-muted);letter-spacing:1px;margin-top:2px}
+
+/* FOOTER */
+.footer{padding:60px 24px 40px;text-align:center;border-top:1px solid var(--border-subtle);margin-top:40px;position:relative;z-index:1}
+.footer-brand{font-family:'Noto Serif SC',serif;font-size:16px;color:var(--gold);letter-spacing:4px;margin-bottom:8px}
+.footer-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-muted);letter-spacing:2px;margin-bottom:24px}
+.footer-info{font-size:12px;color:var(--text-muted);line-height:2}
+.footer-highlight{color:var(--gold);font-weight:500}
+.footer-back{display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:10px 24px;border:1px solid var(--border-subtle);border-radius:24px;color:var(--gold);text-decoration:none;font-size:13px;letter-spacing:1px;transition:all .3s}
+.footer-back:hover{border-color:var(--gold);background:var(--gold-faint)}
+
+/* FLOATING BACK BUTTON */
+.float-back{position:fixed;bottom:32px;right:32px;z-index:9000;display:flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--bg-void);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:1px;border-radius:28px;box-shadow:0 8px 32px rgba(201,169,110,0.35),0 0 0 1px rgba(201,169,110,0.2);transition:all .3s cubic-bezier(.4,0,.2,1);opacity:0;transform:translateY(20px);animation:floatBackIn .5s ease forwards .5s}
+.float-back:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 12px 40px rgba(201,169,110,0.5),0 0 0 1px rgba(201,169,110,0.3)}
+.float-back svg{width:16px;height:16px;flex-shrink:0}
+@keyframes floatBackIn{to{opacity:1;transform:translateY(0)}}
+
+/* ===== CONTENT STYLES ===== */
+/* Channel-specific unified styles - all 12 channels */
+
+/* ch07 civilization */
+.container .civ-card{position:relative;overflow:hidden}
+.container .civ-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .civ-headline{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .civ-detail{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .civ-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-summary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .civ-number{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+
+/* ch08 prehistoric */
+.container .item{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .item:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .item-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+.container .item-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic;flex-shrink:0;min-width:32px}
+.container .item-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .item-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .item-body{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .level-a,.container .level-b{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch09 wisdom */
+.container .cat-buddhist,.container .cat-confucian,.container .cat-medical,.container .cat-philosophy,.container .cat-strategy,.container .cat-taoist,.container .cat-yijing{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .cat-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .level-desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .modern{font-size:14px;color:var(--text-primary);line-height:1.8}
+.container .original-text{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .source-line{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .tag-l1,.container .tag-l2,.container .tag-l3{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch10 wellness */
+.container .badge-cat,.container .badge-group{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .card-p0,.container .card-p1,.container .card-p2{border-left:3px solid var(--gold)}
+.container .jinji{color:var(--gold-bright);font-weight:500}
+.container .ni-quote{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .priority-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .pt-p0,.container .pt-p1,.container .pt-p2{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .quote-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .section-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+.container .shicao{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .yangsheng-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .yangsheng-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .yangsheng-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .yili{font-size:14px;color:var(--text-secondary);line-height:1.8}
+
+/* ch11 healing */
+.container .cat-body,.container .cat-environment,.container .cat-mindfulness,.container .cat-sleep{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .deep-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .suggestion{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+
+/* ch12 manifestation */
+.container .seg{padding:20px 0}
+.container .b-act,.container .b-cog,.container .b-diff,.container .b-hab,.container .b-phys{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch05 ufo & ch06 cosmic extra */
+.container .news-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .news-video-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.container .news-video-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+.container .tag-official,.container .tag-observe{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+
+/* ch02 ai extra */
+.container .a-body,.container .a-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .a-title::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .advice{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block;margin-right:6px}
+.container .hero-inner{position:relative;z-index:2}
+.container .hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 32px;margin-top:24px}
+.container .hero-tag{display:flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);font-size:12px;margin-bottom:24px}
+.container .item{padding:14px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .judgments{display:flex;flex-direction:column;gap:16px}
+.container .region{font-size:12px;color:var(--text-secondary);text-transform:none;letter-spacing:0.5px}
+.container .subtitle{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:700px;margin:0 auto 24px}
+
+/* ch03 business extra */
+.container .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .card-title-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.container .tag-climate{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
+.container .tag-conflict{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag-economy{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag-politics{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag-society{background:rgba(139,92,246,0.15);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)}
+.container .tag-tech{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+.container .tag-yy{background:rgba(201,169,110,0.15);color:var(--gold);border:1px solid rgba(201,169,110,0.3)}
+
+/* ch04 self-media extra */
+.container .alt-label,.container .chip-label{font-size:13px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container .secondary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .top3-reason{font-size:14px;color:var(--text-secondary);line-height:1.8;padding-top:16px;border-top:1px solid var(--border-subtle)}
+.container .top3-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-img-suggest{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .topic-meta{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .topic-title-alt{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-titles{font-size:14px;color:var(--text-primary);line-height:1.8}
+
+/* ===== MAIN CONTENT STYLES ===== */
+.container > *{position:relative;z-index:1}
+.container section{padding:40px 0}
+.container h2{font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700;color:var(--text-primary);margin-bottom:16px;letter-spacing:2px}
+.container h3{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);margin-bottom:12px;line-height:1.5}
+.container h4{font-size:14px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container p{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-bottom:12px}
+.container ul,.container ol{padding-left:24px;margin-bottom:16px}
+.container li{font-size:14px;color:var(--text-secondary);line-height:1.8;padding:4px 0}
+.container strong{color:var(--gold-bright);font-weight:500}
+.container a{color:var(--gold);text-decoration:none}
+.container a:hover{text-decoration:underline}
+
+/* Unified card styles */
+.container .news-card,
+.container .card,
+.container .news-item,
+.container .topic-card,
+.container .stat-card,
+.container .judgment,
+.container .summary{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  padding:28px 24px;
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+  transition:all .4s;
+}
+.container .news-card::before,
+.container .card::before,
+.container .news-item::before,
+.container .topic-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0.6;
+}
+.container .news-card:hover,
+.container .card:hover,
+.container .news-item:hover,
+.container .topic-card:hover{
+  border-color:var(--border-hover);
+  background:var(--bg-card-hover);
+  transform:translateY(-2px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+.container .topic-card::before{
+  top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(180deg,var(--gold),transparent);
+  opacity:0.5;
+}
+
+/* Unified tag/badge styles */
+.container .news-tag,
+.container .tag,
+.container .badge,
+.container .group-badge,
+.container .top3-badge,
+.container .topic-cat-badge,
+.container .meta-chip{
+  display:inline-block;
+  padding:4px 12px;
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--gold);
+  text-transform:uppercase;
+  background:var(--gold-faint);
+  font-weight:500;
+  margin:2px;
+}
+.container .news-tag{border-radius:4px;text-transform:none;font-size:12px}
+.container .tag{border-radius:4px;text-transform:none;font-size:11px;font-weight:600}
+.container .badge{border-radius:4px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:none}
+.container .group-badge{border-radius:6px;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:none}
+
+/* Priority badges */
+.container .tag.imp.p0,.container .badge-p0,.container .group-badge.p0,.container .b-p0,.container .tag-p0{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag.imp.p1,.container .badge-p1,.container .group-badge.p1,.container .b-p1,.container .tag-p1{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag.imp.p2,.container .badge-p2,.container .group-badge.p2,.container .b-p2,.container .tag-p2{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag.imp.p3,.container .badge-p3,.container .group-badge.p3,.container .b-p3,.container .tag-p3{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+
+/* Unified headline/title styles */
+.container .news-headline,
+.container .news-title,
+.container .card-title,
+.container .topic-title-main{
+  font-family:'Noto Serif SC',serif;
+  font-size:18px;
+  font-weight:600;
+  color:var(--text-primary);
+  line-height:1.5;
+  margin-bottom:12px;
+}
+
+/* Unified number/decorative element */
+.container .news-num,
+.container .topic-num,
+.container .top3-rank,
+.container .card-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;
+  font-weight:300;
+  color:var(--gold);
+  line-height:1;
+  font-style:italic;
+}
+
+/* Unified summary/body text */
+.container .news-summary,
+.container .news-body,
+.container .card-body,
+.container .summary,
+.container .topic-section-content,
+.container .seg-text{
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+.container .news-body strong,
+.container .card-body strong{color:var(--gold-bright);font-weight:500}
+
+/* Unified detail/analysis boxes */
+.container .news-detail,
+.container .news-analysis,
+.container .trend-box,
+.container .card-value,
+.container .seg-note,
+.container .topic-hook{
+  background:rgba(201,169,110,0.06);
+  border:1px solid rgba(201,169,110,0.15);
+  border-left:3px solid var(--gold-dim);
+  border-radius:8px;
+  padding:16px 20px;
+  margin:12px 0;
+}
+.container .news-analysis{
+  background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));
+  border:1px solid rgba(201,169,110,0.2);
+}
+
+/* Unified source/meta */
+.container .news-source,
+.container .news-meta,
+.container .card-source,
+.container .seg-src,
+.container .source{
+  font-size:11px;
+  color:var(--text-muted);
+  border-top:1px solid var(--border-subtle);
+  padding-top:10px;
+  margin-top:12px;
+  letter-spacing:0.5px;
+}
+
+/* Stats grid */
+.container .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:24px}
+.container .stat-card .head,
+.container .stat-card h3{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.container .stat-card .total{font-size:28px;font-weight:800;color:#fff}
+.container .stat-card .total span{font-size:13px;color:var(--text-muted);font-weight:400;margin-left:4px}
+.container .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.container .bar-row .label{width:90px;font-size:12px;color:var(--text-secondary);flex-shrink:0}
+.container .bar-row .track{flex:1;height:22px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden}
+.container .bar-row .fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px}
+.container .bar-row .val{font-size:12px;font-weight:700;color:#fff}
+
+/* Judgments */
+.container .judgment{
+  background:linear-gradient(135deg,rgba(201,169,110,0.06),rgba(59,130,246,0.03));
+  border:1px solid var(--border-subtle);
+  border-left:3px solid var(--gold);
+  border-radius:10px;
+  padding:18px 22px;
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+.container .judgment .key{color:var(--gold-bright);font-weight:700}
+
+/* Advice grid */
+.container .advice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
+.container .advice-item{background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:8px;padding:10px 12px}
+.container .advice-item .role{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+.container .advice-item .text{font-size:12px;color:var(--text-secondary);line-height:1.6}
+
+/* Summary table */
+.container .summary-table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border-subtle)}
+.container .summary-table th{background:var(--gold-faint);color:var(--gold);font-weight:600;font-size:13px;padding:14px 16px;text-align:left;border-bottom:1px solid var(--border-subtle);letter-spacing:1px}
+.container .summary-table td{padding:14px 16px;font-size:14px;color:var(--text-secondary);border-bottom:1px solid rgba(255,255,255,0.04)}
+.container .summary-table tr:last-child td{border-bottom:none}
+.container .summary-table tr:hover td{background:var(--gold-faint)}
+
+/* Topic outline */
+.container .topic-outline{list-style:none;padding:0}
+.container .topic-outline li{font-size:14px;color:var(--text-secondary);line-height:1.8;padding:6px 0 6px 24px;position:relative}
+.container .topic-outline li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:1px;background:var(--gold-dim)}
+.container .topic-outline li strong{color:var(--gold-bright);font-weight:500}
+
+/* Topic sections */
+.container .topic-section{margin-bottom:20px}
+.container .topic-section-label,
+.container .seg-label,
+.container .a-title,
+.container .ad-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .topic-section-label::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .topic-hook{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .topic-copy{font-size:14px;color:var(--text-primary);line-height:1.9;text-align:justify;white-space:pre-wrap}
+.container .topic-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.container .topic-tag{padding:4px 10px;border:1px solid var(--border-subtle);border-radius:12px;font-size:11px;color:var(--gold);background:var(--gold-faint);font-family:'JetBrains Mono',monospace;letter-spacing:0.5px}
+
+/* Top3 grid */
+.container .top3-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:60px}
+.container .top3-card{position:relative;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;transition:all .4s;overflow:hidden}
+.container .top3-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .top3-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+
+/* Legend */
+.container .level-legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:24px}
+
+/* News group */
+.container .news-group{margin-bottom:40px}
+.container .group-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+
+/* Card header/layout */
+.container .news-head,
+.container .card-head,
+.container .card-header,
+.container .topic-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.container .news-head .news-num,
+.container .card-head .card-num{flex-shrink:0;min-width:32px}
+
+/* News list */
+.container .news-list{display:flex;flex-direction:column;gap:20px}
+.container .cards{display:flex;flex-direction:column;gap:20px;margin-top:24px}
+.container .top-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+
+/* Section title variants */
+.container .section-title .bar{width:4px;height:22px;background:linear-gradient(180deg,var(--gold),var(--accent-blue));border-radius:2px;display:inline-block;margin-right:12px;vertical-align:middle}
+.container .section-title .en{font-size:13px;color:var(--text-muted);font-weight:400;letter-spacing:1px}
+
+/* Nav inside content (sticky section nav) */
+.container .nav{all:unset;display:flex;justify-content:center;flex-wrap:wrap;gap:8px 28px;padding:14px 0;border-bottom:1px solid var(--border-subtle);margin-bottom:24px;position:relative !important;top:auto !important;background:transparent !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+.container .nav a{color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:500;transition:color .3s;position:relative;padding:4px 0}
+.container .nav a:hover,.container .nav a.active{color:var(--gold)}
+.container .nav a.active::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--gold);border-radius:1px}
+
+/* Misc */
+.container .divider{width:60px;height:1px;background:var(--border-subtle);margin:24px auto}
+.container .ch-badge{display:inline-block;padding:5px 14px;border:1px solid var(--border-subtle);border-radius:20px;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;background:var(--gold-faint)}
+.container .ch-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:6px;line-height:1.3}
+.container .ch-sub{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--gold-bright);letter-spacing:2px;margin-bottom:16px}
+.container .ch-date{font-size:13px;color:var(--text-muted);letter-spacing:1px}
+
+/* Bar fills */
+.fill.p0,.fill.cat-policy{background:linear-gradient(90deg,#ef4444,#f87171)}
+.fill.p1{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.fill.p2,.fill.cat-product{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.fill.p3{background:linear-gradient(90deg,#6b7280,#9ca3af)}
+.fill.cat-model{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
+.fill.cat-industry{background:linear-gradient(90deg,#10b981,#34d399)}
+
+/* Video link button */
+.container .video-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:14px;
+  padding:8px 20px;
+  background:linear-gradient(135deg,#fb7299,#fc3a6e);
+  color:#fff !important;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600;
+  border-radius:22px;
+  letter-spacing:0.5px;
+  transition:all .3s;
+  box-shadow:0 4px 16px rgba(251,114,153,0.3);
+}
+.container .video-link:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(251,114,153,0.5);
+  text-decoration:none;
+}
+.container .video-link svg{
+  width:14px;height:14px;flex-shrink:0;fill:#fff;
+}
+
+@media(max-width:768px){
+  .hero{padding:100px 16px 40px}
+  .container .news-card,.container .card,.container .topic-card,.container .news-item{padding:20px}
+  .container .news-headline,.container .news-title,.container .card-title,.container .topic-title-main{font-size:16px}
+  .container .stats-grid{grid-template-columns:1fr}
+  .container .advice-grid{grid-template-columns:1fr}
+  .float-back{bottom:20px;right:20px;padding:10px 20px;font-size:13px}
+  .nav-brand-text{font-size:14px}
+  .nav-brand-text .en{font-size:10px}
+  .nav-meta{gap:12px}
+}
+</style>
+</head>
+<body>
+<div class="ambient"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="starfield" id="starfield"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="光体频道.html" class="nav-brand">
+      <img src="logo.jpg" alt="Luminary Channel" class="nav-brand-logo"/>
+      <div class="nav-brand-text">光体频道<span class="en">Luminary Channel</span></div>
+    </a>
+    <div class="nav-meta">
+      <span class="nav-date">2026.07.23</span>
+      <a href="光体频道.html" class="back-link">← 首页</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">CHANNEL 05 · UFO HOTSPOTS</div>
+    <h1 class="hero-title">每日UFO热点</h1>
+    <div class="hero-sub">Daily UFO Hotspots</div>
+    <div class="hero-date">2026 / 07 / 23</div>
+    <p class="hero-desc">每日筛选全球官方披露与科研观测的UFO/UAP资讯，区分真实观测记录与网络猎奇谣言，每条含深度解读与B站视频链接。</p>
+  </div>
+</header>
+
+<div class="container">
+<section>
+<div class="section-header">
+<div>
+<h2 class="section-title"><span class="bar"></span>全球UFO/UAP每日热点整编 <span class="en">Daily UAP Hotspots · 12 Items</span></h2>
+<p class="section-desc">采集信源：美国国防部AARO、NASA、CIA、FBI、能源部解密档案；《科学》杂志；NASA JPL；央广网；红星新闻；IT之家；快科技等正规媒体。严格过滤自媒体杜撰猎奇故事、伪造视频图片、无来源小道消息、营销类外星课程。</p>
+</div>
+</div>
+
+<div class="news-list">
+
+<!-- NEWS 1 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">01</div>
+<div class="news-headline">五角大楼发布第四批UFO解密档案：40份文件横跨77年</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p0">P0</span>
+<span class="tag tag-official">已证实</span>
+<span class="tag">官方权威披露</span>
+<span class="tag">美国国防部</span>
+</div>
+<div class="news-body">
+<p>2026年7月10日，美国国防部公布第四批不明飞行物（UFO）及不明异常现象（UAP）解密文件，共计40份资料，包含14份书面文档、19段视频、4段音频和3张图片。来源横跨五大权威机构：五角大楼、NASA、CIA、FBI和能源部。时间跨度从1948年延伸至2025年，覆盖近77年目击记录。五角大楼发言人肖恩·帕内尔表示，此批并非最后一批，下一批档案正在整理中。</p>
+<p>本批档案系特朗普签署行政令后第四次集中公开：第一批5月8日（162份）、第二批5月22日（50余份）、第三批6月12日（72份），累计已超320份机密材料重见天日。多段视频由军用摄像头拍摄红外图像，地点涉及西太平洋、大西洋及中东地区。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>特朗普行政令驱动的分批解密策略，既满足公众知情权诉求，又为政府建立"透明叙事"框架。每次释放控制在40-160份之间，避免一次性释放引发信息过载与社会恐慌，同时持续占据舆论议程。</p>
+<p><strong>技术盲区：</strong>解密文件中大量视频仍为红外模糊影像，表明美军现有传感器对UAP目标的捕获能力存在系统性短板——目标速度、机动性与现有光电/红外系统帧率之间存在不匹配。</p>
+<p><strong>传播策略：</strong>分批释放形成"持续悬念"效应，每批间隔约3-4周，保持话题热度不断档；选择周五发布，利用周末舆论发酵窗口最大化传播效果。</p>
+</div>
+<div class="news-source">来源：IT之家援引The Hill；红星新闻；快科技 | 2026-07-10/11/13</div>
+<a class="video-link" href="https://www.bilibili.com/video/BV1sPKz6vEKE" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：星之子降临！五角大楼第四期档案揭秘
+</a>
+</div>
+
+<!-- NEWS 2 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">02</div>
+<div class="news-headline">NASA局长艾萨克曼确认：航天局掌握无法解释的不明影像</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p0">P0</span>
+<span class="tag tag-official">已证实</span>
+<span class="tag">官方权威披露</span>
+<span class="tag">NASA</span>
+</div>
+<div class="news-body">
+<p>2026年7月10日，NASA局长贾里德·艾萨克曼（Jared Isaacman）公开确认，航天局拍摄到了至今无法解释的物体影像，这些目标可被归类为UFO。艾萨克曼原话称："We don't know what it is"（我们不知道那是什么）。这是NASA最高层官员首次明确承认机构掌握不明影像数据。</p>
+<p>艾萨克曼同时宣布NASA正招募志愿者参与为期一年的模拟月球和火星深空任务，UAP议题与深空探测计划并线推进，暗示NASA将不明现象调查纳入正式科研框架。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>NASA局长亲自确认不明影像存在，标志着UAP议题从国防部独占走向多部门协同。航天局与军方在UAP数据共享上的壁垒正在松动，背后是国会连续施压的结果。</p>
+<p><strong>技术盲区：</strong>"我们不知道那是什么"——这句表态暴露了当前天基观测系统在目标识别链上的断裂：能拍到影像，但缺乏多源交叉验证（雷达、光学、红外同步数据）来完成分类判定。</p>
+<p><strong>传播策略：</strong>NASA选择在五角大楼发布第四批档案同日宣布，形成"军方解密+航天局确认"的双重背书，大幅提升信息可信度与舆论冲击力。</p>
+</div>
+<div class="news-source">来源：Fox6Now | 2026-07-10</div>
+<a class="video-link" href="https://www.bilibili.com/video/BV1eWKj6pEaK/" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：为什么Blink-182的Tom DeLonge出现在五角大楼
+</a>
+</div>
+
+<!-- NEWS 3 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">03</div>
+<div class="news-headline">前AATIP主任埃利桑多爆料：政府掌握月球"方尖碑"结构照片</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p1">P1</span>
+<span class="tag" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)">待考证</span>
+<span class="tag">官方人士披露</span>
+<span class="tag">前五角大楼AATIP</span>
+</div>
+<div class="news-body">
+<p>2026年7月7日，前五角大楼高级航空航天威胁识别计划（AATIP）主任路易斯·埃利桑多（Lue Elizondo）在播客节目《今夜揭秘》中称，美国政府掌握尚未公开的照片，显示月球表面存在类似巨大"方尖碑"（monolith）的结构物，具有"十分规整的直角切面"，影像"非常耐人寻味"，可能不久后公开。</p>
+<p>埃利桑多2017年因抗议政府对UAP信息公开不透明而辞职，此后成为推动UAP档案解密的核心人物。他同时透露，今年6月有国会工作人员警告他有人计划攻击他和另一位举报人大卫·格鲁什。</p>
+<p>NASA对此回应称：已完成对整个月球表面的测绘和成像工作，在现有数据中未发现任何所谓"方尖碑"结构。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>埃利桑多与NASA的"各执一词"反映了行政体系内部的分歧：前情报官员主张存在被压制的证据，而现任机构以"现有数据未发现"回应。这种张力恰恰是国会推动立法建立独立UAP调查机构的动力来源。</p>
+<p><strong>技术盲区：</strong>NASA声称已完成月球全表面测绘，但"测绘分辨率"与"能否识别非天然结构"是两个不同维度的问题。月球表面面积达3800万平方公里，高分辨率成像覆盖仍存在盲区，特别是永久阴影区。</p>
+<p><strong>传播策略：</strong>埃利桑多选择《2001太空漫游》中的"monolith"概念引发文化共鸣，利用科幻框架降低公众理解门槛；"可能很快公开"的悬念表述维持持续关注度。</p>
+</div>
+<div class="news-source">来源：红星新闻；中国军网；凤凰网 | 2026-07-12/13</div>
+<a class="video-link" href="https://www.bilibili.com/video/BV1VvNt6DE2U/" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：罗斯·库尔萨特公布令人震惊的UFO照片
+</a>
+</div>
+
+<!-- NEWS 4 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">04</div>
+<div class="news-headline">副总统万斯在《乔·罗根秀》正面回应"政府藏匿外星人遗骸"传闻</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p1">P1</span>
+<span class="tag tag-official">已证实</span>
+<span class="tag">正规媒体纪实报道</span>
+<span class="tag">美国副总统</span>
+</div>
+<div class="news-body">
+<p>2026年7月15日，美国副总统JD·万斯做客全球顶流播客《乔·罗根秀》，就"政府秘密藏匿外星飞船与生物遗骸"传闻正面表态。万斯称"我还没看到任何证据表明我们发现了外星人遗骸"，并补充说"如果找到遗骸，我会拍照"。这是美国现任副总统——掌握最高级别涉密权限的人——首次在全球顶流播客上直接回应UFO议题。</p>
+<p>万斯还援引埃里克·温斯坦理论，将外星人比作天使或恶魔等超自然实体，从神学框架解读UFO现象。罗根当场反驳称信息早已泄露，前情报官员已公开作证。万斯同期在节目中还抛出"爱泼斯坦是CIA与摩萨德双重情报人员"的说法，两个话题形成热度叠加。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>万斯作为现任副总统打破政坛禁忌，等于变相承认UAP话题在行政分支内部是真实推进的严肃议题。此前UFO相关公开表态多来自卸任官员或普通议员，此次标志议题进入最高决策层讨论范围。</p>
+<p><strong>技术盲区：</strong>万斯"我还没看到证据"的表述，可能意味着两种情况：要么确实不存在此类证据，要么存在但不在副总统涉密权限范围内——后者暗示可能存在绕过正常监督的"特殊访问项目"（SAP）。</p>
+<p><strong>传播策略：</strong>万斯选择《乔·罗根秀》而非传统新闻媒体，精准触达年轻男性受众群体；宣传回忆录《圣餐》的同时绑定UAP话题，实现个人品牌与议题热度双重收割。</p>
+</div>
+<div class="news-source">来源：凤凰网；搜狐；The Hill | 2026-07-15/16/17</div>
+<a class="video-link" href="https://www.bilibili.com/video/BV1g3K76nEbo/" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：Fox News《五人行》讨论万斯动态
+</a>
+</div>
+
+<!-- NEWS 5 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">05</div>
+<div class="news-headline">人类首次确认宜居带岩石系外行星LHS 1140 b拥有大气层</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p0">P0</span>
+<span class="tag tag-official">已证实</span>
+<span class="tag">科研观测数据</span>
+<span class="tag">《科学》杂志</span>
+</div>
+<div class="news-body">
+<p>2026年7月16日，《科学》杂志发表哈佛-史密森天体物理学中心领衔的国际团队研究：距地球约48光年的岩石系外行星LHS 1140 b被确认拥有富含氦气的大气层。这是人类首次在太阳系外恒星宜居带内的岩石行星上通过观测确证大气层存在，该行星同时具备"宜居带、岩石质、大气层"三大生命所需特征。</p>
+<p>研究团队利用智利麦哲伦望远镜WINERED高分辨率红外光谱仪，在凌星时探测到LHS 1140 b大气中正在逸散的氦气信号。观测当晚，同系统另一颗行星LHS 1140 c同时凌星，但未检出大气，形成天然对照。LHS 1140 b质量约为地球5.6倍，半径1.7倍，公转周期约25天，被潮汐锁定。大气层推测已稳定存续超过30亿年。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>这一发现将"系外生命搜索"从理论推演推向可观测阶段，为NASA和ESA争取深空探测预算提供了硬核科学依据。红矮星占银河系恒星约70%，若宜居带岩石行星能保留大气，意味着潜在宜居世界可能远比此前预估普遍。</p>
+<p><strong>技术盲区：</strong>当前仅确认了高层大气的氦气逸散，内层大气成分（是否含水蒸气、二氧化碳）仍未知。凌星光谱法对低层大气的探测灵敏度仍有数量级差距，需要下一代极大型望远镜或专门空间任务才能突破。</p>
+<p><strong>传播策略：</strong>研究团队在《科学》正式发表前通过BBC、《卫报》等主流媒体预热点，将专业天文学发现转化为公众可感知的"第二地球"叙事，有效扩大了科学传播覆盖面。</p>
+</div>
+<div class="news-source">来源：《Science》Vol.383；BBC；科学网；网易科技 | 2026-07-16/17</div>
+<a class="video-link" href="https://www.bilibili.com/read/cv51584505" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站阅读：人类历史重大突破！48光年外探测到超级地球
+</a>
+</div>
+
+<!-- NEWS 6 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">06</div>
+<div class="news-headline">28年资深飞行员目击矩形高速物体：28年服役生涯前所未见</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p1">P1</span>
+<span class="tag tag-observe">观测记录</span>
+<span class="tag">军方飞行员报告</span>
+<span class="tag">AARO档案</span>
+</div>
+<div class="news-body">
+<p>来自五角大楼第四批解密档案：2019年美国东海岸，一名拥有28年服役经验的资深军事飞行员与其他四名在场人员共同目击一个具有"独特飞行特性"的物体。飞行员报告称："我注意到一个具有独特飞行特性的物体，这是我服役28年中从未见过的。它位于我们下方，朝相反方向沿直线高速移动。我跟踪了它大约10到15秒，随后打开记录器拍摄视频。当我尝试放大画面时，该物体的速度已超出视野范围，无法再次捕捉。"</p>
+<p>事后分析显示其外形近似矩形，无可见机翼、机身或尾焰喷口。飞行员强调："其他经验相当或更丰富的飞行员也不确定这是什么。"</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>该报告来自AARO（全域异常解决办公室），是军方正式归档的目击记录而非民间爆料。28年资深飞行员的判断权重远高于普通目击者，这类高资质证人报告正是国会要求AARO提交年度报告的核心驱动力。</p>
+<p><strong>技术盲区：</strong>"朝相反方向沿直线高速移动"——逆风高速直线飞行且无可见推进装置，违背已知空气动力学原理。物体在放大过程中脱离视场，暗示其速度可能远超现有军用飞行器极限，但具体速度参数因视频过短无法精确测算。</p>
+<p><strong>传播策略：</strong>军方在解密档案中保留了飞行员的原始证词原文，未做定性结论，这种"只呈现数据不下判断"的处理方式，既满足了信息公开要求，又避免引发不必要的猜测性结论。</p>
+</div>
+<div class="news-source">来源：美国国防部第四批UFO/UAP解密档案；红星新闻；IT之家 | 2026-07-10</div>
+<a class="video-link" href="https://www.bilibili.com/video/BV18tNk6QE1f" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：全世界都因新公开的UFO视频而震惊
+</a>
+</div>
+
+<!-- NEWS 7 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">07</div>
+<div class="news-headline">"史上最清晰"UFO视频：2020年大西洋红外影像记录32秒</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p1">P1</span>
+<span class="tag tag-observe">观测记录</span>
+<span class="tag">美军红外传感器</span>
+<span class="tag">AARO档案</span>
+</div>
+<div class="news-body">
+<p>来自五角大楼第四批解密档案：美国北方司令部向AARO提交的一份UAP报告内含一段2020年美军红外传感器设备拍摄的32秒视频，被部分美媒认为是相关文件中"迄今为止画面最清晰的"。一名海军武器系统操作员在报告中描述，在大西洋上空发现该物体，"主体色调偏深、呈褐红色，高度约12至15英尺（3.6至4.6米）"，"随风移动"，"未自主机动、未改变行进方向"，外观近似"一只体型偏大、形态略有扭曲的气球"。</p>
+<p>军方结论倾向于将其归类为气球类物体，但报告文字内容被大量涂黑（删减处理），完整信息无法获知。部分观察者认为该物体形态与普通气球差异显著。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>"最清晰"视频的释出是精心选择的结果——选择一个可以被合理归因为气球的目标公开，既满足解密要求，又不触及真正敏感的高性能目标。大量涂黑的报告文本暗示原始数据中可能包含不便公开的技术参数。</p>
+<p><strong>技术盲区：</strong>红外传感器虽能捕捉热信号，但单波段红外影像无法确定目标的距离、速度与材质。若缺乏雷达同步数据，"随风移动"的结论仅基于影像推测，无法排除自主悬停后被风吹移的可能性。</p>
+<p><strong>传播策略：</strong>将最清晰影像的官方解释定为"气球"，与民间"不像气球"的质疑形成对照，这种"官方解释vs公众质疑"的张力反而维持了话题的二次传播热度。</p>
+</div>
+<div class="news-source">来源：美国国防部第四批UFO/UAP解密档案；搜狐 | 2026-07-10</div>
+<a class="video-link" href="https://www.bilibili.com/video/BV1FWNz6ZEMa/" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：UFO新闻汇总！又有一批UFO视频即将发布
+</a>
+</div>
+
+<!-- NEWS 8 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">08</div>
+<div class="news-headline">1949年洛斯阿拉莫斯"绿色火球"会议记录解密：曼哈顿计划科学家也无法解释</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p2">P2</span>
+<span class="tag tag-observe">观测记录</span>
+<span class="tag">历史档案</span>
+<span class="tag">洛斯阿拉莫斯国家实验室</span>
+</div>
+<div class="news-body">
+<p>来自五角大楼第四批解密档案：历史档案中收录了1949年新墨西哥州洛斯阿拉莫斯一次会议的记录。与会者包括参与曼哈顿计划的顶尖科学家，他们试图解释核实验室上空反复出现的"绿色火球"现象。火球呈现匀速平飞、悄无声息的特征，完全不符合陨石轨迹。一位知名天文学家指出："此前从未观测到过类似情况。"</p>
+<p>与会科学家未能达成共识，一种观点认为这些火球可能是流星进入大气层所致，但与会天文学家以"此前从未观测到过类似情况"反驳。这一事件发生在原子弹核心研发基地上空，时间与核武器发展高度关联。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>1949年的会议记录在77年后才被解密，说明美国政府对"核设施上空异常现象"的保密级别极高。核武器研发基地与UAP目击事件的时空关联性，是AARO年度报告中反复出现的核心议题。</p>
+<p><strong>技术盲区：</strong>1949年的观测设备远不如今天，但"绿色火球"的匀速平飞特征排除了流星解释——流星不会水平飞行。"悄无声息"也排除了已知推进系统。这一案例至今仍是未解之谜。</p>
+<p><strong>传播策略：</strong>将历史案例纳入解密批次，既能充实档案总量，又能利用时间跨度的"历史厚重感"增强叙事说服力。曼哈顿计划科学家的权威背书为UAP研究提供了学术合法性。</p>
+</div>
+<div class="news-source">来源：美国国防部第四批UFO/UAP解密档案；红星新闻 | 2026-07-10</div>
+<a class="video-link" href="https://www.bilibili.com/video/BV1EhKP6FEkZ/" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：分析阿维·勒布教授作为"现代UFO守护者"的争议
+</a>
+</div>
+
+<!-- NEWS 9 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">09</div>
+<div class="news-headline">2015年潘特克斯核武器工厂菱形UFO入侵：安保雷达扫到无推进装置物体</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p1">P1</span>
+<span class="tag tag-observe">观测记录</span>
+<span class="tag">核设施安全事件</span>
+<span class="tag">能源部档案</span>
+</div>
+<div class="news-body">
+<p>来自五角大楼解密档案：2015年9月1日，美国得州潘特克斯（Pantex）核武器工厂——美国唯一可以组装与拆卸核武的最高机密设施——安保雷达突然扫到一个高约4英尺（约1.2米）、底部宽约2英尺的菱形物体。两名警卫举着望远镜追踪了好几英里，全程听不到任何发动机声响，也看不到任何推进装置。该物体颜色描述存在黑色、银色、红色和蓝色等差异，飞行速度仅10-15英里/小时。悬停约两分钟后往北飞走。</p>
+<p>该事件被编入能源部UAP档案（编号DOE-UAP-D005），是解密文件中少数涉及核设施直接入侵的案例。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>核设施空域入侵事件触及国家安全最敏感红线。潘特克斯作为核武器组装/拆卸的唯一设施，其防空体系应当是最严密的——一个1.2米高的物体能突破雷达并被安保人员肉眼追踪数英里而无法拦截，暴露了核设施低空慢速目标的防御漏洞。</p>
+<p><strong>技术盲区：</strong>10-15英里/小时的低速、无声悬停、无可见推进装置——这些特征排除了所有已知无人机和航空器。颜色变化可能暗示物体表面存在某种光学自适应或温度变化效应，但当前数据不足以支撑任何技术假说。</p>
+<p><strong>传播策略：</strong>将核设施入侵事件纳入解密而非永久保密，向潜在对手传递信息：美国正在将UAP纳入核安全风险评估框架，同时暗示这类事件已得到系统性记录而非被忽视。</p>
+</div>
+<div class="news-source">来源：美国国防部解密档案DOE-UAP-D005；搜狐 | 2026</div>
+<a class="video-link" href="https://www.bilibili.com/video/BV1sPKz6vEKE" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：星之子降临！五角大楼第四期档案揭秘
+</a>
+</div>
+
+<!-- NEWS 10 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">10</div>
+<div class="news-headline">JWST在冥王星和土卫六发现未知吸收物质：科学家称"不知道那是什么"</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p2">P2</span>
+<span class="tag tag-observe">观测记录</span>
+<span class="tag">科研观测数据</span>
+<span class="tag">詹姆斯·韦伯太空望远镜</span>
+</div>
+<div class="news-body">
+<p>2026年发表的研究显示，巴黎天文台行星科学家布鲁诺·贝扎尔团队利用詹姆斯·韦伯太空望远镜（JWST）的近红外光谱仪（NIRSpec）和中红外探测仪（MIRI）对冥王星和土卫六进行观测，发现这两个截然不同的天体表面存在同一种未知物质，正在吸收波长约5.11微米的红外光。</p>
+<p>该物质仅存在于两个天体的表面而非大气层。更反常的是，研究团队无法通过比对已知光谱数据库找到任何与之对应的化学物质——这是在太阳系和系外行星上都未曾发现过的东西。贝扎尔对Space.com直言："我们不能说它是什么。"冥王星和土卫六是物理环境天差地别的两个世界，它们的化学"共鸣"令科学家百思不得其解。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>JWST的持续发现为NASA争取后续深空望远镜预算提供了科学弹药。未知物质的发现可能推动新的行星探测任务规划——特别是针对冥王星和土卫六的专用轨道器任务。</p>
+<p><strong>技术盲区：</strong>5.11微米吸收特征无法匹配已知化合物，可能指向一种全新的有机分子或矿物相。两个差异极大的天体出现相同信号，暗示可能存在某种未知的跨天体化学过程，或光谱分析模型本身存在系统性盲区。</p>
+<p><strong>传播策略：</strong>科学家坦诚"不知道那是什么"的表述反而增强了公众信任，与UAP领域的模糊话术形成鲜明对比——承认无知比伪装确定性更具科学传播价值。</p>
+</div>
+<div class="news-source">来源：NASA/JWST；IFLScience；Space.com；搜狐 | 2026-07</div>
+<a class="video-link" href="https://www.bilibili.com/opus/1226373391101984768" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：宜居带岩石系外行星探测到大气层存在
+</a>
+</div>
+
+<!-- NEWS 11 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">11</div>
+<div class="news-headline">NASA研究揭示：被观测近30年的近地小行星实为彗星</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p2">P2</span>
+<span class="tag tag-official">已证实</span>
+<span class="tag">科研观测数据</span>
+<span class="tag">NASA JPL</span>
+<span class="tag">《自然·天文学》</span>
+</div>
+<div class="news-body">
+<p>2026年7月16日，NASA喷气推进实验室（JPL）主导的研究发表在《自然·天文学》上：编号1998 SH2的近地天体自1998年被发现以来一直被当作小行星记录在案，最新研究证明它实际上是一颗仍在"活动"的彗星。2025年8月28日该天体近距离飞掠地球时，NASA深空网络（DSN）行星雷达系统发现它未出现在预测位置上，表明存在未知的非引力扰动。</p>
+<p>研究团队联系了夏威夷CFHT望远镜、智利ESO的丹麦望远镜和甚大望远镜（VLT）三大天文台联合观测，最终捕捉到该天体极微弱的彗尾和彗发信号。由于喷出气体和尘埃量极小，此前近30年一直被误认为小行星。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>近地天体分类直接影响行星防御评估——彗星与小行星的轨道预测模型完全不同。一个被误分类30年的天体暴露了当前近地天体监测体系对"低活动彗星"的识别盲区，可能推动国会增加行星防御预算。</p>
+<p><strong>技术盲区：</strong>DSN雷达发现目标偏离预测位置是关键突破口，说明行星雷达系统在近地天体精确定轨方面具有不可替代的价值。但"微弱彗尾"需三大顶级望远镜联合才能捕捉，暴露了常规巡天对低活动彗星的系统性漏检。</p>
+<p><strong>传播策略：</strong>NASA以"侦探破案"式叙事发布这一发现，将枯燥的轨道力学研究转化为公众可理解的科学悬念故事，有效提升了行星防御议题的公众认知度。</p>
+</div>
+<div class="news-source">来源：NASA JPL；《自然·天文学》；百家号 | 2026-07-16</div>
+<a class="video-link" href="https://www.bilibili.com/video/BV1FWNz6ZEMa/" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：UFO新闻汇总！最新UAP动态
+</a>
+</div>
+
+<!-- NEWS 12 -->
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">12</div>
+<div class="news-headline">新疆阿勒泰"UFO"经天文台辟谣：实为俄罗斯联盟火箭发射踪迹</div>
+</div>
+<div class="news-tags">
+<span class="badge badge-p3">P3</span>
+<span class="tag tag-official">已证实</span>
+<span class="tag">正规媒体纪实报道</span>
+<span class="tag">央广网</span>
+</div>
+<div class="news-body">
+<p>2026年7月14日22时48分，新疆阿勒泰市区、喀纳斯、禾木、可可托海等地网友拍到高空出现带扇形光束、鱼尾状拖尾的发光物体，在社交平台引发UFO猜测与讨论。7月16日，央广网报道新疆天文台辟谣：该发光物体实为俄罗斯在拜科努尔发射场发射联盟-2.1a运载火箭，箭体穿越阿勒泰上空大气层、燃料排空形成的火箭云现象，并非外星飞行器。</p>
+<p>天文台提醒公众理性看待此类现象，勿盲目转发未经核实的信息。这是近期中国境内最大规模的"UFO误认事件"之一。</p>
+</div>
+<div class="news-analysis">
+<h4>深度解读</h4>
+<p><strong>政治博弈：</strong>火箭发射轨迹跨国可见是常态化现象，但阿勒泰地区靠近中俄哈边境的地理位置使此类事件容易被赋予"神秘色彩"。天文台及时辟谣体现了中国在空间态势感知领域的信息公开机制正在完善。</p>
+<p><strong>技术盲区：</strong>火箭云（燃料排空在高空形成的可见光学效应）与UAP目击事件的视觉特征存在重叠区域：高空发光、非典型轨迹、缓慢漂移。这表明大量"UFO目击"实际上是人类航天活动的副产物，凸显了目击报告需要与发射日程交叉比对的必要性。</p>
+<p><strong>传播策略：</strong>央广网选择在事件发酵两天后发布辟谣，而非即时回应，既给了谣言自然发酵的时间窗口（便于评估传播规模），又避免了"过度反应"反而放大谣言的效果。天文台以技术数据而非行政指令辟谣，公信力更强。</p>
+</div>
+<div class="news-source">来源：央广网；快科技；腾讯新闻 | 2026-07-16/17</div>
+<a class="video-link" href="https://www.bilibili.com/video/BV1EhKP6FEkZ/" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+B站观看：阿维·勒布教授UAP研究争议分析
+</a>
+</div>
+
+</div>
+
+<div class="level-legend">
+<span class="badge badge-p0">P0 已证实/官方权威</span>
+<span class="badge badge-p1">P1 观测记录/官方人士</span>
+<span class="badge badge-p2">P2 科研数据/待考证</span>
+<span class="badge badge-p3">P3 辟谣/已解释</span>
+</div>
+
+</section>
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">光体频道</div>
+  <div class="footer-en">Luminary Channel</div>
+  <div class="footer-info">
+    <span>内容来源：公开资讯采集与AI辅助分析</span><br/>
+    <span class="footer-highlight">光体频道 · 每日UFO热点</span>
+  </div>
+  <a href="光体频道.html" class="footer-back">← 返回首页</a>
+</footer>
+
+<a href="光体频道.html" class="float-back">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  返回首页
+</a>
+
+<script>
+(function(){
+  var sf=document.getElementById('starfield');
+  if(!sf)return;
+  for(var i=0;i<60;i++){
+    var s=document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=Math.random()*4+'s';
+    s.style.animationDuration=(3+Math.random()*3)+'s';
+    sf.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
