@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光体频道：每日商业趋势</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@200;300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+:root{
+  --bg-void:#06080f;--bg-deep:#0a0e1a;--bg-card:#0f1525;--bg-card-hover:#141c30;
+  --gold:#c9a96e;--gold-bright:#e4c98e;--gold-dim:rgba(201,169,110,0.4);--gold-faint:rgba(201,169,110,0.08);
+  --text-primary:#e8e6e3;--text-secondary:#9ca3af;--text-muted:#6b7280;
+  --border-subtle:rgba(201,169,110,0.1);--border-hover:rgba(201,169,110,0.3);
+  --accent-blue:#3b82f6;--accent-purple:#8b5cf6;--accent-green:#10b981;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg-void);color:var(--text-primary);font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.4) 100%)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-void)}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+
+.ambient{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.12;animation:drift 30s ease-in-out infinite}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,#c9a96e,transparent 70%);top:-200px;right:-100px}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,#3b82f6,transparent 70%);bottom:-150px;left:-100px;animation-delay:-10s;animation-duration:40s}
+.orb-3{width:400px;height:400px;background:radial-gradient(circle,#8b5cf6,transparent 70%);top:40%;left:50%;animation-delay:-20s;animation-duration:50s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.05)}66%{transform:translate(-30px,40px) scale(0.95)}}
+.starfield{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:0;animation:twinkle 4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:0.5}}
+
+.container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(6,8,15,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-subtle)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-brand-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-dim);box-shadow:0 0 20px var(--gold-dim)}
+.nav-brand-text{font-family:'Noto Serif SC',serif;font-weight:600;font-size:16px;color:var(--text-primary);letter-spacing:2px}
+.nav-brand-text .en{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:12px;color:var(--gold);margin-left:8px}
+.nav-meta{display:flex;align-items:center;gap:20px;font-size:12px;color:var(--text-secondary)}
+.nav-date{font-family:'JetBrains Mono',monospace;font-weight:300;letter-spacing:1px}
+.back-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.back-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+
+/* HERO */
+.hero{position:relative;padding:120px 24px 60px;text-align:center;overflow:hidden}
+.hero-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,0.08) 0%,transparent 50%),linear-gradient(180deg,var(--bg-void) 0%,var(--bg-deep) 100%)}
+.hero-content{position:relative;z-index:2;max-width:800px;margin:0 auto}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:300;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:24px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:36px;height:1px;background:var(--gold-dim)}
+.hero-title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(36px,7vw,72px);line-height:1.1;letter-spacing:4px;margin-bottom:12px;background:linear-gradient(180deg,#fff 0%,#e8e6e3 40%,var(--gold-bright) 80%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;font-weight:300;color:var(--gold);letter-spacing:3px;margin-bottom:20px}
+.hero-date{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-secondary);letter-spacing:2px}
+.hero-desc{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:600px;margin:24px auto 0}
+
+/* SECTION */
+.section{padding:60px 0}
+.section-label{display:flex;align-items:center;gap:16px;margin-bottom:40px}
+.section-label-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.section-label-text{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+.section-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:8px;letter-spacing:2px}
+.section-desc{font-size:14px;color:var(--text-secondary);margin-bottom:40px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:36px;padding-bottom:16px;border-bottom:1px solid var(--border-subtle)}
+.section-icon{font-size:32px;line-height:1}
+.section-subtitle{font-size:13px;color:var(--text-muted);letter-spacing:1px;margin-top:2px}
+
+/* FOOTER */
+.footer{padding:60px 24px 40px;text-align:center;border-top:1px solid var(--border-subtle);margin-top:40px;position:relative;z-index:1}
+.footer-brand{font-family:'Noto Serif SC',serif;font-size:16px;color:var(--gold);letter-spacing:4px;margin-bottom:8px}
+.footer-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-muted);letter-spacing:2px;margin-bottom:24px}
+.footer-info{font-size:12px;color:var(--text-muted);line-height:2}
+.footer-highlight{color:var(--gold);font-weight:500}
+.footer-back{display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:10px 24px;border:1px solid var(--border-subtle);border-radius:24px;color:var(--gold);text-decoration:none;font-size:13px;letter-spacing:1px;transition:all .3s}
+.footer-back:hover{border-color:var(--gold);background:var(--gold-faint)}
+
+/* FLOATING BACK BUTTON */
+.float-back{position:fixed;bottom:32px;right:32px;z-index:9000;display:flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--bg-void);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:1px;border-radius:28px;box-shadow:0 8px 32px rgba(201,169,110,0.35),0 0 0 1px rgba(201,169,110,0.2);transition:all .3s cubic-bezier(.4,0,.2,1);opacity:0;transform:translateY(20px);animation:floatBackIn .5s ease forwards .5s}
+.float-back:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 12px 40px rgba(201,169,110,0.5),0 0 0 1px rgba(201,169,110,0.3)}
+.float-back svg{width:16px;height:16px;flex-shrink:0}
+@keyframes floatBackIn{to{opacity:1;transform:translateY(0)}}
+
+/* ===== CONTENT STYLES ===== */
+/* Channel-specific unified styles - all 12 channels */
+
+/* ch07 civilization */
+.container .civ-card{position:relative;overflow:hidden}
+.container .civ-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .civ-headline{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .civ-detail{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .civ-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-summary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .civ-number{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+
+/* ch08 prehistoric */
+.container .item{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .item:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .item-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+.container .item-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic;flex-shrink:0;min-width:32px}
+.container .item-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .item-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .item-body{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .level-a,.container .level-b{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch09 wisdom */
+.container .cat-buddhist,.container .cat-confucian,.container .cat-medical,.container .cat-philosophy,.container .cat-strategy,.container .cat-taoist,.container .cat-yijing{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .cat-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .level-desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .modern{font-size:14px;color:var(--text-primary);line-height:1.8}
+.container .original-text{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .source-line{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .tag-l1,.container .tag-l2,.container .tag-l3{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch10 wellness */
+.container .badge-cat,.container .badge-group{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .card-p0,.container .card-p1,.container .card-p2{border-left:3px solid var(--gold)}
+.container .jinji{color:var(--gold-bright);font-weight:500}
+.container .ni-quote{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .priority-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .pt-p0,.container .pt-p1,.container .pt-p2{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .quote-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .section-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+.container .shicao{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .yangsheng-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .yangsheng-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .yangsheng-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .yili{font-size:14px;color:var(--text-secondary);line-height:1.8}
+
+/* ch11 healing */
+.container .cat-body,.container .cat-environment,.container .cat-mindfulness,.container .cat-sleep{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .deep-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .suggestion{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+
+/* ch12 manifestation */
+.container .seg{padding:20px 0}
+.container .b-act,.container .b-cog,.container .b-diff,.container .b-hab,.container .b-phys{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch05 ufo & ch06 cosmic extra */
+.container .news-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .news-video-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.container .news-video-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+.container .tag-official,.container .tag-observe{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+
+/* ch02 ai extra */
+.container .a-body,.container .a-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .a-title::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .advice{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block;margin-right:6px}
+.container .hero-inner{position:relative;z-index:2}
+.container .hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 32px;margin-top:24px}
+.container .hero-tag{display:flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);font-size:12px;margin-bottom:24px}
+.container .item{padding:14px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .judgments{display:flex;flex-direction:column;gap:16px}
+.container .region{font-size:12px;color:var(--text-secondary);text-transform:none;letter-spacing:0.5px}
+.container .subtitle{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:700px;margin:0 auto 24px}
+
+/* ch03 business extra */
+.container .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .card-title-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.container .tag-climate{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
+.container .tag-conflict{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag-economy{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag-politics{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag-society{background:rgba(139,92,246,0.15);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)}
+.container .tag-tech{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+.container .tag-yy{background:rgba(201,169,110,0.15);color:var(--gold);border:1px solid rgba(201,169,110,0.3)}
+
+/* ch04 self-media extra */
+.container .alt-label,.container .chip-label{font-size:13px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container .secondary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .top3-reason{font-size:14px;color:var(--text-secondary);line-height:1.8;padding-top:16px;border-top:1px solid var(--border-subtle)}
+.container .top3-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-img-suggest{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .topic-meta{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .topic-title-alt{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-titles{font-size:14px;color:var(--text-primary);line-height:1.8}
+
+/* ===== MAIN CONTENT STYLES ===== */
+.container > *{position:relative;z-index:1}
+.container section{padding:40px 0}
+.container h2{font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700;color:var(--text-primary);margin-bottom:16px;letter-spacing:2px}
+.container h3{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);margin-bottom:12px;line-height:1.5}
+.container h4{font-size:14px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container p{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-bottom:12px}
+.container ul,.container ol{padding-left:24px;margin-bottom:16px}
+.container li{font-size:14px;color:var(--text-secondary);line-height:1.8;padding:4px 0}
+.container strong{color:var(--gold-bright);font-weight:500}
+.container a{color:var(--gold);text-decoration:none}
+.container a:hover{text-decoration:underline}
+
+/* Unified card styles */
+.container .news-card,
+.container .card,
+.container .news-item,
+.container .topic-card,
+.container .stat-card,
+.container .judgment,
+.container .summary{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  padding:28px 24px;
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+  transition:all .4s;
+}
+.container .news-card::before,
+.container .card::before,
+.container .news-item::before,
+.container .topic-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0.6;
+}
+.container .news-card:hover,
+.container .card:hover,
+.container .news-item:hover,
+.container .topic-card:hover{
+  border-color:var(--border-hover);
+  background:var(--bg-card-hover);
+  transform:translateY(-2px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+.container .topic-card::before{
+  top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(180deg,var(--gold),transparent);
+  opacity:0.5;
+}
+
+/* Unified tag/badge styles */
+.container .news-tag,
+.container .tag,
+.container .badge,
+.container .group-badge,
+.container .top3-badge,
+.container .topic-cat-badge,
+.container .meta-chip{
+  display:inline-block;
+  padding:4px 12px;
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--gold);
+  text-transform:uppercase;
+  background:var(--gold-faint);
+  font-weight:500;
+  margin:2px;
+}
+.container .news-tag{border-radius:4px;text-transform:none;font-size:12px}
+.container .tag{border-radius:4px;text-transform:none;font-size:11px;font-weight:600}
+.container .badge{border-radius:4px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:none}
+.container .group-badge{border-radius:6px;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:none}
+
+/* Priority badges */
+.container .tag.imp.p0,.container .badge-p0,.container .group-badge.p0,.container .b-p0,.container .tag-p0{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag.imp.p1,.container .badge-p1,.container .group-badge.p1,.container .b-p1,.container .tag-p1{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag.imp.p2,.container .badge-p2,.container .group-badge.p2,.container .b-p2,.container .tag-p2{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag.imp.p3,.container .badge-p3,.container .group-badge.p3,.container .b-p3,.container .tag-p3{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+
+/* Unified headline/title styles */
+.container .news-headline,
+.container .news-title,
+.container .card-title,
+.container .topic-title-main{
+  font-family:'Noto Serif SC',serif;
+  font-size:18px;
+  font-weight:600;
+  color:var(--text-primary);
+  line-height:1.5;
+  margin-bottom:12px;
+}
+
+/* Unified number/decorative element */
+.container .news-num,
+.container .topic-num,
+.container .top3-rank,
+.container .card-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;
+  font-weight:300;
+  color:var(--gold);
+  line-height:1;
+  font-style:italic;
+}
+
+/* Unified summary/body text */
+.container .news-summary,
+.container .news-body,
+.container .card-body,
+.container .summary,
+.container .topic-section-content,
+.container .seg-text{
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+.container .news-body strong,
+.container .card-body strong{color:var(--gold-bright);font-weight:500}
+
+/* Unified detail/analysis boxes */
+.container .news-detail,
+.container .news-analysis,
+.container .trend-box,
+.container .card-value,
+.container .seg-note,
+.container .topic-hook{
+  background:rgba(201,169,110,0.06);
+  border:1px solid rgba(201,169,110,0.15);
+  border-left:3px solid var(--gold-dim);
+  border-radius:8px;
+  padding:16px 20px;
+  margin:12px 0;
+}
+.container .news-analysis{
+  background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));
+  border:1px solid rgba(201,169,110,0.2);
+}
+
+/* Unified source/meta */
+.container .news-source,
+.container .news-meta,
+.container .card-source,
+.container .seg-src,
+.container .source{
+  font-size:11px;
+  color:var(--text-muted);
+  border-top:1px solid var(--border-subtle);
+  padding-top:10px;
+  margin-top:12px;
+  letter-spacing:0.5px;
+}
+
+/* Stats grid */
+.container .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:24px}
+.container .stat-card .head,
+.container .stat-card h3{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.container .stat-card .total{font-size:28px;font-weight:800;color:#fff}
+.container .stat-card .total span{font-size:13px;color:var(--text-muted);font-weight:400;margin-left:4px}
+.container .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.container .bar-row .label{width:90px;font-size:12px;color:var(--text-secondary);flex-shrink:0}
+.container .bar-row .track{flex:1;height:22px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden}
+.container .bar-row .fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px}
+.container .bar-row .val{font-size:12px;font-weight:700;color:#fff}
+
+/* Judgments */
+.container .judgment{
+  background:linear-gradient(135deg,rgba(201,169,110,0.06),rgba(59,130,246,0.03));
+  border:1px solid var(--border-subtle);
+  border-left:3px solid var(--gold);
+  border-radius:10px;
+  padding:18px 22px;
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+.container .judgment .key{color:var(--gold-bright);font-weight:700}
+
+/* Advice grid */
+.container .advice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
+.container .advice-item{background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:8px;padding:10px 12px}
+.container .advice-item .role{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+.container .advice-item .text{font-size:12px;color:var(--text-secondary);line-height:1.6}
+
+/* Summary table */
+.container .summary-table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border-subtle)}
+.container .summary-table th{background:var(--gold-faint);color:var(--gold);font-weight:600;font-size:13px;padding:14px 16px;text-align:left;border-bottom:1px solid var(--border-subtle);letter-spacing:1px}
+.container .summary-table td{padding:14px 16px;font-size:14px;color:var(--text-secondary);border-bottom:1px solid rgba(255,255,255,0.04)}
+.container .summary-table tr:last-child td{border-bottom:none}
+.container .summary-table tr:hover td{background:var(--gold-faint)}
+
+/* Topic outline */
+.container .topic-outline{list-style:none;padding:0}
+.container .topic-outline li{font-size:14px;color:var(--text-secondary);line-height:1.8;padding:6px 0 6px 24px;position:relative}
+.container .topic-outline li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:1px;background:var(--gold-dim)}
+.container .topic-outline li strong{color:var(--gold-bright);font-weight:500}
+
+/* Topic sections */
+.container .topic-section{margin-bottom:20px}
+.container .topic-section-label,
+.container .seg-label,
+.container .a-title,
+.container .ad-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .topic-section-label::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .topic-hook{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .topic-copy{font-size:14px;color:var(--text-primary);line-height:1.9;text-align:justify;white-space:pre-wrap}
+.container .topic-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.container .topic-tag{padding:4px 10px;border:1px solid var(--border-subtle);border-radius:12px;font-size:11px;color:var(--gold);background:var(--gold-faint);font-family:'JetBrains Mono',monospace;letter-spacing:0.5px}
+
+/* Top3 grid */
+.container .top3-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:60px}
+.container .top3-card{position:relative;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;transition:all .4s;overflow:hidden}
+.container .top3-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .top3-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+
+/* Legend */
+.container .level-legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:24px}
+
+/* News group */
+.container .news-group{margin-bottom:40px}
+.container .group-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+
+/* Card header/layout */
+.container .news-head,
+.container .card-head,
+.container .card-header,
+.container .topic-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.container .news-head .news-num,
+.container .card-head .card-num{flex-shrink:0;min-width:32px}
+
+/* News list */
+.container .news-list{display:flex;flex-direction:column;gap:20px}
+.container .cards{display:flex;flex-direction:column;gap:20px;margin-top:24px}
+.container .top-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+
+/* Section title variants */
+.container .section-title .bar{width:4px;height:22px;background:linear-gradient(180deg,var(--gold),var(--accent-blue));border-radius:2px;display:inline-block;margin-right:12px;vertical-align:middle}
+.container .section-title .en{font-size:13px;color:var(--text-muted);font-weight:400;letter-spacing:1px}
+
+/* Nav inside content (sticky section nav) */
+.container .nav{all:unset;display:flex;justify-content:center;flex-wrap:wrap;gap:8px 28px;padding:14px 0;border-bottom:1px solid var(--border-subtle);margin-bottom:24px;position:relative !important;top:auto !important;background:transparent !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+.container .nav a{color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:500;transition:color .3s;position:relative;padding:4px 0}
+.container .nav a:hover,.container .nav a.active{color:var(--gold)}
+.container .nav a.active::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--gold);border-radius:1px}
+
+/* Misc */
+.container .divider{width:60px;height:1px;background:var(--border-subtle);margin:24px auto}
+.container .ch-badge{display:inline-block;padding:5px 14px;border:1px solid var(--border-subtle);border-radius:20px;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;background:var(--gold-faint)}
+.container .ch-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:6px;line-height:1.3}
+.container .ch-sub{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--gold-bright);letter-spacing:2px;margin-bottom:16px}
+.container .ch-date{font-size:13px;color:var(--text-muted);letter-spacing:1px}
+
+/* Bar fills */
+.fill.p0,.fill.cat-policy{background:linear-gradient(90deg,#ef4444,#f87171)}
+.fill.p1{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.fill.p2,.fill.cat-product{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.fill.p3{background:linear-gradient(90deg,#6b7280,#9ca3af)}
+.fill.cat-model{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
+.fill.cat-industry{background:linear-gradient(90deg,#10b981,#34d399)}
+
+/* Video link button */
+.container .video-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:14px;
+  padding:8px 20px;
+  background:linear-gradient(135deg,#fb7299,#fc3a6e);
+  color:#fff !important;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600;
+  border-radius:22px;
+  letter-spacing:0.5px;
+  transition:all .3s;
+  box-shadow:0 4px 16px rgba(251,114,153,0.3);
+}
+.container .video-link:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(251,114,153,0.5);
+  text-decoration:none;
+}
+.container .video-link svg{
+  width:14px;height:14px;flex-shrink:0;fill:#fff;
+}
+
+@media(max-width:768px){
+  .hero{padding:100px 16px 40px}
+  .container .news-card,.container .card,.container .topic-card,.container .news-item{padding:20px}
+  .container .news-headline,.container .news-title,.container .card-title,.container .topic-title-main{font-size:16px}
+  .container .stats-grid{grid-template-columns:1fr}
+  .container .advice-grid{grid-template-columns:1fr}
+  .float-back{bottom:20px;right:20px;padding:10px 20px;font-size:13px}
+  .nav-brand-text{font-size:14px}
+  .nav-brand-text .en{font-size:10px}
+  .nav-meta{gap:12px}
+}
+</style>
+</head>
+<body>
+<div class="ambient"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="starfield" id="starfield"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="光体频道.html" class="nav-brand">
+      <img src="logo.jpg" alt="Luminary Channel" class="nav-brand-logo"/>
+      <div class="nav-brand-text">光体频道<span class="en">Luminary Channel</span></div>
+    </a>
+    <div class="nav-meta">
+      <span class="nav-date">2026.07.23</span>
+      <a href="光体频道.html" class="back-link">← 首页</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">CHANNEL 03 &middot; BUSINESS TRENDS</div>
+    <h1 class="hero-title">每日商业趋势</h1>
+    <div class="hero-sub">Daily Business Trends</div>
+    <div class="hero-date">2026 / 07 / 23</div>
+    <p class="hero-desc">聚焦九紫离火大运16大赛道，每日整编客观行业趋势、合规商业模式与低风险创业资讯，每条含深度解析与落地判断。</p>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ===== CONTENT START ===== -->
+
+<section class="section" id="p0-core">
+<div class="section-label">
+<div class="section-label-text">P0 &middot; 核心赛道趋势</div>
+<div class="section-label-line"></div>
+</div>
+<h2 class="section-title"><span class="bar"></span>轻医美：市场规模2026年剑指3000亿，光电设备成硬增长极<span class="en">Aesthetic Medicine</span></h2>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">01</div>
+<div class="news-title" style="flex:1">轻医美非手术项目复合增速9.2%，反超手术类成为医美市场核心引擎</div>
+</div>
+<div class="badges">
+<span class="badge tag-p0">P0</span>
+<span class="badge">轻医美</span>
+<span class="tag tag-economy">市场规模</span>
+</div>
+<p class="news-body">据东吴证券、罗兰贝格及美团联合数据，2020年至2024年中国医美市场规模由1647亿元增长至3167亿元，其中轻医美市场复合增速达20.6%。2026年医美总规模预计达2952亿元，非手术类项目规模从1400.1亿元增长至2177亿元，复合增速约9.2%，显著高于手术类的6.8%。ISAPS《2024全球调查》显示全球共实施2050万例非手术医美项目，注射和光电类项目因治疗时间短、恢复周期可控、风险更低，正被更多消费者纳入长期美容预算。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>轻医美增速反超手术类是消费理性化的必然结果——创伤小、恢复快、价格相对亲民的特征降低了消费门槛，使医美从"低频重决策"向"中频日常消费"迁移。增长结构分化体现为注射类（玻尿酸、胶原蛋白、再生材料）仍是主力，但光电设备获批节奏明显加快，成为轻医美中最硬的增长极。部分一线城市已出现"光电项目疲劳期"，增速从2023年的28%降至2025年的约15%，下沉市场三四线城市渗透率仍偏低，增量空间充足。<strong>合规要点：</strong>生美机构严禁开展轻医美项目，开展光电/注射需配备相应许可证和抢救设备，单店合规改造成本可达数十万元。营利性机构不再享受医疗服务免税政策，税务成本上升。<strong>落地判断：</strong>合规连锁品牌在下沉市场具有结构性优势，家用美容仪器赛道同样具备挖掘空间，医美器械市场2026年预计达1194.5亿元。
+</div>
+<div class="news-source">来源：东吴证券、罗兰贝格、美团、ISAPS、艾媒咨询、国家药监局</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">02</div>
+<div class="news-title" style="flex:1">黄金首饰消费量同比下降31.61%，硬金工艺订单占比从10%飙升至40%</div>
+</div>
+<div class="badges">
+<span class="badge tag-p0">P0</span>
+<span class="badge">珠宝</span>
+<span class="tag tag-economy">结构性分化</span>
+</div>
+<p class="news-body">2025年中国黄金首饰消费量仅363.836吨，同比下降31.61%，首次被金条及金币消费量（504.238吨，+35.14%）反超。珠宝首饰行业市场规模创历史新高达9780亿元，其中黄金品类7600亿元占77.7%。2026年以来国际金价突破5100美元/盎司，国内足金零售价长期维持在1450元/克以上。深圳水贝加工企业数据显示，3D/5G硬金类订单占比从10%提升至40%，五轴机床替代传统油压工艺实现多角度立体加工。2026年Q1黄金首饰回收市场价达1002元/克，同比增长41.13%。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>"首饰降、金条升"的消费结构变化反映出金价高位对饰品需求的抑制与投资属性的强化。硬金工艺让消费者以更轻克重获得同等视觉效果（1.4克替代3-8克），是行业从"卖克重"向"卖工艺"转型的核心抓手。镶嵌品类毛利率达35%-55%，远超素金的12%-18%，头部品牌加大黄金镶钻与钻石品类投入，形成"素金稳基本盘、镶嵌提毛利"新格局。上海春节假期黄金珠宝销售额7.2亿元同比+5%，镶钻款成为核心增量。<strong>合规要点：</strong>首饰类投诉举报量达38万件同比+16.4%，"工艺不符描述""一口价"计价不透明、纯度造假成为焦点，"物勒工名"匠人溯源机制可建立信任壁垒。<strong>落地判断：</strong>具备完整非遗工艺体系、可验证手工证据的品牌在消费者信任度与市场稀缺性方面优势显著。
+</div>
+<div class="news-source">来源：中国黄金协会、上海证券报、上海黄金饰品行业协会、国家市场监督管理总局</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">03</div>
+<div class="news-title" style="flex:1">化妆品全渠道交易额破1.1万亿，国货市场份额升至57.37%实现对国际品牌全面反超</div>
+</div>
+<div class="badges">
+<span class="badge tag-p0">P0</span>
+<span class="badge">美妆</span>
+<span class="tag tag-economy">国货崛起</span>
+</div>
+<p class="news-body">2025年中国化妆品行业全渠道交易额达11042.45亿元，同比增长2.83%，市场规模首次突破1.1万亿元。国货品牌市场份额从2022年首超50%后一路攀升至57.37%。2026年6月化妆品类零售额同比+12.6%，1-6月同比+6.3%，跑赢大盘。上半年美妆电商GMV达2708.62亿元，同比+5.5%。抖音占比49%成第一大渠道但增速放缓至14.48%，天猫增速转正+5.04%。珀莱雅连续3年天猫双11美妆第一，毛戈平首次入榜TOP20。化妆品制造企业注册量2025年达1.38万家创十年新高。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>国货反超的核心驱动力是消费决策逻辑的根本转变——58.8%消费者最关注成分，41.4%关注功效，"成分党"崛起倒逼行业从"流量驱动"转向"价值驱动"。AI皮肤检测、3D术前模拟、生物材料创新（再生材料、胶原蛋白）推动精准护肤革命。渠道格局剧变：抖音从高成长红利期换挡至常态增长，天猫边际改善结束两年下滑。<strong>合规要点：</strong>45%品牌方遭遇代工成品与样品品质不一致问题，65%面临备案流程复杂、合规难度大困境。2025年全年淘汰品牌26941个、新品牌17076个，马太效应加剧。<strong>落地判断：</strong>功效护肤赛道（敏感肌修护、成分为王）是国货打破溢价壁垒、抢占高端市场的关键突破口，素颜霜市场规模突破380亿元、年复合增长率27.3%。
+</div>
+<div class="news-source">来源：国家统计局、艾媒咨询、浙商证券研究所、天猫大美妆、青眼情报</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">04</div>
+<div class="news-title" style="flex:1">疗愈经济突破10万亿，6.8亿人心理亚健康催生科学化、标准化新赛道</div>
+</div>
+<div class="badges">
+<span class="badge tag-p0">P0</span>
+<span class="badge">疗愈</span>
+<span class="tag tag-society">情绪价值</span>
+</div>
+<p class="news-body">《2026疗愈经济蓝皮书》数据显示，中国疗愈经济市场规模已突破10万亿元，用户达8.4亿人，超6.8亿人伴随焦虑、失眠、精神内耗等心理亚健康症状，25-49岁女性群体是核心付费主力（占比68%）。全球冥想市场规模2025年突破96亿美元，年复合增长率23%以上。教育部首次将"艺术治疗"列入本科专业目录。康养旅居市场2024年达6800亿元，2025年有望突破8200亿元，2030年预计达1.8万亿元。光谷某疗愈空间开业不到三个月会员超百人，光谷豪生酒店疗愈工坊累计接待超2000人次。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>疗愈经济的本质矛盾是"刚性需求vs非标准化供给"——一边是全民焦虑的刚需，一边是玄学化、效果不可量化的服务。科学化、可量化、去宗教化成为破局方向：MEIKE智能冥想坐垫以压电薄膜无感生理监测为核心，将情感计算与正念冥想深度融合，成为高净值人群关注焦点。艺术治疗入本科目录标志着行业从"灰色地带"走向规范化。<strong>合规要点：</strong>行业需警惕传销式灵性变现、虚假疗愈话术，服务供给应具备可验证的专业资质。绘画疗愈、舞动疗愈、音乐吟唱等细分已被验证对青少年心理干预有效。<strong>落地判断：</strong>康养文旅融合是疗愈经济线下落地的核心路径，中医康养与跨境医疗协同升级为重要方向。
+</div>
+<div class="news-source">来源：《2026疗愈经济蓝皮书》、教育部、交汇点、中国旅游研究院</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">05</div>
+<div class="news-title" style="flex:1">大健康产业从"治已病"到"防未病"跃迁，2025年规模突破20万亿</div>
+</div>
+<div class="badges">
+<span class="badge tag-p0">P0</span>
+<span class="badge">养生</span>
+<span class="tag tag-economy">产业升级</span>
+</div>
+<p class="news-body">大健康市场规模从2019年8万亿攀升至2025年突破20万亿，健康服务业总规模达12.4万亿。2026年预计大健康产业规模增长至10.66万亿（另一口径），其中健康养老60163亿占56.45%。2026年定义为"商保政策元年"，商业保险升级为创新药主要支付方。零售药店2024年Q4迎来数量负增长拐点，2025年净关店近2.2万家，闭店率7.9%。76%消费者愿为实证功效、天然成分和优质服务的高品质产品支付溢价。银发经济养老产业2023年规模12万亿，预计2035年达30万亿。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>健康需求正从"疾病治疗"向覆盖身体健康、外在形象、心理情绪的"主动健康管理"全面跃迁。食药同源、银发经济、主动健康、AI医疗、康养疗愈构成2026-2030年五大增长引擎。药店向"健康驿站"转型，集采品种院内销售平均下滑超50%。AI正跨越感知智能向"认知智能"迈进，中康科技打造覆盖药品全生命周期百余个行业智能体。<strong>合规要点：</strong>药店经营更趋规范，追溯码全面推开，头部连锁百强贡献潜力值达55%。<strong>落地判断：</strong>精准营养与个性化健康管理成为核心赛道，NMN全球市场2026年预计突破114.1亿美元，中国贡献超36%增量。
+</div>
+<div class="news-source">来源：中国经营报、中康科技、Quanto Data、艾媒咨询、国家卫健委</div>
+</div>
+
+</section>
+
+<section class="section" id="p1-industry">
+<div class="section-label">
+<div class="section-label-text">P1 &middot; 行业趋势</div>
+<div class="section-label-line"></div>
+</div>
+<h2 class="section-title"><span class="bar"></span>餐饮、健身、时尚、文创、保险<span class="en">Industry Trends</span></h2>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">06</div>
+<div class="news-title" style="flex:1">餐饮业告别规模驱动，上半年收入28255亿但客单价跌回十年前</div>
+</div>
+<div class="badges">
+<span class="badge tag-p1">P1</span>
+<span class="badge">餐饮</span>
+<span class="tag tag-economy">存量竞争</span>
+</div>
+<p class="news-body">2026年上半年全国餐饮收入28255亿元，同比增长2.8%，增速同比回落1.5个百分点，占社零总额11.4%。但客单价跌回十年前，大盘均价仅34.7元。行业存活率已跌破80%，单月门店更替率飙升至2.16%。92%商户呼吁停止平台补贴战，个体单店利润暴跌85.4%。限额以上企业增速（1.8%）低于行业整体（2.8%），头部餐企承压。5月行业整体表现指数42.26，低于50中性水平。地方特色菜系（江西小炒、云贵菜）增速亮眼，成为存量竞争新蓝海。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>这不是"消费降级"而是"信任降级"——消费者发现花几十块吃的可能是劣质预制菜时，会用脚投票。"质价比"和"心价比"成为新通货。2026年成为"涨价元年"，肯德基、老乡鸡开始暗调价格，无底线低价内卷已到尽头。食材成本暴涨（禽肉涨15%-20%），人力年均涨5%-10%，房租刚性，三座大山压缩利润。<strong>合规要点：</strong>主动公示预制菜使用情况重建消费信任，"餐饮+"多元经营和社区化小店模型是突围方向。<strong>落地判断：</strong>行业从规模扩张全面迈入品质驱动、效率驱动、价值驱动的存量跃升时代，连锁化加盟模式主导稳健扩张，炒菜机器人/AI管理系统等技术应用提升效率。
+</div>
+<div class="news-source">来源：国家统计局、中国饭店协会、中国烹饪协会、红餐大数据</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">07</div>
+<div class="news-title" style="flex:1">健身行业从"卖课程"向"赋能组织"转型，2030年市场规模剑指6000亿</div>
+</div>
+<div class="badges">
+<span class="badge tag-p1">P1</span>
+<span class="badge">健身塑形</span>
+<span class="tag tag-economy">圈层化</span>
+</div>
+<p class="news-body">2025年中国健身行业市场规模突破3000亿元，预计2026-2030年以年均12%复合增长，到2030年有望达6000亿元以上。需求形成"Z世代科技社交、职场人群亚健康干预、银发族慢性病预防"三大核心圈层，超七成消费者将"运动损伤预防""慢病管理""亚健康调理"列为首要考量。消费行为呈"K型分化"：高端市场聚焦抗衰塑形与康复医疗，大众市场追求性价比与便捷性。划船机赛道头部固化，麦瑞克950连续五年京东TOP1、连续三年天猫TOP1。男性消费群体崛起，抗阻训练器械需求激增。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>需求从"通用"走向"垂直"——从产后修复到青少年体适能，从银发族慢病预防到男性抗阻训练，覆盖全周期。头部企业通过"技术壁垒+生态闭环"构建护城河，整合运动、饮食、睡眠多维度数据生成个性化健康档案，实现从"卖课程"到"卖健康解决方案"的转型。碎片化、高频次的微运动（"每二十分钟起身走走"）正在成为新刚需。<strong>合规要点：</strong>健身机构需持有正规经营资质，教练需持国家认可职业资格证书。<strong>落地判断：</strong>社区健身舱、可折叠器械等轻资产模式快速渗透大众市场，普拉提精品小班（1-4人）以"测评-定制-追踪"模式实现可量化效果，产后修复12-24节课程改善率达95%以上。
+</div>
+<div class="news-source">来源：中研普华产业研究院、天猫生意参谋、京东商智、魔镜数据</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">08</div>
+<div class="news-title" style="flex:1">时尚消费市场约3万亿，AI从后台工具升级为全链路基础设施</div>
+</div>
+<div class="badges">
+<span class="badge tag-p1">P1</span>
+<span class="badge">服装</span>
+<span class="tag tag-tech">AI赋能</span>
+</div>
+<p class="news-body">《2026中国时尚消费报告》测算当前时尚消费市场总规模约3万亿元，预计2030年突破3.5万亿元。五大趋势：消费价值判断从单一价格升级为价格+功能+品质综合权衡；消费动机从"向外展示"转向"向内悦己"；AI覆盖搜索、导购、试穿、内容、服务与决策全链路；国货认知从"平价平替"转向"综合优选"；流量红利见顶倒逼回归长期经营。上海上半年服装鞋帽针纺织品类零售额增长7.2%。淘宝服饰线上渠道增幅9.2%，40岁以上熟龄群体与18-24岁年轻客群共同驱动提质扩容。80%消费者已使用电商平台AI导购功能。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>服饰消费增长核心由件单价提升主导而非销量扩张，用户愿意为更高质感、更好设计支付溢价。AI双向赋能产业端与消费端——品牌端实现趋势研判、产品设计、内容创作、智能运营一体化提效；消费端通过穿搭方案、虚拟试穿、面料解读优化购物决策。场景化需求从单品选购转向成套化解决方案，城市户外衍生通勤、徒步、越野等多元细分场景。<strong>合规要点：</strong>面料成分标注需真实，"原生态""有机"等宣传需有认证支撑。<strong>落地判断：</strong>东方美学原创品牌（山下有松包袋、观夏新中式香氛）强势出圈，上海跃升为全球时尚消费新地标，设计感与本土底蕴结合是差异化竞争核心。
+</div>
+<div class="news-source">来源：中国文化传媒集团时尚研究院、上海市统计局、淘宝服饰白皮书</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">09</div>
+<div class="news-title" style="flex:1">AI文创从"生成内容"走向"经营世界"，文化新业态营收同比增长28.9%</div>
+</div>
+<div class="badges">
+<span class="badge tag-p1">P1</span>
+<span class="badge">文创</span>
+<span class="tag tag-tech">AI+文化</span>
+</div>
+<p class="news-body">2026年广东规模以上文化及相关产业企业一季度营收6587.72亿元，同比增长8.8%，文化新业态营收2813.92亿元同比增长28.9%，占比42.7%。娱乐用智能无人飞行器制造营收增60.7%，可穿戴智能文化设备制造增48.9%。网络视听行业市场规模达12876.61亿元，AI生成视频和音频累计超20亿条，较2024年增长14倍以上。海南文创在2026中国首届新文创市集中总销售位列全国省区市第一。可灵AI完成近30亿美元融资投后估值180亿美元。国务院批复《扩大消费"十五五"规划》强调发展数字消费与体验式消费。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>AI对文创产业的改变不是某个工具效率的提高，而是整个生产方式的重构——从单点工具辅助进入系统级协同与自动化生成阶段，内容正成为"在系统中持续生成的结果"。AI已进入剧本策划和角色生成等深层产业结构。文化服务业营收占比46.8%领跑全产业，文化制造业占比41.4%，产业结构持续优化。<strong>合规要点：</strong>AI生成内容需标注，知识产权归属需明确，国家网信办等三部门联合印发智能体规范应用实施意见。<strong>落地判断：</strong>非遗工艺+文创产品（海南沉香+行炉文化、黎锦+通勤包）实现"从资源到产品"的价值转化，"立足本土、融合创新"是文化IP商业化核心路径。
+</div>
+<div class="news-source">来源：广东省统计局、文旅部、上海文化创意产业研究院、国家统计局</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">10</div>
+<div class="news-title" style="flex:1">中国保险市场以年均7.3%增速领跑全球，寿险连续三年两位数增长</div>
+</div>
+<div class="badges">
+<span class="badge tag-p1">P1</span>
+<span class="badge">保险</span>
+<span class="tag tag-economy">稳健增长</span>
+</div>
+<p class="news-body">《2026年安联全球保险业发展报告》显示，中国保险市场2025年总保费收入7456亿欧元，稳居全球第二，增速7.4%高于全球平均。中国将以年均7.3%增速领跑全球保险市场。2026年Q1人身险公司原保险保费收入17803亿元，同比+7.3%，寿险保费增长8.7%，分红寿险新单占寿险新单超八成。财险市场告别"车险单极"依赖，车险占比从2016年78.34%降至2025年62.82%。2026年被定义为"商保政策元年"，商业保险升级为创新药主要支付方。车险行业转向"三免"信用赔、"人伤包办"、"车服务"生态化三大方向。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>寿险连续三年两位数增长受益于人口老龄化加速推动养老保障需求攀升、个人补充养老保险意识增强、居民储蓄向保险类资产迁移三大结构性因素。财险从车险单极向多元化转型，非车险业务（责任险、农业险）占比持续提升。分红险成为拉动行业增长的核心力量，浮动收益型产品供给加大。低利率环境下居民资产保值需求持续释放。<strong>合规要点：</strong>严监管态势持续，百万级罚单增多，合规问责力度加大。偿付能力水平受宏观和资产端因素影响有所下降。<strong>落地判断：</strong>养老金融布局是穿越周期的核心策略，女性专属健康保险（乳腺、子宫、宫颈等）直击健康痛点，需求旺盛。
+</div>
+<div class="news-source">来源：安联(中国)保险控股、前瞻产业研究院、中国人寿研究院</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">11</div>
+<div class="news-title" style="flex:1">AI智能体时代来临，企业级市场规模突破1800亿美元</div>
+</div>
+<div class="badges">
+<span class="badge tag-p1">P1</span>
+<span class="badge">AI内容服务</span>
+<span class="tag tag-tech">智能体</span>
+</div>
+<p class="news-body">2025年全球AI市场规模达7575.8亿美元，预计2026年突破9000亿美元。中国AI核心产业规模预计突破1.2万亿元，同比增长近30%，企业超6000家。2026年全球企业级AI智能体市场规模突破1800亿美元，中国市场占比35%，年复合增长率58%以上。以对话为核心的"Chat"范式终结，AI竞争转向"能办事"的智能体时代。MCP（模型上下文协议）成为AI智能体连接世界的"通用语言"，RaaS（结果即服务）取代纯SaaS订阅成为主流商业模式。麦肯锡调研显示83%中国企业在至少一个职能中实现AI常态化使用，45%已实现规模化部署。启明创投发布AI十大展望，头部机器人公司有效数据将从"万小时级"跃升至"百万小时级"。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>AI从"辅助工具"升维为"决策中枢"，角色从处理确定性任务进化为自主感知、分析决策、执行闭环。竞争焦点从参数规模转向解决实际问题的精准——核心指标从参数量转向单位算力产生的实际业务收益。多模态融合、GraphRAG、AgentDevOps成为技术演进核心方向。安全可信将与产品效果、Token成本并列为影响企业AI大规模落地的三大关键变量。<strong>合规要点：</strong>7月17日国家发改委发布《人工智能合作发展行动计划》，智能体规范应用实施意见明确重点研发文学、音乐、绘画、视听等内容创作智能体。<strong>落地判断：</strong>政务、展厅、客服、医疗等场景需求最旺盛占比合计65%，中小企业成为AI智能体需求增长核心力量。
+</div>
+<div class="news-source">来源：新华社、麦肯锡、启明创投、Sensor Tower、36氪、国家发改委</div>
+</div>
+
+</section>
+
+<section class="section" id="p2-emerging">
+<div class="section-label">
+<div class="section-label-text">P2 &middot; 新兴赛道</div>
+<div class="section-label-line"></div>
+</div>
+<h2 class="section-title"><span class="bar"></span>她经济、宠物、知识IP、营养保健、美学教育<span class="en">Emerging Tracks</span></h2>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">12</div>
+<div class="news-title" style="flex:1">"她经济"规模超10万亿，4.68亿女性从"悦人"转向"悦己"</div>
+</div>
+<div class="badges">
+<span class="badge tag-p2">P2</span>
+<span class="badge">女性经济</span>
+<span class="tag tag-society">消费升级</span>
+</div>
+<p class="news-body">中国20-60岁女性群体年度消费支出规模近10万亿元，"她经济"相关企业超942万家，2026年新增22.7万家。抖音生活服务女性消费规模同比增长61%，非遗手作团购增长326%，博物馆体验团购增长312%。74%女性支持"为自己消费"。为情绪买单时，美妆护肤以35.27%占比居首，服饰鞋配34.48%次之，饮食31.82%第三。2025年中国情绪经济市场规模达2.7万亿元，体验型消费占比突破62%。宁波"她经济"从追求"面子"转向深耕"里子"，健身私教、智能穿戴、理财课程、健康保险热度走高。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>女性消费从"功能满足"走向"情感赋能"，消费决策从"看LOGO买单"升级为"看价值买单"。数字浪潮降低女性创业门槛，大量女性借助数字平台实现轻资产创业。家庭消费中女性主导决策比例超七成，覆盖全品类场景。消费行为兼具理性与感性——深入了解原料、工艺、口碑，同时被品牌情感故事、文化内涵打动。<strong>合规要点：</strong>需警惕"粉红税"（同质产品女性版本定价更高）等消费陷阱。<strong>落地判断：</strong>情绪经济是"她经济"的核心增量赛道，体验型消费占情绪经济62%，非遗手作、汉服体验、博物馆团购等文化消费增速爆发。
+</div>
+<div class="news-source">来源：艾媒咨询、天眼查、抖音生活服务、宁波市商务局</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">13</div>
+<div class="news-title" style="flex:1">宠物消费市场3126亿，多城写入政府工作报告，猫经济增速超犬</div>
+</div>
+<div class="badges">
+<span class="badge tag-p2">P2</span>
+<span class="badge">宠物</span>
+<span class="tag tag-economy">政策加码</span>
+</div>
+<p class="news-body">2025年城镇宠物（犬猫）消费市场规模3126亿元，同比增长4.1%，预计2028年达4050亿元。猫消费市场1520亿元增速5.2%超犬的3.2%，预计2028年猫消费2184亿将首次超越犬的1923亿。城镇犬猫数量1.26亿只，增长1.8%。成都、北京、上海、合肥、武汉等多城将宠物经济写入政府工作报告。宠物上门喂养细分市场约28亿元，同比增长24.9%，节假日75%养宠人群有托管需求。高盛报告指出2024年中国宠物数量首次超过4岁以下婴幼儿数量。广州白云区"宠八条"因内容需优化调整被撤回。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>宠物经济从家庭消费层"它经济"升级为驱动城市发展、促进产业创新的增长极。地方政府从"单纯限制"转向"科学治理"——成都推广宠物友好商场、餐厅、公园，北京探索宠物友好时段或功能分区。猫经济增速超犬反映"低维护成本+空间适应性强"的消费偏好变化。上门服务从"兼职跑腿"走向"专业赛道"，规范化、专业化演进加速。<strong>合规要点：</strong>广州"宠八条"被撤回说明政策需在产业扶持与规范管理间取得平衡，功能性食品生产、品牌首店奖补等具体措施需审慎设计。<strong>落地判断：</strong>高端实木宠物用品、宠物医疗、宠物保险等细分赛道前景广阔，非遗竹木工艺跨界宠物家具已获日本订单。
+</div>
+<div class="news-source">来源：派读宠物行业大数据平台、《2026年中国宠物行业白皮书》、《中国经营报》、高盛</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">14</div>
+<div class="news-title" style="flex:1">知识付费市场2026年预计突破3200亿，AI智能体从"响应执行"迈入"决策协作"</div>
+</div>
+<div class="badges">
+<span class="badge tag-p2">P2</span>
+<span class="badge">知识IP</span>
+<span class="tag tag-economy">价值回归</span>
+</div>
+<p class="news-body">艾媒咨询预测2026年中国知识付费市场规模将突破3200亿元（另一口径570亿元），年增速保持15%以上。小程序渠道贡献占比超40%。行业从"增量"转向"存量"，传统卖录播课模式失效，用户对"30天变现""0基础精通"已产生免疫力。付费动机从"焦虑驱动"转向"结果驱动"，单一知识课程平均销量较2023年同期上涨超50%。创客匠人累计服务超5万知识IP，覆盖2亿学习用户，平台生态商业化流水破百亿。AI智能体可7×24小时自动响应社群咨询，客户转化率提升30%，课程更新效率提升80%。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>市场正从"流量逻辑"转向"价值逻辑"——AI让知识生产成本趋近于零，用户不再为信息付费而是为"能否真正解决问题"付费。三大变革：市场饱和期到来、私域成为核心竞争力、AI全面渗透。平台从"SaaS工具商"向"AI商业操作系统"升维，"结果式付费"陪跑模式将服务方收益与客户结果深度绑定。<strong>合规要点：</strong>平台风控采用累计记录、延迟处罚机制，私信引导、直播暗示等违规引流方式被纳入高危清单。<strong>落地判断：</strong>AI工具应用类课程成为增长最快细分赛道，用户年均知识消费支出提升至380元，复购率超65%。精准定位-价值设计-系统交付三步法是高转化课程的核心方法论。
+</div>
+<div class="news-source">来源：艾媒咨询、恒州诚思、QYR、新华网、南宁新闻网</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">15</div>
+<div class="news-title" style="flex:1">NMN全球市场突破400亿元，行业从"纯度内卷"转向"细胞转化效率"竞争</div>
+</div>
+<div class="badges">
+<span class="badge tag-p2">P2</span>
+<span class="badge">营养保健品</span>
+<span class="tag tag-tech">技术迭代</span>
+</div>
+<p class="news-body">全球NMN补充剂市场规模突破400亿元人民币，年复合增长率31.2%，中国市场贡献超35%增量。在售品牌超200个但具备完整技术专利矩阵的品牌占比不足15%。2025年NMN正式纳入保健食品审批受理范围，2026年海关新规要求进口NMN完成在华注册与中文标签备案。行业平均生物利用率仅14.5%-26%，60%-85%活性分子被胃酸分解。蛋白粉市场2025年突破386.40亿元，年均复合增长率14.27%，但非正规厂家不合格检出率高达27.32%。男性健康类补充剂市场236亿元，线上渠道占比67%。儿童DHA/GABA补充剂年复合增长率分别达22.7%和29.4%。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>行业告别"纯度内卷"进入"高效吸收时代"——欧盟EFSA评估报告明确普通口服NMN生物利用度远低于宣传值，《Nature Aging》大规模临床证实市面普通产品平均生物利用率仅15%左右。肠溶靶向、分子包埋、三重微囊包埋分时精准释放成为核心技术壁垒。NMN+PQQ+白藜芦醇+辅酶Q10复合配方成为主流，多靶点实现NAD+提升、线粒体修护、抗氧化三重功效。<strong>合规要点：</strong>2026年315后国内严查NMN虚假宣传、贴牌无证、成分虚标，合规资质成为品牌入场硬性门槛。保健品行业需区分"营销流量型"（研发投入低于10%）与"科研研发型"（研发投入高于35%）品牌。<strong>落地判断：</strong>银发+年轻双轮驱动，中美保健品渗透率差距在青年群体中尤为显著（中国18-34岁约15-20% vs 美国35-40%），中长期提升空间巨大。
+</div>
+<div class="news-source">来源：Grand View Research、中国抗衰保健协会、京东健康、中国营养学会、国家市场监督管理总局</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">16</div>
+<div class="news-title" style="flex:1">美业教育规范化迭代，"技术+审美+学历"成为长期发展标配</div>
+</div>
+<div class="badges">
+<span class="badge tag-p2">P2</span>
+<span class="badge">美学</span>
+<span class="tag tag-society">人才升级</span>
+</div>
+<p class="news-body">杭州全域美业人才缺口达1.2万人，化妆造型、美甲美睫、纹绣复合型全能人才占总缺口35%。市场对职业培训标准从单一手工技能教学升级为"化妆+美甲+美睫+纹绣多技精通+职业证书+门店运营+新媒体拓客"综合能力培养。汉高亚洲首家沙宣美业在上海开学，入选2026"首发上海"系列活动。穿戴甲设计师赛道崛起：头部设计师私域运营月销破百万，年GMV达700-1200万元，原创款毛利率超65%，创业启动成本低至5000元。美甲、妆容、造型标准化功底+高阶美商能力+综合资质能力构成现代美业人必备三项能力。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>美业已告别"只要会手艺就能赚钱"的粗放时代，同质化技术逐步饱和，差异化审美服务更占优势。中高端门店、连锁品牌、传媒公司、文旅妆造团队更青睐懂技术、有审美、有综合素养、有正规学习履历的综合型从业者。沙宣美业重启标志着行业从流量驱动回归匠心本质，专业教育补齐"基建短板"。<strong>合规要点：</strong>需持人社正规办学许可证，淘汰无资质、课程单一的小作坊机构。<strong>落地判断：</strong>商业接单、自媒体IP、轻创业成为主流增收方式，穿戴甲设计师赛道兼具低启动成本和高毛利率，适合审美敏锐、擅长短视频创作的创意人才。课程应覆盖"理论筑基+实操演练+商业实战"三阶段，实操时间占比需达90%以上。
+</div>
+<div class="news-source">来源：《2025中国美业人才发展报告》、汉高、杭州市美发美容行业协会</div>
+</div>
+
+</section>
+
+<section class="section" id="p3-data">
+<div class="section-label">
+<div class="section-label-text">P3 &middot; 数据与政策</div>
+<div class="section-label-line"></div>
+</div>
+<h2 class="section-title"><span class="bar"></span>宏观政策、消费数据、行业新规<span class="en">Data &amp; Policy</span></h2>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">17</div>
+<div class="news-title" style="flex:1">国务院批复《扩大消费"十五五"规划》，2030年社零目标60万亿</div>
+</div>
+<div class="badges">
+<span class="badge tag-p2">P2</span>
+<span class="badge">政策</span>
+<span class="tag tag-politics">顶层设计</span>
+</div>
+<p class="news-body">7月13日国务院印发《扩大消费"十五五"规划》，提出到2030年社零总额达60万亿元左右，相当于2025-2030年CAGR为3.7%。规划聚焦养老、托育、文旅、健康等居民消费升级需求，支持社会力量参与普惠养老服务供给，加快普惠托育服务体系建设，鼓励开发数字艺术、国潮文创等文化产品，大力发展健康体检、健康咨询、健康管理等新型服务业态。2026年上半年社零总额248722亿元，同比+1.3%，与3.7%中长期基准存在2.4个百分点缺口。6月社零同比+1.0%回升，化妆品+12.6%、通讯器材+16.5%、文化办公用品+12.7%回暖明显。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>社零1.3%上半年增速与3.7%目标的缺口意味着促消费政策将持续加码。商品零售近乎停滞（+1.1%），但服务零售增长5.3%大幅领先，消费结构加速从实物向服务转型。居民行为逻辑从"消费"转向"预防性储蓄"，家庭资金流向定期存款。<strong>合规要点：</strong>规划明确"扩大高品质供给""丰富平台载体""加强支撑保障"三大路径，企业应关注政策红利窗口。<strong>落地判断：</strong>养老、托育、文旅、健康四大领域是政策重点扶持方向，国潮文创、数字艺术被明确鼓励，光体师赛道中的文创、养生、疗愈、女性经济均处于政策风口。
+</div>
+<div class="news-source">来源：国务院、国家统计局、东吴证券</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">18</div>
+<div class="news-title" style="flex:1">6月社零超预期回暖，金银珠宝降幅收窄、化妆品大涨12.6%</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">消费数据</span>
+<span class="tag tag-economy">边际改善</span>
+</div>
+<p class="news-body">2026年6月社零总额4.27万亿元，同比+1.0%，高于wind一致预期（+0.1%）。除汽车外消费品零售额3.89万亿，同比+3.0%。网上实物商品零售额1.16万亿，同比+3.9%。线下社零约持平。便利店/超市/专业店/百货店/品牌专卖店上半年累计+6.6%/+3.8%/-1.5%/-2.1%/-8.7%。必选消费稳健：粮油食品+7.9%、饮料+5.8%、烟酒+12.1%。可选品类大促月普遍回暖：化妆品+12.6%、通讯器材+16.5%、文化办公用品+12.7%。金银珠宝-3.4%但降幅较前值-8.9%显著收窄。家电-8.7%较5月-15.6%明显收窄。汽车-16.1%仍为主要拖累。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>6月数据呈现"必选稳、可选回暖"格局，大促带动效应明显。化妆品12.6%的增速验证美妆赛道消费韧性，金银珠宝降幅收窄说明高金价环境下消费意愿逐步修复。线下消费降幅明显收敛（从-1.8%到约持平），便利店+6.6%领跑实体业态验证社区化、便捷化趋势。<strong>落地判断：</strong>服务业态（便利店、超市）持续优于可选业态（百货、专卖店），社区化轻资产门店模型仍是零售赛道更稳健的选择。
+</div>
+<div class="news-source">来源：国家统计局、东吴证券</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">19</div>
+<div class="news-title" style="flex:1">上海上半年消费市场稳步扩容，服装+7.2%、金银珠宝+3.9%</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">区域消费</span>
+<span class="tag tag-economy">一线城市</span>
+</div>
+<p class="news-body">2026年上半年上海实现社零总额8319.73亿元，同比+0.7%。限额以上单位中，家具类+11.1%，服装鞋帽针纺织品类+7.2%，粮油食品类+4.1%，金银珠宝类+3.9%。上海跃升为时尚消费新地标，原创品牌（山下有松东方美学包袋、观夏新中式香氛）强势出圈。服务消费和新型消费成为增长新引擎。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>上海数据验证一线城市消费结构升级趋势——家具+11.1%反映家居消费升级，服装+7.2%验证悦己消费与品质化转型。东方美学原创品牌出圈说明设计感与本土底蕴结合的品牌在上海获得市场认可。<strong>落地判断：</strong>上海作为时尚消费新地标的定位为设计驱动型品牌提供了优质市场环境，高端化、精品化、设计化需求突出。
+</div>
+<div class="news-source">来源：上海市统计局、解放日报、上观新闻</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">20</div>
+<div class="news-title" style="flex:1">广东省化妆品产业海关支持措施出台，全国首个出口"白名单"制度落地</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">政策</span>
+<span class="tag tag-politics">出海支持</span>
+</div>
+<p class="news-body">2026年1月广州海关出台全国首个化妆品产业海关支持措施，包括实施出口化妆品"白名单+抽样放行"合格评定程序等九条举措。财政部、税务总局2025年第16号公告对化妆品行业是重大政策支持。商务部将化妆品纳入"消费促进月"等全国性促消费活动，借助进博会、消博会为国货品牌搭建展示窗口，优化跨境电商零售进口监管政策。2026年5月中国化妆品高质量发展指数发布。广东省化妆品学会启动《化妆品产业蓝皮书》编委会遴选。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>政策协同从消费端、生产端、出口端三维度赋能——消费促进月拉动内需，"三品"专项行动推动生产端数字化柔性化绿色化升级，海关"白名单"制度降低出口合规成本。跨境电商零售进口监管优化既引入国际优质品牌形成竞争激励，又通过海外仓支持本土品牌开拓"一带一路"市场。<strong>落地判断：</strong>国货品牌出海迎来政策窗口期，华南地区以41.5%占比领跑全国化妆品制造企业分布，产业集群效应为合规化出海提供供应链基础。
+</div>
+<div class="news-source">来源：广州海关、财政部、商务部、国家发改委、广东省化妆品学会</div>
+</div>
+
+</section>
+
+<section class="section" id="p3-supplementary">
+<div class="section-label">
+<div class="section-label-text">P3 &middot; 补充赛道</div>
+<div class="section-label-line"></div>
+</div>
+<h2 class="section-title"><span class="bar"></span>细分赛道补充资讯<span class="en">Supplementary</span></h2>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">21</div>
+<div class="news-title" style="flex:1">医美器械市场2026年预计达1194.5亿，家用轻量化美容仪器挖掘空间充足</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">轻医美</span>
+<span class="tag tag-industry">器械</span>
+</div>
+<p class="news-body">艾媒咨询数据显示，中国医美器械市场规模从2016年232.8亿元增长至2025年1070.3亿元，预计2026年达1194.5亿元。2020年受冲击后轻医美风潮带动快速复苏，2021年反弹至543.7亿元后进入高速增长。三四线城市医美机构、家用美容消费市场渗透率仍偏低，平价合规医美器械、小型家用美容仪器具备充足挖掘空间。未来竞争聚焦高端设备自主研发、医美耗材国产化、家用轻量化美容仪器开发。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>下沉市场医美机构布局加速与家用美容器械普及拓宽了增量空间。覆盖机构商用与大众家用双赛道的企业将持续获取市场增量。<strong>落地判断：</strong>家用美容仪器是低门槛切入轻医美赛道的合规路径，需关注产品安全性认证与功效验证。
+</div>
+<div class="news-source">来源：艾媒咨询</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">22</div>
+<div class="news-title" style="flex:1">男性医美需求年增长率超20%，银发抗衰需求崛起拓展消费边界</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">轻医美</span>
+<span class="tag tag-society">人群拓展</span>
+</div>
+<p class="news-body">男性医美需求者占比已达20%且年增长率超20%，Z世代（95后/00后）占整体医美市场需求显著，将医美视为"日常护肤升级"。银发经济带动抗衰需求增长，中老年抗衰需求崛起。抗衰老类医美项目消费频次持续增长。26-40岁群体合计占比近八成为消费主力。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>消费群体多元化打破传统女性主导格局，男性与银发族成为新增量。Z世代将医美日常化的消费心态降低了品牌获客成本。<strong>落地判断：</strong>针对男性（抗阻训练后恢复、皮肤管理）和银发族（抗衰、皮肤质量管理）的差异化产品线具备蓝海潜力。
+</div>
+<div class="news-source">来源：东吴证券、全国调研数据</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">23</div>
+<div class="news-title" style="flex:1">黄金镶钻品类逆势走强，毛利率35%-55%远超素金12%-18%</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">珠宝</span>
+<span class="tag tag-economy">品类升级</span>
+</div>
+<p class="news-body">上海春节假期黄金珠宝销售额7.2亿元同比+5%，镶钻款成核心增量。钻石价格平稳+设计创新形成共振，黄金镶钻产品毛利率35%-55%远超素金12%-18%，价格稳定性更强不受黄金原料波动直接影响。小克重轻奢镶钻款、生肖主题金镶钻、婚庆系列钻饰成为热销主力。培育钻石性价比持续提升。2026年Q1黄金首饰回收市场价1002元/克，同比+41.13%。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>行业告别单一素金依赖进入"素金稳基本盘、镶嵌提毛利"的高质量增长新阶段。头部品牌通过产品结构优化提升盈利稳定性与抗周期能力，将增长动力从"靠金价上涨、靠销量扩张"转向"靠产品溢价、靠结构升级"。<strong>落地判断：</strong>具备镶嵌设计能力的珠宝品牌在高金价环境下具有结构性优势，回收市场随金价联动也呈现增长态势。
+</div>
+<div class="news-source">来源：上海黄金饰品行业协会、中国黄金网</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">24</div>
+<div class="news-title" style="flex:1">口服美容品全球市场2025年达82.1亿美元，中国线上销售增长率24.2%</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">美妆</span>
+<span class="tag tag-industry">口服美容</span>
+</div>
+<p class="news-body">全球口服美容品市场2025年规模达82.1亿美元，预计2031年达134亿美元。中国口服美容品线上销售额2022-2024年增长率达24.2%，预计2031年市场规模达320亿元。麦角硫因等抗衰成分销售额同比增长超2.6倍，口服美容品牌复购率同比提升58%。PDRN首证在即，脱发治疗高景气。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>口服美容是"内服外养"趋势下的跨赛道增长点，连接美妆与营养保健品两大产业。消费者从外用护肤向内服调理延伸，驱动功能性食品与美容产品融合。<strong>落地判断：</strong>口服美容品牌需具备功效验证数据支撑，与外用护肤品形成协同效应的品牌具有先发优势。
+</div>
+<div class="news-source">来源：浙商证券研究所、艾媒咨询</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">25</div>
+<div class="news-title" style="flex:1">餐饮行业总利润率回升至8.83%，"营收减少利润增加"品牌占比翻倍</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">餐饮</span>
+<span class="tag tag-economy">盈利改善</span>
+</div>
+<p class="news-body">2025年餐饮品牌盈利结构显著优化："营收增加、利润增加"品牌从22.2%提升至41.9%，"营收减少、利润增加"从14.8%提升至29%，"营收减少、利润减少"从59.3%大幅降至22.6%。行业总利润率达到8.83%。万店品牌门店规模同比增长率达20.1%，超过行业整体收入增速。烧烤赛道景气指数维持在较高区间，中式正餐、火锅2月达高点后3月回落。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>盈利结构改善说明行业正经历"减量增利"的质量转型——通过精简SKU、供应链优化、数字化降本实现利润提升而非依赖规模扩张。万店品牌马太效应加剧，头部品牌影响力越来越大。<strong>落地判断：</strong>烧烤赛道维持高景气，地方特色菜系（江西菜、广西菜、湖北菜）增速亮眼，是存量竞争中新蓝海。
+</div>
+<div class="news-source">来源：红餐大数据、辰智大数据、《2026中国餐饮产业生态白皮书》</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">26</div>
+<div class="news-title" style="flex:1">健身行业K型分化加剧，高端抗衰塑形与大众性价比双线并行</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">健身塑形</span>
+<span class="tag tag-society">分层消费</span>
+</div>
+<p class="news-body">健身消费呈显著"K型分化"：高端市场聚焦抗衰塑形与康复医疗，用户愿为基因检测、代谢调节等定制化服务支付溢价；大众市场追求性价比与便捷性，社区健身舱、可折叠器械等轻资产模式快速渗透。男性消费群体崛起成为新亮点，抗阻训练器械与溶脂针需求激增。普拉提精品小班（1-4人）人均指导时长提升60%，产后修复12-24节课程改善率超95%，腰腹维度平均缩减5-8厘米。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>K型分化意味着行业不再有"通用型"产品，必须精准锁定圈层。高端市场拼专业壁垒和数据闭环，大众市场拼便捷性和成本效率。普拉提"测评-定制-追踪"模式实现可量化效果，是高端化的典型路径。<strong>落地判断：</strong>中小工作室聚焦小众需求以差异化服务抢占细分市场，瑜伽馆、拳击工作室通过特色课程与社区化服务形成壁垒。
+</div>
+<div class="news-source">来源：中研普华产业研究院、红餐大数据</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">27</div>
+<div class="news-title" style="flex:1">美妆电商上半年2708亿，抖音增速放缓至14.48%但仍占49%份额</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">美妆</span>
+<span class="tag tag-economy">渠道格局</span>
+</div>
+<p class="news-body">2026上半年美妆电商GMV达2708.62亿元，同比+5.5%。抖音1503.36亿+14.48%（去年同期24.1%），天猫736.82亿+5.04%（结束两年下滑），京东248.54亿-13.79%，淘宝219.89亿-16.87%。抖音商品均价76.24元处于低位，天猫均价122.22元最高。护肤仍是大盘主力但进入微增时代，彩妆、洗护在抖音高速增长。外资高端品牌在护肤强势，新锐国货引领彩妆、洗护增长。80%头部美妆品牌仍增长，TOP20中16个品牌上涨。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>"一超一强两分化"格局清晰——抖音增速换挡但仍占近半份额，天猫回暖终结下滑。品牌从达播转向自播是抖音增速放缓的结构性原因。京东、淘宝承压反映传统货架电商流量困境。<strong>落地判断：</strong>天猫承载品牌高端化定位和旗舰店价值，抖音适合白牌走量和新品爆发，双平台策略是品牌标配。
+</div>
+<div class="news-source">来源：久谦、浙商证券研究所、天猫大美妆、青眼情报</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">28</div>
+<div class="news-title" style="flex:1">疗愈经济新业态聚集，光谷疗愈空间三个月会员破百</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">疗愈</span>
+<span class="tag tag-society">新业态</span>
+</div>
+<p class="news-body">光谷正成为疗愈新业态聚集地：清源息羽疗愈空间今年1月开业不到三个月会员超百人；光谷豪生酒店疗愈工坊累计接待超2000人次。IMESHOW创始人深耕美愈赛道十六载，以标准化"五行音香"破局疗愈创业。艺术治疗首入本科专业目录后，绘画疗愈、舞动疗愈、音乐吟唱等服务场景覆盖医疗康复、特殊教育、社区养老等多领域。康养旅居市场2024年6800亿元，2030年预计1.8万亿元。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>疗愈经济线下落地的核心模式是"空间+课程+会员"——通过物理空间营造沉浸体验，标准化课程体系实现可复制交付，会员制建立持续复购。美愈赛道（美学+疗愈融合）是差异化方向。<strong>合规要点：</strong>疗愈服务需区分专业心理咨询（需资质）与泛疗愈体验（需效果不夸大宣传）。<strong>落地判断：</strong>康养文旅融合是百亿级线下场景，中医康养与跨境医疗协同升级为重要方向。
+</div>
+<div class="news-source">来源：《疗愈经济蓝皮书2026》、交汇点、中国旅游研究院</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">29</div>
+<div class="news-title" style="flex:1">知识付费小程序渠道贡献超40%，AI降低运营成本40%</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">知识IP</span>
+<span class="tag tag-tech">渠道迁移</span>
+</div>
+<p class="news-body">小程序成为知识付费核心增量渠道，贡献占比超40%。创客匠人搭载"AI用户画像+分层运营"系统，引流转化效率比行业平均高52%，10万用户规模留存率比行业平均高58%。AI自动课程剪辑、智能客服应答降低40%运营成本，提升35%复购率。"0佣金"策略让学员数据全部归客户所有，可随时导出。结果式付费陪跑模式仅在帮助客户达成实际营收后按约定比例分成。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>知识付费从公域获客转向私域深耕，小程序的低门槛和高触达使其成为承接私域的核心载体。AI赋能解决"重服务"痛点——知识付费属重服务赛道，用户咨询、课程答疑贯穿全天，AI智能体7×24小时自动响应大幅降低人力成本。<strong>落地判断：</strong>"SaaS工具+AI智能体+结果式陪跑"三位一体是知识IP变现的完整闭环，数据主权归属是平台选择的关键考量。
+</div>
+<div class="news-source">来源：创客匠人、艾媒咨询、新华网</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">30</div>
+<div class="news-title" style="flex:1">女性专属健身房爆发式增长，智能穿戴从颜值转向功能</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">女性经济</span>
+<span class="tag tag-society">消费升级</span>
+</div>
+<p class="news-body">宁波已有近10家女性专属健身房，超半数评分达4.8分，女性高频提及"教练专业""环境私密""器械干净"。门店升级后几天内新增20多位会员。女性对智能穿戴设备关注点从颜值转向心率、睡眠、血氧、压力监测等功能。女性理财账号大量涌现，金融保险领域女性专属产品持续上新。3月1日至5日抖音生活服务女性消费规模同比+61%，拳击课销售量+377%。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>女性消费从追求"面子"转向深耕"里子"——把自我投资放在外观修饰之上。女性专属健身房踩中"私密性与洁净度"痛点，智能穿戴从装饰品升级为健康管理工具。女性理财、保险需求觉醒推动金融产品细分。<strong>落地判断：</strong>针对女性痛点的垂直化服务（专属健身空间、女性健康保险、理财教育课程）具有高增长潜力，专业度、体验感、长期价值是新竞争关键词。
+</div>
+<div class="news-source">来源：宁波市商务局、美团、京东MALL、抖音生活服务</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">31</div>
+<div class="news-title" style="flex:1">宠物友好城市政策推进，广州"宠八条"撤回揭示规范发展需平衡</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">宠物</span>
+<span class="tag tag-politics">政策探索</span>
+</div>
+<p class="news-body">广州白云区"宠八条"涵盖产业空间、企业培育、行业生态、人才支撑和规范发展五方面，给予最高300万元园区建设扶持和10亿元专项授信。但政策发布后被撤回，原因是"部分内容需要优化调整"。白云区已汇聚超200家宠物上下游企业，建成"月亮猫城""夜猫森林"等特色主题公园。北京建议探索宠物友好时段或功能分区。成都将宠物经济写入政府工作报告，推广宠物友好商场、餐厅、公园。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>"宠八条"撤回说明宠物经济政策需在"产业扶持"与"规范管理"间取得平衡——村级工业园改造、功能性食品生产培育等具体措施涉及多部门协调。政策探索方向已明确：从"单纯限制"转向"科学治理"，推动行业标准制定。成都500万只宠物保有量为产业提供坚实市场基础。<strong>落地判断：</strong>政策虽短期遇挫但方向明确，宠物产业园和宠物小镇是地方产业发展抓手，宠物医疗、保险等高附加值服务是未来增量。
+</div>
+<div class="news-source">来源：《中国经营报》、广州市白云区枢纽管理办公室、成都市政府</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">32</div>
+<div class="news-title" style="flex:1">D-核糖被列入运动营养强化剂，心脏保健进入"细胞能量修复"新时代</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">营养保健品</span>
+<span class="tag tag-tech">成分创新</span>
+</div>
+<p class="news-body">2024年D-核糖被国家卫健委列入运动营养强化剂，2025年终端单品销售额破亿。D-核糖是ATP核心组成成分，直接参与心肌能量合成，区别于传统抗氧化、调血脂产品。德国临床研究显示补充后运动耐力提升24%。辅酶Q10、深海鱼油、左旋肉碱、牛磺酸等传统品类仍占据榜单前列。2026年保健品排名更看重科学实证、作用机制、适用场景。GABA品类凭借睡眠调节、生长辅助需求成为近三年增速冠军（年复合增长率29.4%）。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>心脏保健从"基础保养"进入"细胞能量修复"新时代，消费者不再盲目跟风而更看重科学依据、真实效果、技术背景。D-核糖的登顶标志着成分创新从"抗氧化"向"能量代谢"的范式转移。<strong>合规要点：</strong>保健食品需完成备案凭证和生产许可，蛋白粉行业非正规厂家不合格检出率高达27.32%。<strong>落地判断：</strong>具备明确临床数据和核心技术的产品排名大幅上升，科研研发型品牌（研发投入占比高于35%）将持续胜出。
+</div>
+<div class="news-source">来源：国家卫健委、德国临床研究数据、中国营养学会</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">33</div>
+<div class="news-title" style="flex:1">AI文创进入工业化节点，AI生成视频音频超20亿条增长14倍</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">AI内容服务</span>
+<span class="tag tag-tech">工业化</span>
+</div>
+<p class="news-body">2026年网络视听行业AI生成视频和音频累计超20亿条，较2024年增长14倍以上。AI已从内容生产中的"插件"进入剧本策划和角色生成等深层产业结构。可灵AI完成近30亿美元融资投后估值180亿美元。国家网信办等三部门联合印发智能体规范应用实施意见，明确重点研发文学、音乐、绘画、视听、演艺等内容创作智能体。江苏印发"人工智能+文化旅游"行动方案。AI短剧获选戛纳电影节展演，预计2026年海外AI剧/漫剧市场规模达6.5亿美元。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>AI文创已越过演示阶段进入真实生产现场，成为新一轮文化生产力的重要底座。从"生成内容"走向"经营世界"——AI改变的不是"如何做得更快"而是文创产业如何组织生产、如何沉淀资产、如何分发反馈。<strong>合规要点：</strong>智能体规范应用实施意见为内容创作智能体划定发展框架，AI生成内容需标注。<strong>落地判断：</strong>AI短剧出海是增量方向，文化新业态特征明显的16个行业小类营收同比增长14.3%，明显快于整体增速。
+</div>
+<div class="news-source">来源：国家网信办、江苏省文旅厅、DataEye、伽马数据</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">34</div>
+<div class="news-title" style="flex:1">保险行业资产规模持续扩大，人身险资产总额约42.5万亿</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">保险</span>
+<span class="tag tag-economy">资产规模</span>
+</div>
+<p class="news-body">2026年Q1人身险行业资产总额约42.5万亿元，资金运用余额39.4万亿元，均保持两位数增长。股票和证券投资基金配置占比提升至15.3%，权益投资力度加大。2013-2024年保险业原保险保费收入从1.72万亿增至5.70万亿，2025年1-11月达5.76万亿同比+7.6%。保险业资产规模2011-2024年持续扩大。个险渠道保费8322.4亿+5.8%占比46.7%，银邮渠道+11%占比43.7%。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>分红险成为拉动增长的核心力量，低利率环境下浮动收益型产品供给加大。银邮渠道增速超过个险渠道，两大主力渠道占比差距继续缩小。权益投资占比提升至15.3%反映行业在低利率环境下加大权益配置以提升投资收益。<strong>合规要点：</strong>偿付能力水平受宏观和资产端因素影响有所下降，严监管态势持续。<strong>落地判断：</strong>行业净利润预计环比回升，产品价值转型持续深化，分红险占比稳步提升。
+</div>
+<div class="news-source">来源：中国人寿研究院、前瞻产业研究院、国家金融监督管理总局</div>
+</div>
+
+<div class="news-card">
+<div class="news-head">
+<div class="news-num">35</div>
+<div class="news-title" style="flex:1">文创产业预测2026年规模突破7.5万亿，年复合增长率超10%</div>
+</div>
+<div class="badges">
+<span class="badge tag-p3">P3</span>
+<span class="badge">文创</span>
+<span class="tag tag-economy">产业规模</span>
+</div>
+<p class="news-body">预测到2026年中国文化创意产业整体市场规模将突破7.5万亿元，年均复合增长率保持在10%以上。增长动力主要源于数字技术深度融合与细分赛道结构优化。广东一季度规模以上文化企业12364家营收6587.72亿元+8.8%，文化新业态占比42.7%。文化服务业营收占比46.8%领跑，文化制造业41.4%。大型企业42.8%引领支撑，小微企业39.2%韧性活力强。重庆发布"人工智能+文化创意"新模式，天津强调农文商旅体产业融合。</p>
+<div class="news-analysis">
+<strong>深度解析：</strong>文化新业态以28.9%增速成为第一增长引擎，娱乐用智能无人飞行器+60.7%、可穿戴智能文化设备+48.9%增速最为突出。制造与服务协同发力，文化服务业以11.7%增速领跑全产业。大中小企业融通发展，小微企业以12.1%增速展现韧性。<strong>落地判断：</strong>"人工智能+文化创意"是各地政策重点方向，农文商旅体产业融合是县域文创发展路径，数字艺术、国潮文创被明确鼓励开发。
+</div>
+<div class="news-source">来源：广东省统计局、重庆市发改委、天津市文旅局</div>
+</div>
+
+</section>
+
+<!-- ===== CONTENT END ===== -->
+
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">光体频道</div>
+  <div class="footer-en">Luminary Channel</div>
+  <div class="footer-info">
+    <span>内容来源：公开资讯采集与AI辅助分析</span><br/>
+    <span class="footer-highlight">光体频道 · 每日商业趋势</span>
+  </div>
+  <a href="光体频道.html" class="footer-back">← 返回首页</a>
+</footer>
+
+<a href="光体频道.html" class="float-back">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  返回首页
+</a>
+
+<script>
+(function(){
+  var sf=document.getElementById('starfield');
+  if(!sf)return;
+  for(var i=0;i<60;i++){
+    var s=document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=Math.random()*4+'s';
+    s.style.animationDuration=(3+Math.random()*3)+'s';
+    sf.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
