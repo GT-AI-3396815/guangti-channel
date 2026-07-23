@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光体频道：每日星际文明解读</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@200;300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+:root{
+  --bg-void:#06080f;--bg-deep:#0a0e1a;--bg-card:#0f1525;--bg-card-hover:#141c30;
+  --gold:#c9a96e;--gold-bright:#e4c98e;--gold-dim:rgba(201,169,110,0.4);--gold-faint:rgba(201,169,110,0.08);
+  --text-primary:#e8e6e3;--text-secondary:#9ca3af;--text-muted:#6b7280;
+  --border-subtle:rgba(201,169,110,0.1);--border-hover:rgba(201,169,110,0.3);
+  --accent-blue:#3b82f6;--accent-purple:#8b5cf6;--accent-green:#10b981;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg-void);color:var(--text-primary);font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.4) 100%)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-void)}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+
+.ambient{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.12;animation:drift 30s ease-in-out infinite}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,#c9a96e,transparent 70%);top:-200px;right:-100px}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,#3b82f6,transparent 70%);bottom:-150px;left:-100px;animation-delay:-10s;animation-duration:40s}
+.orb-3{width:400px;height:400px;background:radial-gradient(circle,#8b5cf6,transparent 70%);top:40%;left:50%;animation-delay:-20s;animation-duration:50s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.05)}66%{transform:translate(-30px,40px) scale(0.95)}}
+.starfield{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:0;animation:twinkle 4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:0.5}}
+
+.container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(6,8,15,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-subtle)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-brand-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-dim);box-shadow:0 0 20px var(--gold-dim)}
+.nav-brand-text{font-family:'Noto Serif SC',serif;font-weight:600;font-size:16px;color:var(--text-primary);letter-spacing:2px}
+.nav-brand-text .en{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:12px;color:var(--gold);margin-left:8px}
+.nav-meta{display:flex;align-items:center;gap:20px;font-size:12px;color:var(--text-secondary)}
+.nav-date{font-family:'JetBrains Mono',monospace;font-weight:300;letter-spacing:1px}
+.back-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.back-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+
+/* HERO */
+.hero{position:relative;padding:120px 24px 60px;text-align:center;overflow:hidden}
+.hero-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,0.08) 0%,transparent 50%),linear-gradient(180deg,var(--bg-void) 0%,var(--bg-deep) 100%)}
+.hero-content{position:relative;z-index:2;max-width:800px;margin:0 auto}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:300;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:24px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:36px;height:1px;background:var(--gold-dim)}
+.hero-title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(36px,7vw,72px);line-height:1.1;letter-spacing:4px;margin-bottom:12px;background:linear-gradient(180deg,#fff 0%,#e8e6e3 40%,var(--gold-bright) 80%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;font-weight:300;color:var(--gold);letter-spacing:3px;margin-bottom:20px}
+.hero-date{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-secondary);letter-spacing:2px}
+.hero-desc{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:600px;margin:24px auto 0}
+
+/* SECTION */
+.section{padding:60px 0}
+.section-label{display:flex;align-items:center;gap:16px;margin-bottom:40px}
+.section-label-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.section-label-text{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+.section-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:8px;letter-spacing:2px}
+.section-desc{font-size:14px;color:var(--text-secondary);margin-bottom:40px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:36px;padding-bottom:16px;border-bottom:1px solid var(--border-subtle)}
+.section-icon{font-size:32px;line-height:1}
+.section-subtitle{font-size:13px;color:var(--text-muted);letter-spacing:1px;margin-top:2px}
+
+/* FOOTER */
+.footer{padding:60px 24px 40px;text-align:center;border-top:1px solid var(--border-subtle);margin-top:40px;position:relative;z-index:1}
+.footer-brand{font-family:'Noto Serif SC',serif;font-size:16px;color:var(--gold);letter-spacing:4px;margin-bottom:8px}
+.footer-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-muted);letter-spacing:2px;margin-bottom:24px}
+.footer-info{font-size:12px;color:var(--text-muted);line-height:2}
+.footer-highlight{color:var(--gold);font-weight:500}
+.footer-back{display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:10px 24px;border:1px solid var(--border-subtle);border-radius:24px;color:var(--gold);text-decoration:none;font-size:13px;letter-spacing:1px;transition:all .3s}
+.footer-back:hover{border-color:var(--gold);background:var(--gold-faint)}
+
+/* FLOATING BACK BUTTON */
+.float-back{position:fixed;bottom:32px;right:32px;z-index:9000;display:flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--bg-void);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:1px;border-radius:28px;box-shadow:0 8px 32px rgba(201,169,110,0.35),0 0 0 1px rgba(201,169,110,0.2);transition:all .3s cubic-bezier(.4,0,.2,1);opacity:0;transform:translateY(20px);animation:floatBackIn .5s ease forwards .5s}
+.float-back:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 12px 40px rgba(201,169,110,0.5),0 0 0 1px rgba(201,169,110,0.3)}
+.float-back svg{width:16px;height:16px;flex-shrink:0}
+@keyframes floatBackIn{to{opacity:1;transform:translateY(0)}}
+
+/* ===== CONTENT STYLES ===== */
+/* Channel-specific unified styles - all 12 channels */
+
+/* ch07 civilization */
+.container .civ-card{position:relative;overflow:hidden}
+.container .civ-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .civ-headline{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .civ-detail{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .civ-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-summary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .civ-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .civ-number{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+
+/* ch08 prehistoric */
+.container .item{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .item:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .item-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+.container .item-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic;flex-shrink:0;min-width:32px}
+.container .item-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .item-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .item-body{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .level-a,.container .level-b{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch09 wisdom */
+.container .cat-buddhist,.container .cat-confucian,.container .cat-medical,.container .cat-philosophy,.container .cat-strategy,.container .cat-taoist,.container .cat-yijing{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .cat-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .level-desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .modern{font-size:14px;color:var(--text-primary);line-height:1.8}
+.container .original-text{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .source-line{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .tag-l1,.container .tag-l2,.container .tag-l3{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch10 wellness */
+.container .badge-cat,.container .badge-group{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .card-p0,.container .card-p1,.container .card-p2{border-left:3px solid var(--gold)}
+.container .jinji{color:var(--gold-bright);font-weight:500}
+.container .ni-quote{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .priority-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .pt-p0,.container .pt-p1,.container .pt-p2{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .quote-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .section-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+.container .shicao{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .yangsheng-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
+.container .yangsheng-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .yangsheng-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.container .yili{font-size:14px;color:var(--text-secondary);line-height:1.8}
+
+/* ch11 healing */
+.container .cat-body,.container .cat-environment,.container .cat-mindfulness,.container .cat-sleep{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+.container .deep-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .suggestion{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+
+/* ch12 manifestation */
+.container .seg{padding:20px 0}
+.container .b-act,.container .b-cog,.container .b-diff,.container .b-hab,.container .b-phys{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
+
+/* ch05 ufo & ch06 cosmic extra */
+.container .news-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .news-video-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);text-decoration:none;font-size:12px;transition:all .3s}
+.container .news-video-link:hover{border-color:var(--gold);background:var(--gold-faint)}
+.container .tag-official,.container .tag-observe{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+
+/* ch02 ai extra */
+.container .a-body,.container .a-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .a-title::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .advice{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block;margin-right:6px}
+.container .hero-inner{position:relative;z-index:2}
+.container .hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 32px;margin-top:24px}
+.container .hero-tag{display:flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-subtle);border-radius:20px;color:var(--gold);font-size:12px;margin-bottom:24px}
+.container .item{padding:14px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .judgments{display:flex;flex-direction:column;gap:16px}
+.container .region{font-size:12px;color:var(--text-secondary);text-transform:none;letter-spacing:0.5px}
+.container .subtitle{font-size:14px;color:var(--text-secondary);line-height:1.8;max-width:700px;margin:0 auto 24px}
+
+/* ch03 business extra */
+.container .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.container .card-title-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.container .tag-climate{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
+.container .tag-conflict{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag-economy{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag-politics{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag-society{background:rgba(139,92,246,0.15);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)}
+.container .tag-tech{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+.container .tag-yy{background:rgba(201,169,110,0.15);color:var(--gold);border:1px solid rgba(201,169,110,0.3)}
+
+/* ch04 self-media extra */
+.container .alt-label,.container .chip-label{font-size:13px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container .secondary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .top3-reason{font-size:14px;color:var(--text-secondary);line-height:1.8;padding-top:16px;border-top:1px solid var(--border-subtle)}
+.container .top3-title{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-img-suggest{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .topic-meta{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .topic-title-alt{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .topic-titles{font-size:14px;color:var(--text-primary);line-height:1.8}
+
+/* ===== MAIN CONTENT STYLES ===== */
+.container > *{position:relative;z-index:1}
+.container section{padding:40px 0}
+.container h2{font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700;color:var(--text-primary);margin-bottom:16px;letter-spacing:2px}
+.container h3{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);margin-bottom:12px;line-height:1.5}
+.container h4{font-size:14px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.container p{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-bottom:12px}
+.container ul,.container ol{padding-left:24px;margin-bottom:16px}
+.container li{font-size:14px;color:var(--text-secondary);line-height:1.8;padding:4px 0}
+.container strong{color:var(--gold-bright);font-weight:500}
+.container a{color:var(--gold);text-decoration:none}
+.container a:hover{text-decoration:underline}
+
+/* Unified card styles */
+.container .news-card,
+.container .card,
+.container .news-item,
+.container .topic-card,
+.container .stat-card,
+.container .judgment,
+.container .summary{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  padding:28px 24px;
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+  transition:all .4s;
+}
+.container .news-card::before,
+.container .card::before,
+.container .news-item::before,
+.container .topic-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0.6;
+}
+.container .news-card:hover,
+.container .card:hover,
+.container .news-item:hover,
+.container .topic-card:hover{
+  border-color:var(--border-hover);
+  background:var(--bg-card-hover);
+  transform:translateY(-2px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+.container .topic-card::before{
+  top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(180deg,var(--gold),transparent);
+  opacity:0.5;
+}
+
+/* Unified tag/badge styles */
+.container .news-tag,
+.container .tag,
+.container .badge,
+.container .group-badge,
+.container .top3-badge,
+.container .topic-cat-badge,
+.container .meta-chip{
+  display:inline-block;
+  padding:4px 12px;
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--gold);
+  text-transform:uppercase;
+  background:var(--gold-faint);
+  font-weight:500;
+  margin:2px;
+}
+.container .news-tag{border-radius:4px;text-transform:none;font-size:12px}
+.container .tag{border-radius:4px;text-transform:none;font-size:11px;font-weight:600}
+.container .badge{border-radius:4px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:none}
+.container .group-badge{border-radius:6px;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:none}
+
+/* Priority badges */
+.container .tag.imp.p0,.container .badge-p0,.container .group-badge.p0,.container .b-p0,.container .tag-p0{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.container .tag.imp.p1,.container .badge-p1,.container .group-badge.p1,.container .b-p1,.container .tag-p1{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.container .tag.imp.p2,.container .badge-p2,.container .group-badge.p2,.container .b-p2,.container .tag-p2{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.container .tag.imp.p3,.container .badge-p3,.container .group-badge.p3,.container .b-p3,.container .tag-p3{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3)}
+
+/* Unified headline/title styles */
+.container .news-headline,
+.container .news-title,
+.container .card-title,
+.container .topic-title-main{
+  font-family:'Noto Serif SC',serif;
+  font-size:18px;
+  font-weight:600;
+  color:var(--text-primary);
+  line-height:1.5;
+  margin-bottom:12px;
+}
+
+/* Unified number/decorative element */
+.container .news-num,
+.container .topic-num,
+.container .top3-rank,
+.container .card-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;
+  font-weight:300;
+  color:var(--gold);
+  line-height:1;
+  font-style:italic;
+}
+
+/* Unified summary/body text */
+.container .news-summary,
+.container .news-body,
+.container .card-body,
+.container .summary,
+.container .topic-section-content,
+.container .seg-text{
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+.container .news-body strong,
+.container .card-body strong{color:var(--gold-bright);font-weight:500}
+
+/* Unified detail/analysis boxes */
+.container .news-detail,
+.container .news-analysis,
+.container .trend-box,
+.container .card-value,
+.container .seg-note,
+.container .topic-hook{
+  background:rgba(201,169,110,0.06);
+  border:1px solid rgba(201,169,110,0.15);
+  border-left:3px solid var(--gold-dim);
+  border-radius:8px;
+  padding:16px 20px;
+  margin:12px 0;
+}
+.container .news-analysis{
+  background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));
+  border:1px solid rgba(201,169,110,0.2);
+}
+
+/* Unified source/meta */
+.container .news-source,
+.container .news-meta,
+.container .card-source,
+.container .seg-src,
+.container .source{
+  font-size:11px;
+  color:var(--text-muted);
+  border-top:1px solid var(--border-subtle);
+  padding-top:10px;
+  margin-top:12px;
+  letter-spacing:0.5px;
+}
+
+/* Stats grid */
+.container .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:24px}
+.container .stat-card .head,
+.container .stat-card h3{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.container .stat-card .total{font-size:28px;font-weight:800;color:#fff}
+.container .stat-card .total span{font-size:13px;color:var(--text-muted);font-weight:400;margin-left:4px}
+.container .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.container .bar-row .label{width:90px;font-size:12px;color:var(--text-secondary);flex-shrink:0}
+.container .bar-row .track{flex:1;height:22px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden}
+.container .bar-row .fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px}
+.container .bar-row .val{font-size:12px;font-weight:700;color:#fff}
+
+/* Judgments */
+.container .judgment{
+  background:linear-gradient(135deg,rgba(201,169,110,0.06),rgba(59,130,246,0.03));
+  border:1px solid var(--border-subtle);
+  border-left:3px solid var(--gold);
+  border-radius:10px;
+  padding:18px 22px;
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+.container .judgment .key{color:var(--gold-bright);font-weight:700}
+
+/* Advice grid */
+.container .advice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
+.container .advice-item{background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:8px;padding:10px 12px}
+.container .advice-item .role{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+.container .advice-item .text{font-size:12px;color:var(--text-secondary);line-height:1.6}
+
+/* Summary table */
+.container .summary-table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border-subtle)}
+.container .summary-table th{background:var(--gold-faint);color:var(--gold);font-weight:600;font-size:13px;padding:14px 16px;text-align:left;border-bottom:1px solid var(--border-subtle);letter-spacing:1px}
+.container .summary-table td{padding:14px 16px;font-size:14px;color:var(--text-secondary);border-bottom:1px solid rgba(255,255,255,0.04)}
+.container .summary-table tr:last-child td{border-bottom:none}
+.container .summary-table tr:hover td{background:var(--gold-faint)}
+
+/* Topic outline */
+.container .topic-outline{list-style:none;padding:0}
+.container .topic-outline li{font-size:14px;color:var(--text-secondary);line-height:1.8;padding:6px 0 6px 24px;position:relative}
+.container .topic-outline li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:1px;background:var(--gold-dim)}
+.container .topic-outline li strong{color:var(--gold-bright);font-weight:500}
+
+/* Topic sections */
+.container .topic-section{margin-bottom:20px}
+.container .topic-section-label,
+.container .seg-label,
+.container .a-title,
+.container .ad-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.container .topic-section-label::before{content:'';width:12px;height:1px;background:var(--gold-dim)}
+.container .topic-hook{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;color:var(--gold-bright);line-height:1.6;font-style:italic}
+.container .topic-copy{font-size:14px;color:var(--text-primary);line-height:1.9;text-align:justify;white-space:pre-wrap}
+.container .topic-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.container .topic-tag{padding:4px 10px;border:1px solid var(--border-subtle);border-radius:12px;font-size:11px;color:var(--gold);background:var(--gold-faint);font-family:'JetBrains Mono',monospace;letter-spacing:0.5px}
+
+/* Top3 grid */
+.container .top3-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:60px}
+.container .top3-card{position:relative;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;transition:all .4s;overflow:hidden}
+.container .top3-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6}
+.container .top3-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+
+/* Legend */
+.container .level-legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:24px}
+
+/* News group */
+.container .news-group{margin-bottom:40px}
+.container .group-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+
+/* Card header/layout */
+.container .news-head,
+.container .card-head,
+.container .card-header,
+.container .topic-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.container .news-head .news-num,
+.container .card-head .card-num{flex-shrink:0;min-width:32px}
+
+/* News list */
+.container .news-list{display:flex;flex-direction:column;gap:20px}
+.container .cards{display:flex;flex-direction:column;gap:20px;margin-top:24px}
+.container .top-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+
+/* Section title variants */
+.container .section-title .bar{width:4px;height:22px;background:linear-gradient(180deg,var(--gold),var(--accent-blue));border-radius:2px;display:inline-block;margin-right:12px;vertical-align:middle}
+.container .section-title .en{font-size:13px;color:var(--text-muted);font-weight:400;letter-spacing:1px}
+
+/* Nav inside content (sticky section nav) */
+.container .nav{all:unset;display:flex;justify-content:center;flex-wrap:wrap;gap:8px 28px;padding:14px 0;border-bottom:1px solid var(--border-subtle);margin-bottom:24px;position:relative !important;top:auto !important;background:transparent !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+.container .nav a{color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:500;transition:color .3s;position:relative;padding:4px 0}
+.container .nav a:hover,.container .nav a.active{color:var(--gold)}
+.container .nav a.active::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--gold);border-radius:1px}
+
+/* Misc */
+.container .divider{width:60px;height:1px;background:var(--border-subtle);margin:24px auto}
+.container .ch-badge{display:inline-block;padding:5px 14px;border:1px solid var(--border-subtle);border-radius:20px;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;background:var(--gold-faint)}
+.container .ch-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:6px;line-height:1.3}
+.container .ch-sub{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--gold-bright);letter-spacing:2px;margin-bottom:16px}
+.container .ch-date{font-size:13px;color:var(--text-muted);letter-spacing:1px}
+
+/* Bar fills */
+.fill.p0,.fill.cat-policy{background:linear-gradient(90deg,#ef4444,#f87171)}
+.fill.p1{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.fill.p2,.fill.cat-product{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.fill.p3{background:linear-gradient(90deg,#6b7280,#9ca3af)}
+.fill.cat-model{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
+.fill.cat-industry{background:linear-gradient(90deg,#10b981,#34d399)}
+
+/* Video link button */
+.container .video-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:14px;
+  padding:8px 20px;
+  background:linear-gradient(135deg,#fb7299,#fc3a6e);
+  color:#fff !important;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600;
+  border-radius:22px;
+  letter-spacing:0.5px;
+  transition:all .3s;
+  box-shadow:0 4px 16px rgba(251,114,153,0.3);
+}
+.container .video-link:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(251,114,153,0.5);
+  text-decoration:none;
+}
+.container .video-link svg{
+  width:14px;height:14px;flex-shrink:0;fill:#fff;
+}
+
+@media(max-width:768px){
+  .hero{padding:100px 16px 40px}
+  .container .news-card,.container .card,.container .topic-card,.container .news-item{padding:20px}
+  .container .news-headline,.container .news-title,.container .card-title,.container .topic-title-main{font-size:16px}
+  .container .stats-grid{grid-template-columns:1fr}
+  .container .advice-grid{grid-template-columns:1fr}
+  .float-back{bottom:20px;right:20px;padding:10px 20px;font-size:13px}
+  .nav-brand-text{font-size:14px}
+  .nav-brand-text .en{font-size:10px}
+  .nav-meta{gap:12px}
+}
+</style>
+</head>
+<body>
+<div class="ambient"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="starfield" id="starfield"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="光体频道.html" class="nav-brand">
+      <img src="logo.jpg" alt="Luminary Channel" class="nav-brand-logo"/>
+      <div class="nav-brand-text">光体频道<span class="en">Luminary Channel</span></div>
+    </a>
+    <div class="nav-meta">
+      <span class="nav-date">2026.07.23</span>
+      <a href="光体频道.html" class="back-link">← 首页</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">CHANNEL 06 · COSMIC INTELLIGENCE</div>
+    <h1 class="hero-title">每日星际文明解读</h1>
+    <div class="hero-sub">Daily Cosmic Intelligence</div>
+    <div class="hero-date">2026 / 07 / 23</div>
+    <p class="hero-desc">每日提纯全球权威星际、航天、天文、宇宙科研客观资讯，剔除娱乐猎奇与玄学谣言，每条含关键认知价值提炼与信源链接。</p>
+  </div>
+</header>
+
+<div class="container">
+
+<section>
+<div class="section-header">
+<span class="section-icon">🜨</span>
+<div>
+<h2 class="section-title"><span class="bar"></span>每日前沿资讯 <span class="en">Daily Cosmic Intelligence</span></h2>
+<div class="section-subtitle">2026.07.23 · 12条权威星际资讯 · 按科研权威性 &gt; 认知价值 &gt; 新鲜度排序</div>
+</div>
+</div>
+
+<div class="news-list">
+
+<!-- 01 P0 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">01</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p0">P0 · 里程碑</span>
+<span class="tag">系外行星 · 宜居带</span>
+<span class="tag">来源：Science / Harvard-Smithsonian CfA</span>
+</div>
+<h3 class="news-headline">首次确认宜居带岩质行星 LHS 1140 b 拥有大气层</h3>
+</div>
+</div>
+<div class="news-body">
+<p>2026年7月16日，国际权威期刊《Science》发表研究，哈佛-史密森天体物理中心领衔的国际团队首次确认：距地球约48光年的岩质系外行星 <strong>LHS 1140 b</strong> 拥有富含氦气的大气层。这是人类首次在一颗同时具备"宜居带位置、岩石质地表、大气层"三大生命基础特征的系外行星上探测到大气存在的证据。</p>
+<p>研究团队利用智利麦哲伦望远镜的WINERED光谱仪，通过凌星观测探测到正在从行星逃逸的氦气信号，证实了大气层存在。模型推测该大气层已稳定存续超过30亿年。LHS 1140 b 质量约为地球的5.6倍，围绕一颗红矮星运行，公转周期仅24.7天，被潮汐锁定，理论平均温度约-47°C。朝向恒星的一面可能存在直径约4000公里的液态海洋——"眼球海洋"形态。</p>
+<p>红矮星占银河系恒星总数约70%，这一发现意味着岩质行星在红矮星宜居带内可以长期保留大气，此类宜居行星在宇宙中可能并不罕见。下一步研究团队计划利用JWST对大气成分进行精细光谱分析，搜寻生命标志物。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>这是系外行星研究的里程碑式突破——填补了"宜居带岩质行星是否保有大气层"这一长期空白。此前的模型推测与望远镜观测均未能给出确证，本次通过氦气逃逸信号的直接探测首次补全了宜居性三大要素的最后一块拼图。它将地外生命搜索从理论宜居性推演推向了可观测实证阶段，也为未来JWST的生物标志物探测选定了首个明确的优先目标。
+</div>
+<div class="news-source">
+信源：Science (2026) · Harvard-Smithsonian Center for Astrophysics · ScienceDaily · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260721000825.htm" target="_blank">ScienceDaily 报道</a> · 
+<a href="https://www.science.org" target="_blank">Science 期刊</a>
+</div>
+</div>
+
+<!-- 02 P0 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">02</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p0">P0 · 重大发现</span>
+<span class="tag">银河系中心 · 超大质量黑洞</span>
+<span class="tag">来源：Astronomy &amp; Astrophysics / ESO VLT</span>
+</div>
+<h3 class="news-headline">银河系中心黑洞 Sgr A* 周围尘埃天体保持稳定轨道运行</h3>
+</div>
+</div>
+<div class="news-body">
+<p>科隆大学弗洛里安·佩斯克博士领导的国际研究团队利用欧洲南方天文台甚大望远镜（VLT）上的ERIS仪器，对银河系中心超大质量黑洞人马座A*（Sgr A*）周围的四个异常尘埃天体进行了详细追踪观测。结果发现，包括著名的G2在内的多个富含尘埃天体，均沿着围绕黑洞的稳定轨道运行，并未如早期理论预测的那样被"意大利面化"撕裂吞噬。</p>
+<p>ERIS通过近红外辐射观测发现，G2仍处于稳定轨道上，表明其内部很可能隐藏着一颗恒星。2024年发现的双星系统D9同样在极端潮汐力中保持完整——这是首次观测到如此接近超大质量黑洞的双星系统。研究结果显示，Sgr A*的破坏性比此前预想的要小，银河系中心不仅是物质毁灭区，也可能激发恒星或奇特尘埃天体的形成。</p>
+<p>该研究已发表于《天文学与天体物理学》（Astronomy &amp; Astrophysics）期刊，为理解黑洞与恒星相互作用提供了新的实验观测框架。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>这一发现修正了人类对超大质量黑洞环境的单向认知——黑洞并非纯粹的"毁灭者"，在适当条件下它也能"保护"天体在极端引力场中的存续。G2内藏恒星、D9双星系统完好等证据，共同指向一个更复杂的图景：黑洞周围可能存在某种动态稳定机制，使天体在潮汐力极限边缘依然存活。这对恒星动力学、双星演化和星系核环境物理模型的修正具有直接推动作用。
+</div>
+<div class="news-source">
+信源：Astronomy &amp; Astrophysics (2026) · ESO VLT ERIS · 科隆大学 · 
+<a href="https://www.aanda.org" target="_blank">A&amp;A 期刊</a>
+</div>
+</div>
+
+<!-- 03 P0 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">03</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p0">P0 · 首次发现</span>
+<span class="tag">月球探测 · 太阳风</span>
+<span class="tag">来源：ScienceDaily / 中国嫦娥六号</span>
+</div>
+<h3 class="news-headline">嫦娥六号样本揭示月球正反面太阳风渗透差异</h3>
+</div>
+</div>
+<div class="news-body">
+<p>中国嫦娥六号探测器带回的月背样本揭示了月球两个半球之间一个令人意外的差异：太阳风粒子在月球背面土壤中的渗透深度显著大于正面。研究团队发现，由于地球磁层对月球正面的遮挡效应，太阳风粒子在正面土壤中的注入被部分阻挡，而背面则充分暴露在太阳风轰击下，导致渗透深度和风化程度存在系统性差异。</p>
+<p>这一发现首次从样本层面实证了月球的"不对称风化"现象，为理解太阳风与无大气天体表面的相互作用机制提供了关键样本数据。嫦娥六号于2024年实现人类首次月球背面采样返回，带回1935.3克月背样品，此后中国科学家通过对这些样品的研究取得了一系列重大科研成果。</p>
+<p>该研究也表明，月球正面与背面在空间风化程度、表面成熟度及矿物改造方面可能存在此前未被充分认识到的差异，这对未来月球基地选址和资源开采具有实际参考意义。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>太阳风对月表的"不对称风化"是从嫦娥六号实物样本中首次实证的全新发现，它直接回答了"为什么月背和月面看起来不同"这一长期悬而未决的问题。地球磁层像一面不对称的盾牌，在保护月球正面的同时让背面承受更强烈的太阳风刻蚀——这一机制的确认，对月球演化模型、空间风化理论以及未来月背资源勘测都构成基础性修正。
+</div>
+<div class="news-source">
+信源：ScienceDaily (2026-07-21) · 中国国家航天局 (CNSA) · 嫦娥六号月背样品 · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260718010145.htm" target="_blank">ScienceDaily 报道</a>
+</div>
+</div>
+
+<!-- 04 P1 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">04</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p1">P1 · 航天任务</span>
+<span class="tag">小行星探测 · NASA Psyche</span>
+<span class="tag">来源：NASA JPL / NASA Blogs</span>
+</div>
+<h3 class="news-headline">NASA Psyche 探测器完成火星飞越并传回全部科学数据</h3>
+</div>
+</div>
+<div class="news-body">
+<p>2026年5月15日，NASA的Psyche探测器成功完成火星引力助推飞越，并于7月17日发布了全部飞越数据和延时视频。探测器巧妙借用火星的引力弹弓效应获得了速度提升并微调轨道倾角，精准踏上前往主小行星带的旅程，预计2029年抵达金属小行星灵神星（16 Psyche）。</p>
+<p>在飞越期间，科学团队将火星作为"金属小行星替身"对三大核心仪器进行了全面检验：伽马射线和中子谱仪成功捕捉到火星表面逃逸的中子信号；磁力计记录下太阳风撞击火星环境产生的弓形激波磁场变化——这是该仪器首次测量到具体天体的磁场特征；多光谱成像仪不仅拍下高清地貌，还在极远距离成功识别出火卫一和火卫二，验证了其对散射光的敏感度。</p>
+<p>此次飞越不仅验证了仪器性能，还从独特视角为火星科学补充了数据，为2029年抵达灵神星后的科学探测奠定了坚实基础。灵神星被认为是早期行星暴露的金属核心，对其探测有望揭示行星内部结构的形成与演化机制。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>灵神星是人类尚未直接探测的一类特殊天体——裸露的行星金属核。如果 Psyche 任务证实其确为金属核残余，将首次提供行星分核演化的直接物理样本，对理解地球等岩质行星内部铁镍核的形成有不可替代的意义。火星飞越的仪器验证确保了抵达后数据的可靠性与科学产出质量。
+</div>
+<div class="news-source">
+信源：NASA JPL (2026-07-17) · NASA Blogs · 
+<a href="https://www.jpl.nasa.gov/news/" target="_blank">NASA JPL 新闻</a> · 
+<a href="https://blogs.nasa.gov/" target="_blank">NASA Blogs</a>
+</div>
+</div>
+
+<!-- 05 P1 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">05</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p1">P1 · 理论突破</span>
+<span class="tag">暗物质 · 宇宙学</span>
+<span class="tag">来源：ScienceDaily</span>
+</div>
+<h3 class="news-headline">新理论提出暗物质可能由两种不同粒子组成</h3>
+</div>
+</div>
+<div class="news-body">
+<p>2026年7月13日发表于ScienceDaily的研究提出，暗物质可能远比科学家此前认为的更加复杂——它可能由至少两种不同类型的粒子构成，这些粒子在宇宙时间尺度上缓慢分离，较重的粒子逐渐聚集成团而较轻粒子保持弥散分布。这一"双组分暗物质"模型可以同时解释多个长期悬而未决的宇宙学谜题。</p>
+<p>传统暗物质模型假设暗物质是单一冷粒子（如WIMP），但这一框架在面对星系尺度上的"暗物质缺失"问题和矮星系内部结构异常时遭遇困难。新模型通过引入第二种暗物质组分，允许在不同尺度上产生不同的引力效应分布，从而自然地调和了观测数据与模拟之间的偏差。</p>
+<p>该理论若得到验证，将从根本上改变人类对宇宙物质构成的认知框架，并为下一代暗物质探测实验提供全新的搜索策略——不再局限于单一粒子类型，而是同时搜寻两种或更多暗物质组分。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>暗物质占据宇宙物质总量的约85%，但人类至今未能直接探测到任何暗物质粒子。"双组分"模型的价值在于它用最少的理论扩展同时解决多个观测异常——这种"经济性"是物理学理论优劣的核心判据。如果暗物质确实包含两种以上粒子，那么此前所有基于单粒子假设的直接探测实验可能都需要重新评估探测窗口与信号预期。
+</div>
+<div class="news-source">
+信源：ScienceDaily (2026-07-13) · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260711010128.htm" target="_blank">ScienceDaily 报道</a>
+</div>
+</div>
+
+<!-- 06 P1 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">06</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p1">P1 · 空间天气</span>
+<span class="tag">太阳活动 · 预测</span>
+<span class="tag">来源：ScienceDaily / NASA</span>
+</div>
+<h3 class="news-headline">发现太阳11年周期"关断"信号，可提前7年预测太阳风暴</h3>
+</div>
+</div>
+<div class="news-body">
+<p>2026年7月21日发表于ScienceDaily的研究揭示了一个新发现的太阳11年活动周期转折点——一种"关断"信号，可能允许科学家提前数年预测未来的太阳活动水平。在太阳磁场极性反转的特定阶段，观测到了一种独特的磁场结构变化模式，标志着当前活动周期接近峰值并即将转向衰减。</p>
+<p>同时，NASA于7月15日发表于《Nature》的研究指出，地球对太阳风暴的响应可能没有此前认为的强度上限——长期以来的"上限假说"可能是一种错觉。这意味着极端太阳风暴对地面技术基础设施的潜在影响比此前估计的更加严重。</p>
+<p>这两项发现共同构成了太阳活动预测与空间天气风险评估的重要进展：一方面延长了预测窗口，另一方面重新校准了灾害上限评估。对于依赖卫星通信、电网和导航系统的现代文明而言，提前7年预警太阳活动峰值具有重大实用价值。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>太阳活动预测窗口从数月延长到数年，对航天、通信、电力等基础设施的防护规划具有直接战略价值。NASA关于"无上限响应"的新结论则意味着此前认为的极端太阳风暴影响评估可能过于乐观——卡林顿级别的超级太阳风暴如果再次发生，其影响范围和强度可能超出既有的工程防御设计。
+</div>
+<div class="news-source">
+信源：ScienceDaily (2026-07-21) · NASA (2026-07-15, Nature) · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260721000818.htm" target="_blank">ScienceDaily - 太阳关断信号</a>
+</div>
+</div>
+
+<!-- 07 P1 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">07</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p1">P1 · 实验物理</span>
+<span class="tag">黑洞物理 · 能量提取</span>
+<span class="tag">来源：ScienceDaily</span>
+</div>
+<h3 class="news-headline">物理学家在实验室中成功重演黑洞能量提取过程</h3>
+</div>
+</div>
+<div class="news-body">
+<p>2026年7月12日发表于ScienceDaily的研究报告称，研究人员使用一种产生合成超快旋转的静止装置，成功在实验室中重现了从旋转黑洞中提取能量的物理过程。这一长期理论构想——最早由彭罗斯于1969年提出——通过将一个物体投入旋转黑洞的能层（ergosphere）来提取其旋转能量，如今首次被转化为可在实验台上实现的物理实验。</p>
+<p>实验利用流体力学类比系统模拟了黑洞旋转的极端时空几何，通过表面波的散射过程观测到了能量净提取现象。虽然这一实验并非在真实黑洞上进行，但它提供了旋转黑洞热力学（包括霍金辐射和彭罗斯过程的延伸）的首个可验证的实验测试平台。</p>
+<p>同期7月13日发表的另一项研究还宣布了"霍金黑洞定律的重大升级"——科学家开发了新的热力学框架，可以将热力学定律应用于真实的、不断变化的黑洞，而非仅限于理想化的稳定黑洞模型。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>彭罗斯过程和黑洞热力学长期处于纯理论推演阶段，实验验证的缺失限制了这一领域的进展。实验室模拟虽不等同于真实黑洞观测，但它为理论提供了可重复检验的物理平台，使"从旋转黑洞提取能量"这一概念从思想实验走向可实证科学。配合霍金定律的升级框架，黑洞物理正在从数学推演转向实验科学。
+</div>
+<div class="news-source">
+信源：ScienceDaily (2026-07-12) · ScienceDaily (2026-07-13 霍金定律升级) · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260711010120.htm" target="_blank">ScienceDaily - 黑洞能量提取</a> · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260713000757.htm" target="_blank">ScienceDaily - 霍金定律升级</a>
+</div>
+</div>
+
+<!-- 08 P1 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">08</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p1">P1 · 火星探测</span>
+<span class="tag">火星 · 毅力号</span>
+<span class="tag">来源：NASA JPL / ScienceDaily</span>
+</div>
+<h3 class="news-headline">NASA 毅力号在火星完成马拉松距离，读取40亿年古撞击记录</h3>
+</div>
+</div>
+<div class="news-body">
+<p>2026年7月14日，NASA的毅力号火星车（Perseverance）宣布完成了一项惊人里程碑：在火星表面行驶了42.195公里——相当于一个完整马拉松距离，耗时5年4个月。这是人类发射的地外天体探测车中行驶距离最远的一次，标志着火星表面机动探测能力的重大进展。</p>
+<p>与此同时，毅力号在杰泽罗陨石坑边缘的古岩石中读取到了约40亿年前的太阳系"宇宙天气报告"——这些古老岩石保存了太阳系形成初期最活跃阶段的撞击记录。岩石中的冲击变质矿物和同位素特征，为理解早期太阳系的天体撞击频率和行星形成环境提供了直接样本。</p>
+<p>毅力号沿途采集的岩石样本将被未来的火星样本返回任务（MSR）带回地球进行更精细的实验室分析，这些样本是寻找火星古代生命迹象的最有潜力材料。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>40亿年前的撞击记录是太阳系"晚期重轰炸"尾声的直接实物证据，其价值在于它记录的是一个动荡的早期行星形成环境——当时的撞击频率远高于现在。这些岩石样本如果能通过MSR返回地球，将提供关于早期太阳系天体动力学和火星宜居性窗口的第一手数据，对理解地球-火星共同起源环境具有不可替代的意义。
+</div>
+<div class="news-source">
+信源：NASA JPL (2026-07-15) · ScienceDaily (2026-07-14) · 
+<a href="https://www.jpl.nasa.gov/news/" target="_blank">NASA JPL 新闻</a> · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260713084858.htm" target="_blank">ScienceDaily 报道</a>
+</div>
+</div>
+
+<!-- 09 P2 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">09</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p2">P2 · 生命起源</span>
+<span class="tag">宇宙化学 · 前生命分子</span>
+<span class="tag">来源：ScienceDaily</span>
+</div>
+<h3 class="news-headline">实验室模拟宇宙尘埃生成富含碳的复杂分子，揭示生命起源线索</h3>
+</div>
+</div>
+<div class="news-body">
+<p>2026年7月19日发表于ScienceDaily的研究报告称，研究人员通过在玻璃管中重建类太空条件，从零合成了宇宙尘埃。这些实验室生成的尘埃颗粒中包含了由生命必需元素构建的复杂富碳分子——这为理解星际尘埃如何在早期太阳系中携带前生命有机化合物提供了直接实验证据。</p>
+<p>实验模拟了星际介质中的低温、低压和辐射环境，在这些条件下，简单的碳氢分子通过气相沉积逐渐组装成更复杂的有机结构。这一过程再现了太阳系形成前星际云中可能发生的化学反应路径，暗示生命所需的基础分子构件可能在行星形成之前就已经存在于宇宙尘埃中。</p>
+<p>这一发现与此前在小行星和彗星上检测到的有机分子（如氨基酸前体）形成了连贯证据链，支持了"生命构件来自星际空间"这一假说。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>生命起源的"宇宙输入"假说认为，地球生命的基础有机分子并非全部在行星表面合成，部分可能由星际尘埃和小行星"快递"送达。本次实验首次在可控条件下重现了这一过程，从简单分子到复杂有机结构的自组装路径被实验验证，这为"宇宙化学→行星化学→生命化学"的连续演化链条补上了关键缺失环节。
+</div>
+<div class="news-source">
+信源：ScienceDaily (2026-07-19) · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260718010156.htm" target="_blank">ScienceDaily 报道</a>
+</div>
+</div>
+
+<!-- 10 P2 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">10</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p2">P2 · 古生物学 · 行星科学</span>
+<span class="tag">陨石鉴定 · 白垩纪灭绝</span>
+<span class="tag">来源：ScienceDaily</span>
+</div>
+<h3 class="news-headline">科学家鉴定出灭绝恐龙的陨石为稀有CO碳质球粒陨石</h3>
+</div>
+</div>
+<div class="news-body">
+<p>2026年7月19日发表于ScienceDaily的研究确认，6600万年前撞击地球、导致非鸟类恐龙灭绝的小行星，很可能是一种极为稀有的CO型碳质球粒陨石——它来自太阳系外缘的遥远区域。其不寻常的化学组成表明，撞击后产生的冷却尘埃和碎屑具有特殊的化学活性，这解释了为何此次撞击事件的生态影响远超其他类似规模的撞击事件。</p>
+<p>研究团队通过分析全球K-Pg界线层的铱异常层和冲击石英中的化学指纹，与已知陨石分类进行系统比对，发现其微量元素比值最接近CO型碳质球粒陨石。这类陨石形成于太阳系形成初期最外缘区域，经历了最少的热变质，保留了最原始的太阳星云物质组成。</p>
+<p>这一鉴定不仅确认了"灭绝凶手"的身份，还为理解大规模撞击事件如何通过化学途径（而非纯粹的物理冲击）改变全球气候和生态系统提供了新视角。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>确认灭绝陨石的精确类型是行星科学和古生物学长期追求的目标。CO碳质球粒陨石的特殊化学组成意味着撞击后释放的尘埃不仅遮蔽阳光，还可能通过催化化学反应（如氮氧化物生成导致酸雨）对生态系统造成"二次打击"。这为解释为何同级别撞击事件的灭绝后果差异巨大提供了化学维度的解释。
+</div>
+<div class="news-source">
+信源：ScienceDaily (2026-07-19) · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260718010142.htm" target="_blank">ScienceDaily 报道</a>
+</div>
+</div>
+
+<!-- 11 P2 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">11</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p2">P2 · 航天工程</span>
+<span class="tag">月球基地 · NASA</span>
+<span class="tag">来源：NASA / ScienceDaily</span>
+</div>
+<h3 class="news-headline">NASA选定41项月球与火星探索技术，并授出4项商业月球着陆任务</h3>
+</div>
+</div>
+<div class="news-body">
+<p>2026年7月14-15日，NASA宣布了两项重大推进：一是选定41项商业技术项目，旨在解决未来月球和火星任务的关键挑战，包括为月球前哨站供电、保护航天器免受月尘侵蚀、在轨资源利用等方向；二是授予近6亿美元合同，用于4次商业月球着陆任务，计划于2028年底执行，每次任务将携带相同的三类科学仪器——月球导航改进设备、危险尘埃研究装置和月面通信系统。</p>
+<p>这4次任务的目标是在同一区域建立持续存在，为永久月球基地奠定基础设施。NASA正在系统性地从"单次探索"向"常态化驻留"转型——41项技术覆盖能源、防护、通信、原位制造等基地建设全链条需求。</p>
+<p>这些技术与Artemis计划紧密衔接，标志着月球探索从"到达"向"长期居住"的战略转变。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>这是人类航天从"插旗式探索"向"定居式殖民"转型的标志性工程部署。41项技术中"月尘防护"和"原位资源利用"是月球长期驻留的两大基础瓶颈——月尘的研磨性会损坏密封件和太阳能板，而原位制氧制水则决定了补给链的可简化程度。4次统一载荷的商业着陆则标志着月球基础设施的"标准化建设"阶段正式开启。
+</div>
+<div class="news-source">
+信源：NASA (2026-07-15) · ScienceDaily · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260713084855.htm" target="_blank">ScienceDaily - 41项技术</a> · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260713084853.htm" target="_blank">ScienceDaily - 4次月球着陆</a>
+</div>
+</div>
+
+<!-- 12 P2 -->
+<div class="news-card">
+<div class="news-head">
+<span class="news-num">12</span>
+<div>
+<div class="top-row">
+<span class="tag tag-p2">P2 · 恒星演化</span>
+<span class="tag">类太阳恒星 · 行星吞噬</span>
+<span class="tag">来源：ScienceDaily</span>
+</div>
+<h3 class="news-headline">类太阳恒星被发现吞噬了自身行星，留下化学指纹</h3>
+</div>
+</div>
+<div class="news-body">
+<p>2026年7月16日发表于ScienceDaily的研究报告，一颗遥远的类太阳恒星似乎吞噬了它的一颗行星，在其大气中留下了异常的化学指纹。研究人员在这颗恒星光谱中发现了异常高浓度的锂——这是一种在恒星核聚变中会被快速消耗的元素，其过量存在只能用行星物质被吞噬来解释。</p>
+<p>同期7月20日的研究还发现，濒死的类太阳恒星可能不会安静地消亡——它们膨胀表面不均匀喷射的气体团块会推动恒星自身在太空中移动，成千上万次随机推力的累积效应可使恒星偏离原始位置。这一发现修正了行星状星云中心恒星运动的经典模型。</p>
+<p>这两项发现共同揭示了类太阳恒星生命末期的剧烈动态：既可能在死亡前吞噬行星，又可能因气体喷射不对称而获得"反冲"运动。这对理解太阳系终极命运具有直接参考价值。</p>
+</div>
+<div class="news-analysis">
+<strong>关键认知价值：</strong>太阳在约50亿年后将膨胀为红巨星，届时是否吞噬内行星一直是恒星演化模型的关键问题。本次发现首次从恒星化学指纹中直接找到了行星被吞噬的证据，确认了这一过程确实发生。锂元素的过量存在是最明确的"犯罪证据"——它在恒星内部会被快速消耗，只能来自外部行星物质的注入。
+</div>
+<div class="news-source">
+信源：ScienceDaily (2026-07-16) · ScienceDaily (2026-07-20) · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260715083538.htm" target="_blank">ScienceDaily - 行星吞噬</a> · 
+<a href="https://www.sciencedaily.com/releases/2026/07/260719035942.htm" target="_blank">ScienceDaily - 恒星自推</a>
+</div>
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="section-header">
+<span class="section-icon">✦</span>
+<div>
+<h2 class="section-title"><span class="bar"></span>今日资讯价值总结 <span class="en">Daily Summary</span></h2>
+</div>
+</div>
+<div class="news-analysis">
+<p>本期12条前沿资讯呈现出三条清晰的主线：</p>
+<p><strong>第一条主线：宜居性与地外生命搜索取得里程碑突破。</strong>LHS 1140 b 大气层的首次确认填补了宜居性三大要素的最后空白，使地外生命搜索从理论推演进入可观测实证阶段；实验室模拟宇宙尘埃生成生命前体分子则补全了"宇宙化学→行星化学→生命化学"链条的关键环节。两条线索从不同方向指向同一个问题：生命构件在宇宙中的产生可能比我们想象的更普遍。</p>
+<p><strong>第二条主线：太阳系天体物理认知持续深化。</strong>嫦娥六号样本揭示月球两面太阳风差异，修正了月表风化模型；毅力号读取40亿年撞击记录，提供了早期太阳系天体动力学的直接证据；恐龙灭绝陨石被鉴定为稀有CO碳质球粒陨石，从化学维度重新解释了大规模灭绝机制。三条线索共同丰富了太阳系从形成到当前的演化叙事。</p>
+<p><strong>第三条主线：基础物理与航天工程并进。</strong>暗物质双组分理论、黑洞能量提取的实验室验证和霍金定律升级，将理论物理推向实验验证边界；NASA月球基地技术部署和Psyche探测器数据传回，则标志着太空探索从"到达"向"长期驻留"和"深空采矿"转型。基础认知与工程能力正在形成正反馈——理论突破开辟新探测目标，工程进展提供新验证手段。</p>
+</div>
+<div class="news-source">
+采集信源：NASA JPL · NASA Blogs · ScienceDaily · Science · Astronomy &amp; Astrophysics · Nature · ESO · 中国国家航天局 (CNSA) · Harvard-Smithsonian CfA
+</div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">光体频道</div>
+  <div class="footer-en">Luminary Channel</div>
+  <div class="footer-info">
+    <span>内容来源：公开资讯采集与AI辅助分析</span><br/>
+    <span class="footer-highlight">光体频道 · 每日星际文明解读</span>
+  </div>
+  <a href="光体频道.html" class="footer-back">← 返回首页</a>
+</footer>
+
+<a href="光体频道.html" class="float-back">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  返回首页
+</a>
+
+<script>
+(function(){
+  var sf=document.getElementById('starfield');
+  if(!sf)return;
+  for(var i=0;i<60;i++){
+    var s=document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=Math.random()*4+'s';
+    s.style.animationDuration=(3+Math.random()*3)+'s';
+    sf.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
