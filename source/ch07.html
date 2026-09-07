@@ -86,14 +86,15 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
 /* Channel-specific unified styles - all 12 channels */
 
 /* ch07 civilization */
-.container .civ-card{position:relative;overflow:hidden}
-.container .civ-tag{display:inline-block;padding:4px 12px;border:1px solid var(--border-subtle);border-radius:12px;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:var(--gold-faint);font-weight:500;margin:2px}
-.container .civ-headline{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
-.container .civ-detail{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
-.container .civ-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:18px 22px;margin:12px 0;font-size:14px;color:var(--text-secondary);line-height:1.8}
-.container .civ-summary{font-size:14px;color:var(--text-secondary);line-height:1.8}
-.container .civ-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
-.container .civ-number{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
+.container .news-card{position:relative;overflow:hidden}
+
+.container .news-headline{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:12px}
+.container .news-detail{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-left:3px solid var(--gold-dim);border-radius:8px;padding:16px 20px;margin:12px 0}
+.container .news-analysis{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.02));
+  border:1px solid rgba(201,169,110,0.2);}
+.container .news-summary{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.container .news-source{font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-subtle);padding-top:10px;margin-top:12px;letter-spacing:0.5px}
+.container .news-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;font-style:italic}
 
 /* ch08 prehistoric */
 .container .item{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative;overflow:hidden;transition:all .4s}
@@ -492,7 +493,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
   <div class="nav-inner">
     <a href="光体频道.html" class="nav-brand">
       <img src="logo.jpg" alt="Luminary Channel" class="nav-brand-logo"/>
-      <div class="nav-brand-text">光体频道<span class="en">Luminary Channel</span></div>
+      <div class="nav-brand-text">光体频道<span class="en"> · Luminary Channel</span></div>
     </a>
     <div class="nav-meta">
       <span class="nav-date">2026.08.26</span>
@@ -518,107 +519,107 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
 <div class="section-header">
 <span class="section-num">I</span>
 <div>
-<h2 class="section-title"><span class="bar"></span>文明规律<span class="en">Civilization Patterns</span></h2>
+<h2 class="section-title"><span class="bar"></span>文明规律<span class="en"> · Civilization Patterns</span></h2>
 <div class="section-subtitle">气候驱动、兴衰机制、技术圈动力学与跨文明交流</div>
 </div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">01</span>
+<span class="news-num">01</span>
 <div>
-<h3 class="news-headline civ-headline">万年气候剧变与中华文明跃迁：观音山"气候—文明互动"新范式</h3>
+<h3 class="news-headline">万年气候剧变与中华文明跃迁：观音山"气候—文明互动"新范式</h3>
 <div class="news-tags"><span class="tag">P0 · 文明规律</span> <span class="badge">气候驱动</span> <span class="badge">中华文明</span> <span class="badge">万年尺度</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>东莞观音山考古研究所整合考古学、古气候学、分子人类学等多学科证据，构建"气候—文明互动分析框架"，首次系统还原12800年来全球气温变化、四次大降温与洪水事件的时间脉络，以及中华文明四大黄金期的演进轨迹。研究证实，中华文明并非在风调雨顺中匀速发展，而是在"气候剧变—洪水肆虐—气候稳定—文明跃升"的周期性震荡中完成艰难跃迁。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>气候并非文明的"背景板"，而是文明跃迁的"触发器"与"筛选器"。每次气候剧变压缩了旧有生存模式的容错空间，迫使社会在技术、组织、认知层面进行结构性升级。冰芯、石笋、深海沉积物等"地球档案"与考古遗址中的"淤积层""考古静默期"形成交叉验证，证明洪水灾难期直接对应文明发展低谷。这一框架的核心启示在于：文明韧性不是与生俱来的属性，而是在极端环境的反复锤炼中被锻造出来的动态能力。四大黄金期的命名——嘉穗丰期、甘棠安期、玉露和期、景风明期——折射出先民对气候—文明关系的朴素认知。
 </div>
 </div>
 <div class="news-source">来源：东莞观音山考古研究所；《中国商报》《中国旅游报》2025年研究成果；2026年首届中华文化万年史探源研讨会</div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">02</span>
+<span class="news-num">02</span>
 <div>
-<h3 class="news-headline civ-headline">地球技术圈的坍缩—恢复动力学：千年模拟揭示文明存续关键变量</h3>
+<h3 class="news-headline">地球技术圈的坍缩—恢复动力学：千年模拟揭示文明存续关键变量</h3>
 <div class="news-tags"><span class="tag">P0 · 文明规律</span> <span class="badge">崩溃学</span> <span class="badge">系统建模</span> <span class="badge">资源阈值</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>发表于arXiv的最新研究通过混合确定性—随机模拟，对地球文明的十个可能未来进行1000年窗口建模。研究发现文明"占空比"（technologically active fraction of lifespan）从0.38到1.00不等，关键变量为治理结构、资源压力与灾害暴露的交互作用。敏感性分析显示，<strong>资源消耗速率</strong>和<strong>崩溃后恢复比例</strong>是跨场景最关键的两个杠杆——降低资源消耗的重要性至少与缓解生存性灾害相当。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>该模型将文明视为一个非线性反馈系统，而非线性进步叙事。占空比概念颠覆了"文明一旦建立便持续进步"的隐含假设——文明可能经历多次"亮—灭"循环。模型的核心贡献在于识别出"可操作的韧性杠杆"：资源消耗速率反映的是文明的"代谢效率"，崩溃后恢复比例反映的是"知识保存与制度韧性"。两者结合指向一个反直觉结论——文明的存续不取决于避免崩溃的能力，而取决于崩溃后重建的速度与质量。对外星文明不可探测性（费米悖论）的新解释也由此产生：银河中可能充满低占空比文明，它们时亮时灭，彼此错过。
 </div>
 </div>
 <div class="news-source">来源：Blanco, C.; Haqq-Misra, J.; Profitiliotis, G. "Projections of Earth's Technosphere" arXiv:2604.13774</div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">03</span>
+<span class="news-num">03</span>
 <div>
-<h3 class="news-headline civ-headline">文明的"生"与"死"：结构性转型失败如何决定文明命运</h3>
+<h3 class="news-headline">文明的"生"与"死"：结构性转型失败如何决定文明命运</h3>
 <div class="news-tags"><span class="tag">P0 · 文明规律</span> <span class="badge">兴衰本质</span> <span class="badge">自我修复</span> <span class="badge">比较文明</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>最新研究提出"结构性转型失败"框架来解释文明死亡：当文明无法从旧结构转型到新结构时便走向死亡。古埃及人建造金字塔的文明已死——今天埃及人讲阿拉伯语、信伊斯兰教；巴比伦的楔形文字成为死文字；古希腊城邦的政治制度与宗教信仰不复存在。文明死亡的标志不是王朝更迭，而是语言文字、核心价值、制度传统、生活方式的整体断裂。研究比较中华文明的"幸存"与罗马文明的"死亡"，核心变量是"自我修复能力"。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>这一框架的关键区分在于"王朝周期"与"文明周期"是两个不同时间尺度的事件。王朝更迭是制度层面的新陈代谢，文明死亡则是文化基因层面的整体断裂。中华文明的"幸存"并非因为从未遭遇危机，而是因为其文字系统、核心价值（家国同构、天人合一）和制度传统具有足够的弹性来吸收外部冲击并完成自我更新。罗马文明的"死亡"则源于其制度刚性——当外部压力超过制度弹性极限时，无法完成结构性转型。对当代的启示：技术迭代速度正在以前所未有的方式压缩"结构性转型"的时间窗口，文明面临的不是"是否需要转型"的问题，而是"能否在足够短的时间内完成转型"的问题。
 </div>
 </div>
 <div class="news-source">来源：人民周期史观研究框架，2026年8月；比较文明学交叉研究</div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">04</span>
+<span class="news-num">04</span>
 <div>
-<h3 class="news-headline civ-headline">方孔圆钱里的文明密码：古钱币金属学揭示王朝健康"心电图"</h3>
+<h3 class="news-headline">方孔圆钱里的文明密码：古钱币金属学揭示王朝健康"心电图"</h3>
 <div class="news-tags"><span class="tag">P1 · 文明规律</span> <span class="badge">经济考古</span> <span class="badge">货币史</span> <span class="badge">量化分析</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>2026年钱币学研究通过3D建模与数据分析，揭示古钱币作为王朝"心电图"的量化价值。对137枚不同时期开元通宝的分析显示，"元"字第二笔力度系数从盛唐0.78降至晚唐0.32，直观映射帝国精气神的流失轨迹。明代钱币数据库统计显示，洪武通宝平均3.8克、崇祯通宝仅1.2克，"货币骨质疏松症"比史书记载的财政崩溃早20年出现。嘉靖朝铜钱含铅量骤增至35%（正常15%），折射出明朝对海外白银的过度依赖。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>钱币是文明经济基础设施的"微缩切片"。金属材质选择反映的是政治理念与宇宙观的物化（秦半两的"天圆地方"），文字力度反映的是行政效率与工匠精神，重量与成色反映的是财政健康与信用体系。这些量化指标构成了一套比文字史料更客观的"文明体检报告"。核心规律：货币贬值往往先于政治崩溃出现，因为货币是经济系统的"早期预警传感器"。当帝国开始用降低成色来维持流通时，本质上是在用"通胀"替代"改革"——这是一种结构性转型失败的早期信号。
 </div>
 </div>
 <div class="news-source">来源：2026年钱币学人文研究成果；古钱币量化分析数据库</div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">05</span>
+<span class="news-num">05</span>
 <div>
-<h3 class="news-headline civ-headline">盐业考古：从制盐"流水线"看中华文明的经济基础设施构建</h3>
+<h3 class="news-headline">盐业考古：从制盐"流水线"看中华文明的经济基础设施构建</h3>
 <div class="news-tags"><span class="tag">P1 · 文明规律</span> <span class="badge">产业考古</span> <span class="badge">制度文明</span> <span class="badge">技术传承</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>连云港时庄遗址发现三条完整汉代制盐生产链——从卤水提取到管道输送再到上灶煮盐，实证汉代食盐产量与工艺的显著提升。沙井头遗址出土"盐官丞印"封泥，实证汉代盐渎县官署所在，这是汉王朝全国设立盐官、实行食盐官营的实物见证。重庆彭水中堡遗址连续叠压26层文化层（战国至明清），呈现两千年制盐技术发展脉络。山东渤海湾串联起商周至金元的海盐技术演进链，证实"取卤煎盐"模式延续2000余年。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>盐在古代文明中的地位远超调味品——它是第一个被国家垄断的战略资源，是财政体系的基石。盐业考古揭示的不仅是技术演进，更是"国家能力"的物质证据。从民间自产到官营垄断的转变，标志着国家组织能力从"收税"进化到"直接控制生产"。制盐"流水线"的出现意味着分工协作、标准化生产和物流管理的成熟——这些都是复杂社会的核心特征。跨地域比较（海盐、井盐、湖盐）显示，不同文明对盐资源的开发路径深刻塑造了区域经济结构与行政体系。
 </div>
 </div>
 <div class="news-source">来源：光明日报2026年6月26日；江苏省文物考古研究院、山东省水下考古研究中心、重庆市文物考古研究院</div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">06</span>
+<span class="news-num">06</span>
 <div>
-<h3 class="news-headline civ-headline">首届"丝绸之路考古新进展"：六项跨国成果勾勒四千年文明交流图景</h3>
+<h3 class="news-headline">首届"丝绸之路考古新进展"：六项跨国成果勾勒四千年文明交流图景</h3>
 <div class="news-tags"><span class="tag">P1 · 文明规律</span> <span class="badge">跨文明交流</span> <span class="badge">考古实证</span> <span class="badge">丝路文明</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>西北大学丝绸之路考古合作研究中心联合多国学术机构评选出六项代表性考古发现，覆盖哈萨克斯坦、塔吉克斯坦、乌兹别克斯坦及中国新疆。哈萨克斯坦塞米亚尔卡遗址（140公顷）确认为欧亚草原青铜时代最大冶金聚落，打破"草原以游牧为主"的认知；塔吉克斯坦桑加沙古城出土已知最早的纸质阿拉伯文文书之一，成为造纸术向伊斯兰世界传播的关键物证；乌兹别克斯坦契纳尔特佩遗址证实贵霜社会核心是农业而非游牧，改写贵霜承袭游牧传统的认识。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>这六项发现共同揭示了一个被忽视的文明规律：欧亚大陆的文明交流并非简单的"东西方二分"模式，而是多节点、多方向、多层次的网状互动。草原不只是通道，本身也是文明生产基地（冶金聚落）；中亚不是被动传输带，而是主动的文化创造者（粟特壁画的拜火仪式）。造纸术的西传路径（中国→中亚→伊斯兰世界→欧洲）展示了技术传播的典型模式：技术本身是载体，承载的是知识体系、行政制度和思维方式的跨文明迁移。贵霜的"农业核心"发现则提醒我们：游牧与农耕的二元对立叙事需要被更复杂的"混合生业"模式取代。
 </div>
 </div>
@@ -630,73 +631,73 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
 <div class="section-header">
 <span class="section-num">II</span>
 <div>
-<h2 class="section-title"><span class="bar"></span>思想迭代<span class="en">Ideological Evolution</span></h2>
+<h2 class="section-title"><span class="bar"></span>思想迭代<span class="en"> · Ideological Evolution</span></h2>
 <div class="section-subtitle">物质文化交流、跨文明对话、天文科技传播与意识哲学迭代</div>
 </div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">07</span>
+<span class="news-num">07</span>
 <div>
-<h3 class="news-headline civ-headline">敦煌×牛津：丝绸之路物质文化交流工作坊的跨文明新视角</h3>
+<h3 class="news-headline">敦煌×牛津：丝绸之路物质文化交流工作坊的跨文明新视角</h3>
 <div class="news-tags"><span class="tag">P1 · 思想迭代</span> <span class="badge">物质文化</span> <span class="badge">跨学科</span> <span class="badge">文明中转</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>敦煌研究院与牛津大学联合举办丝绸之路物质文化交流工作坊。牛津大学Peter Stewart确认楼兰出土的赫尔墨斯挂毯残片为公元1-2世纪罗马帝国奢华品，印证古代艺术品的远距离流通。敦煌研究院Neil Schid追溯驼首护法神形象的伊朗文化根源及于阗艺术中的贵霜、粟特融合。祁晓庆以乌兹别克斯坦卡拉特佩佛寺"火焰禅定佛壁画"论证5-6世纪中亚在中西方佛教艺术交流中并非被动通道，而是发挥主动且具创造性的作用。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>物质文化的流通本身就是思想迭代的载体。一件罗马挂毯出现在楼兰，说明公元1-2世纪欧亚大陆已存在远超想象的物流网络——支撑这种物流的，是跨文明的信用体系、道路基础设施和翻译中介。驼首护法神的伊朗文化根源被追溯至敦煌壁画，说明图像在传播过程中经历了"语义翻译"：原始文化语境中的符号在新文明中被重新赋义。中亚"主动创造性"的论证尤为关键——它打破了"中心—边缘"的文明传播模型，揭示文化交流中的"再创造"机制：中介者不是被动的搬运工，而是主动的意义重构者。
 </div>
 </div>
 <div class="news-source">来源：敦煌研究院与牛津大学联合工作坊，2026年4月20日</div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">08</span>
+<span class="news-num">08</span>
 <div>
-<h3 class="news-headline civ-headline">尼罗河与珠江的文明对话：古埃及与南越文明对"永恒"的平行追问</h3>
+<h3 class="news-headline">尼罗河与珠江的文明对话：古埃及与南越文明对"永恒"的平行追问</h3>
 <div class="news-tags"><span class="tag">P1 · 思想迭代</span> <span class="badge">比较文明</span> <span class="badge">生死观</span> <span class="badge">权力象征</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>广州南越王博物院举办"尼罗河的赠礼"展，首次将180件/套古埃及文物与26件/套南越王墓出土珍品并置。展览揭示跨文明惊人契合：丝缕玉衣与木乃伊同为对永恒的终极追问——古埃及人通过木乃伊与彩绘内棺守望来世，南越先民以万片玉石缝缀成丝缕玉衣渴求不朽；铜虎节与狮身人面像分别以狮虎之威固化权力秩序，折射早期文明对自然力量与守护意象的共同崇拜。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>不同文明在面对"死亡"这一终极命题时产生了高度趋同的解决方案——用珍贵材料（玉、香料、黄金）包裹身体以追求不朽。这种趋同并非文化传播的结果，而是人类认知结构对同一问题的"收敛解"。更深层的规律是：文明对死亡的处理方式，折射的是其对"生命—权力—永恒"三角关系的底层设定。古埃及的木乃伊技术是法老权力的延伸（只有王室才能被完整保存），南越的丝缕玉衣同样是王权符号。两套体系虽独立演化，但遵循相同逻辑：将生物学意义上的死亡转化为社会学意义上的永生，通过物质保存来锚定权力的连续性。
 </div>
 </div>
 <div class="news-source">来源：广州南越王博物院"尼罗河的赠礼——古埃及文物与数字艺术体验展"，2026年2月开幕</div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">09</span>
+<span class="news-num">09</span>
 <div>
-<h3 class="news-headline civ-headline">古丝路上的天文与科技：第三届世界文明对话论坛的跨文明知识传播视角</h3>
+<h3 class="news-headline">古丝路上的天文与科技：第三届世界文明对话论坛的跨文明知识传播视角</h3>
 <div class="news-tags"><span class="tag">P2 · 思想迭代</span> <span class="badge">天文历法</span> <span class="badge">知识传播</span> <span class="badge">科技史</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>第三届世界文明对话论坛聚焦"古代丝绸之路上的天文与科技"，来自10个国家和地区的50余位专家围绕星图、历法与制造技术展开交流。中国科学技术大学钮卫星教授以唐代《符天历》为例介绍域外天文学通过民间途径在华传播。加州大学瑞丽教授指出中国古代的"神"与古希腊的"灵魂"均为体内流动的"生命力"，是维系生命的根本所在。论坛旨在构建"中外科技交流史观"。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>天文与历法是古代文明最高级别的"公共知识"——它们既关乎农业生产（实用性），又关乎宇宙观建构（精神性），还关乎政治合法性（天子授时）。丝路上的天文知识传播揭示了知识传播的特殊规律：技术知识（如历法计算方法）的传播速度远快于其背后的宇宙观体系，导致"技术迁移"与"意义重构"的分离。域外天文学通过"民间途径"而非官方渠道在华传播，说明知识传播有其自下而上的暗流。《符天历》的案例表明，外来知识需要经历"本地化"才能真正扎根——技术可以借用，但其解释体系必须与本土认知框架对接。
 </div>
 </div>
 <div class="news-source">来源：第三届世界文明对话论坛，兰州大学、敦煌研究院联合主办，2026年</div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">10</span>
+<span class="news-num">10</span>
 <div>
-<h3 class="news-headline civ-headline">欧亚的根脉与通途：建筑环境作为文明对话媒介的多重张力</h3>
+<h3 class="news-headline">欧亚的根脉与通途：建筑环境作为文明对话媒介的多重张力</h3>
 <div class="news-tags"><span class="tag">P2 · 思想迭代</span> <span class="badge">建筑文明</span> <span class="badge">文化连续性</span> <span class="badge">欧亚对话</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>东南大学联合希腊亚里士多德大学举办"欧亚的根脉与通途"国际会议，汇聚希腊、意大利、土耳其、乌兹别克斯坦等多国学者。会议提出"根脉"与"通途"并非对立，而是在文化连续性的生成过程中彼此交织。建筑既是文化的承载体，也是交流的媒介，揭示传统如何在转化中得以延续。核心议题包括：文化多样性中建成环境如何维持连续性；建筑实践如何在地方传统与跨区域文明理想之间调和。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>建筑是人类文明最大体量的"物质思想"——它同时承载技术（结构工程）、制度（空间等级）、信仰（宇宙观物化）和美学（审美体系）。建筑作为文明对话媒介的独特性在于其"不可移动性"：它迫使不同文明在同一个物理空间中直接对话，而非通过翻译中介。"根脉"代表文明的深层结构（语言、信仰、社会组织），"通途"代表文明间的表层交流（贸易、技术、风格）。两者的交织意味着：真正的文明对话不是"根脉"的替换，而是"通途"的增生——外来的形式被嫁接到本土的结构上，生成新的混合体。欧亚大陆的建筑史证明，最具生命力的建筑形式往往诞生于文明交汇的"断裂带"。
 </div>
 </div>
@@ -708,39 +709,39 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
 <div class="section-header">
 <span class="section-num">III</span>
 <div>
-<h2 class="section-title"><span class="bar"></span>时代启示<span class="en">Contemporary Insights</span></h2>
+<h2 class="section-title"><span class="bar"></span>时代启示<span class="en"> · Contemporary Insights</span></h2>
 <div class="section-subtitle">AI时代意识跃迁、认知范式碰撞与文明转型路径</div>
 </div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">11</span>
+<span class="news-num">11</span>
 <div>
-<h3 class="news-headline civ-headline">AI时代的意识跃迁：从认识论到本体论的文明追问</h3>
+<h3 class="news-headline">AI时代的意识跃迁：从认识论到本体论的文明追问</h3>
 <div class="news-tags"><span class="tag">P1 · 时代启示</span> <span class="badge">意识哲学</span> <span class="badge">AI文明</span> <span class="badge">本体论</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>2026年李善友大课以《人类的追问》为主题，从宇宙本体追问到人类意识跃迁。核心命题：AI已击穿人类认知优势，必须从认识论下沉至本体论，追问宇宙、文明、创业与AI背后的"一"。结合超弦理论、量子力学中的"能观、所观"结构与普朗克尺度，提出"意识不仅在人类之先，甚至在时空之先"的核心假设。大课引用贝索斯观点："未来十年什么会变"或许是错误的问题，更应该问"什么是不变的"。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>这一追问触及了文明迭代的深层机制。人类文明史上每次根本性变革都伴随认知层级的跃迁：轴心时代从神话思维跃迁到理性思维，启蒙时代从信仰思维跃迁到科学思维。AI时代面临的可能是又一次跃迁：从"认识论思维"（研究"我们如何认识世界"）跃迁到"本体论思维"（研究"存在本身是什么"）。当AI可以替代人类完成大部分认知任务时，人类必须追问的不是"如何更好地认识"，而是"认识背后的存在根基是什么"。"什么不变"的追问具有文明诊断意义——它指向的是文明中超越技术变迁的深层结构：意识、创造力、道德直觉和存在意义。
 </div>
 </div>
 <div class="news-source">来源：2026李善友大课暨混沌超级返校日，杭州大会展中心，2026年6月12-13日</div>
 </div>
 
-<div class="news-card civ-card">
+<div class="news-card">
 <div class="news-head">
-<span class="news-num civ-number">12</span>
+<span class="news-num">12</span>
 <div>
-<h3 class="news-headline civ-headline">物理学还原论vs神经科学涌现论：AI文明路线背后的认知范式碰撞</h3>
+<h3 class="news-headline">物理学还原论vs神经科学涌现论：AI文明路线背后的认知范式碰撞</h3>
 <div class="news-tags"><span class="tag">P1 · 时代启示</span> <span class="badge">认知范式</span> <span class="badge">技术哲学</span> <span class="badge">文明路线</span></div>
 </div>
 </div>
-<div class="news-body civ-summary">
+<div class="news-body">
 <p>2026年全球AI产业完成从模型竞赛到文明路线博弈的范式转移。OpenAI、Anthropic、Google DeepMind代表的研究派遵循"智能优先"路线；马斯克旗下SpaceX、xAI、特斯拉代表的工业派坚持"基础设施优先"路线。xAI并入SpaceX的战略决策标志着竞争从地面模型算法搬到太空基础设施。本质是两种认知范式碰撞：以牛顿力学为基础、还原论为方法论的物理学世界观，与以涌现为核心、自组织为机制的神经科学世界观。未来胜利者需同时驾驭物理学确定性与神经科学复杂性。</p>
-<div class="news-analysis civ-analysis">
+<div class="news-analysis">
 <strong>底层逻辑拆解：</strong>这场碰撞的文明意义远超AI产业竞争。物理学还原论是工业文明的认识论基石——将复杂系统拆解为基本零件，通过确定性规则重建整体。神经科学涌现论则代表一种根本不同的认知方式——承认复杂系统中存在不可从零件推导的整体属性。这两种范式对应着两种文明组织模式：还原论倾向于中央计划、层级控制、确定性管理；涌现论倾向于分布式自治、适应性演化和不确定性容忍。AI恰恰是两种范式的交汇点——它既需要物理级的工程精度，又需要神经级的涌现能力。文明启示：未来的技术路线选择不只是工程问题，更是哲学选择——选择哪种认知范式，就是选择哪种文明演化路径。
 </div>
 </div>
@@ -750,7 +751,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
 
 <div class="divider"></div>
 
-<div class="news-analysis civ-analysis" style="max-width:800px;margin:0 auto">
+<div class="news-analysis" style="max-width:800px;margin:0 auto">
 <h4 style="text-align:center;color:var(--gold);margin-bottom:16px">今日文明观察</h4>
 <p style="text-align:center">今日12条内容横跨万年尺度。从气候驱动的文明跃迁到AI时代的意识追问，一条隐线贯穿始终：<strong>文明的本质不是物质积累，而是认知边界的持续突破</strong>。气候剧变筛选出能自我修复的文明，技术圈模型警示资源消耗是存续关键变量，古钱币金属学证明货币贬值先于政治崩溃。丝路考古揭示文明交流从非单向传播而是多节点网状互动，跨文明对话的核心不是消除差异而是在差异中创造理解条件。AI时代的终极追问从"如何认识"下沉到"存在本身是什么"——这不是技术问题，而是文明级别的本体论跃迁。</p>
 </div>

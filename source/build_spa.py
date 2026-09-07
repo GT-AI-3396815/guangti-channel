@@ -44,6 +44,16 @@ channel_names = [
 with open(f"{workdir}/光体频道_source.html", "r", encoding="utf-8") as f:
     home_content = f.read()
 
+# 首页导航日期自动更新为构建当天（部署任务缺失时保证日期不滞后）
+import datetime as _dt
+_date_dot = _dt.date.today().strftime("%Y.%m.%d")
+home_content = re.sub(
+    r'<span class="nav-date">[^<]*</span>',
+    f'<span class="nav-date">{_date_dot}</span>',
+    home_content,
+)
+print(f"[OK] Home nav-date set to {_date_dot}")
+
 # 自动更新首页日期（替换硬编码日期为当天日期）
 # 日期更新由部署任务处理，构建脚本不做日期替换以保持版面稳定
 
@@ -85,7 +95,10 @@ for i, ch in enumerate(channels):
         sel_key = selector.strip().split(",")[0].strip()
         # 排除通用选择器
         if sel_key not in ["*", "html", "body"] and len(sel_key) > 1:
-            merged_extra_css += f"{selector.strip()} {{ {declarations.strip()} }}\n"
+            # 声明压成单行：保证"一条规则=一行"，行去重才安全
+            decl_single = re.sub(r"\s+", " ", declarations.strip())
+            merged_extra_css += f"{selector.strip()} {{ {decl_single} }}\n"
+
 
     # --- 提取body内容 ---
     body_match = re.search(r"<body[^>]*>(.*?)</body>", content, re.S | re.I)
@@ -209,6 +222,64 @@ for i, ch in enumerate(channels):
     )
 
     channel_pages.append(page_html)
+
+# ============================================================
+# 步骤2.5：CSS 统一性守卫 + 去重
+# 同一选择器在不同频道有不同定义（剥离 @media 后比对）= 格式漂移 → 构建失败；
+# 完全相同的规则只保留一份，防止体积膨胀和覆盖顺序问题。
+# ============================================================
+import collections as _collections
+
+def _strip_media(css_text):
+    # 递归剥离 @media/@supports 外壳，只留规则本体
+    prev = None
+    while prev != css_text:
+        prev = css_text
+        css_text = re.sub(r"@(media|supports)[^{]*\{([\s\S]*?)\}\s*\}",
+                          lambda m: m.group(2), css_text)
+    return css_text
+
+# 每个频道： selector -> 定义体集合；同一选择器的定义集合必须跨频道一致
+_per_ch = {}
+for _ch_name in channels:
+    with open(f"{workdir}/{_ch_name}.html", "r", encoding="utf-8") as _f:
+        _c = _f.read()
+    _sm = re.search(r"<style[^>]*>(.*?)</style>", _c, re.S | re.I)
+    if not _sm:
+        continue
+    _defs = _collections.defaultdict(set)
+    for _sel, _body in re.findall(r"([.#][^{,\s][^{}]*?)\s*\{([^}]*)\}", _strip_media(_sm.group(1)), re.S):
+        _key = re.sub(r"\s+", " ", _sel.strip())
+        _defs[_key].add(re.sub(r"\s+", "", _body))
+    _per_ch[_ch_name] = _defs
+
+_ref_ch = None
+for _key in sorted({k for d in _per_ch.values() for k in d}):
+    _ref = None
+    for _ch_name in channels:
+        if _ch_name not in _per_ch or _key not in _per_ch[_ch_name]:
+            continue
+        _bodies = frozenset(_per_ch[_ch_name][_key])
+        if _ref is None:
+            _ref = (_ch_name, _bodies)
+        elif _bodies != _ref[1]:
+            _diff = list(_bodies ^ _ref[1])[0]
+            raise SystemExit(
+                f"[CSS漂移] 选择器 {_key!r} 在 {_ch_name} 与 {_ref[0]} 定义不一致，拒绝构建。\n"
+                f"  差异: {_diff[:150]}\n"
+                f"  请按 STYLE_GUIDE.md 统一后重试。"
+            )
+print(f"[CSS-GUARD] {len(_per_ch)} channels x {len(_per_ch[channels[0]])} selectors, drift=0")
+
+# 去重：完全相同的规则行只保留一份
+_deduped_css = ""
+_seen_rules = set()
+for _rule_line in merged_extra_css.splitlines():
+    if _rule_line not in _seen_rules:
+        _seen_rules.add(_rule_line)
+        _deduped_css += _rule_line + "\n"
+merged_extra_css = _deduped_css
+print(f"[CSS-GUARD] drift=0, rules deduped -> {len(_seen_rules)} unique rules, {len(merged_extra_css)/1024:.1f} KB")
 
 # ============================================================
 # 步骤3：构建SPA版HTML
@@ -346,6 +417,17 @@ spa_js = """
 // 显示指定频道
 function showChannel(chId) {
   if (!chId) return;
+  var targetPage = document.getElementById('page-' + chId);
+  if (!targetPage) return; // 不存在的频道直接忽略，避免白屏
+
+  // 幂等保护：已在目标频道时只同步hash，避免hashchange循环
+  if (targetPage.classList.contains('active')) {
+    try {
+      if (location.hash !== '#' + chId) location.hash = '#' + chId;
+    } catch(e) {}
+    return;
+  }
+
   // 隐藏主页
   var homeSection = document.getElementById('home-section');
   if (homeSection) homeSection.classList.add('hidden');
@@ -357,11 +439,8 @@ function showChannel(chId) {
   }
   
   // 显示目标频道
-  var targetPage = document.getElementById('page-' + chId);
-  if (targetPage) {
-    targetPage.classList.add('active');
-    window.scrollTo(0, 0);
-  }
+  targetPage.classList.add('active');
+  window.scrollTo(0, 0);
   
   // 更新URL hash
   try {
@@ -371,6 +450,16 @@ function showChannel(chId) {
 
 // 返回首页
 function showHome() {
+  var homeSection = document.getElementById('home-section');
+
+  // 幂等保护：已在首页时只同步hash，避免hashchange循环
+  if (homeSection && !homeSection.classList.contains('hidden')) {
+    try {
+      if (location.hash !== '#home' && location.hash !== '') location.hash = '#home';
+    } catch(e) {}
+    return;
+  }
+
   // 隐藏所有频道页面
   var allPages = document.querySelectorAll('.channel-page');
   for (var i = 0; i < allPages.length; i++) {
@@ -378,7 +467,6 @@ function showHome() {
   }
   
   // 显示主页
-  var homeSection = document.getElementById('home-section');
   if (homeSection) homeSection.classList.remove('hidden');
   
   window.scrollTo(0, 0);
@@ -387,6 +475,16 @@ function showHome() {
     location.hash = '#home';
   } catch(e) {}
 }
+
+// 监听hash变化：支持浏览器返回键、深度链接、无效hash兜底回首页
+window.addEventListener('hashchange', function() {
+  var h = location.hash.replace('#', '');
+  if (h && h !== 'home' && document.getElementById('page-' + h)) {
+    showChannel(h);
+  } else {
+    showHome();
+  }
+});
 
 // 页面加载时添加LIVE徽章 + 检查URL hash
 document.addEventListener('DOMContentLoaded', function() {
@@ -414,6 +512,11 @@ document.addEventListener('DOMContentLoaded', function() {
 head_match = re.search(r"(<head>.*?</head>)", home_content, re.S | re.I)
 head_html = head_match.group(1) if head_match else ""
 
+# 注入favicon（用logo，避免favicon.ico 404）
+if logo_base64 and "</head>" in head_html:
+    favicon_link = f'<link rel="icon" type="image/jpeg" href="{logo_base64}">\n'
+    head_html = head_html.replace("</head>", favicon_link + "</head>")
+
 # 在 </style> 前插入额外CSS和SPA CSS
 if "</style>" in head_html:
     head_html = head_html.replace(
@@ -423,6 +526,11 @@ if "</style>" in head_html:
 # 提取body
 body_match = re.search(r"<body[^>]*>(.*?)</body>", home_content, re.S | re.I)
 body_html = body_match.group(1).strip() if body_match else ""
+
+# 修复首页导航品牌链接：光体频道.html -> #home（SPA内跳回首页）
+body_html = body_html.replace(
+    'href="光体频道.html"', 'href="#home" onclick="showHome(); return false;"'
+)
 
 # 移除body内的script
 body_html = re.sub(r"<script[^>]*>.*?</script>\s*", "", body_html, flags=re.S | re.I)
@@ -499,6 +607,11 @@ if ext_links:
 # 输出
 output_path = f"{workdir}/光体频道.html"
 with open(output_path, "w", encoding="utf-8") as f:
+    f.write(final_html)
+
+# 同步输出部署文件 index.html（仓库根目录），避免构建后忘记拷贝
+deploy_path = os.path.join(os.path.dirname(workdir), "index.html")
+with open(deploy_path, "w", encoding="utf-8") as f:
     f.write(final_html)
 
 print(f"\n[DONE] SPA版已生成: {output_path}")
