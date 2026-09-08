@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光体频道 - 栏目格式统一化脚本
+光体•星际频道 - 栏目格式统一化脚本
 统一规则（与 STYLE_GUIDE.md 一致）：
   1. 徽章系统统一为 badge badge-pN（消除 tag-pN 双轨制）
   2. 栏目标题统一为 <span class="bar"></span> + 中文 + <span class="en"> · English</span>
