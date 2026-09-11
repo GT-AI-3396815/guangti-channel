@@ -83,6 +83,32 @@
 ## 7. 新增内容流程
 
 1. 编辑对应 `source/chNN.html`（只改 body 内容区，保持骨架）
-2. 运行 `python source/build_spa.py`（自动：CSS 漂移检查 → 去重 → 注入 logo/favicon → 刷新首页日期 → 生成 `source/光体频道.html` 和根目录 `index.html`）
-3. 运行 `node test/browser-test.js`（需先起本地服务，28 项断言）
+2. 运行 `python source/build_spa.py`（自动：CSS 漂移检查 → 去重 → 注入 logo/favicon/SEO → 刷新首页日期与更新日志 → 生成 `source/光体频道.html`、根目录 `index.html` 和 `rss.xml`）
+3. 运行 `node test/browser-test.js`（需先起本地服务，38 项断言）
 4. 提交推送到 GitHub（GitHub Pages 自动部署）
+
+## 8. 内容性质标注（hero-notice）
+
+探索解读类频道（ch05-ch12）的 hero 区必须有 `.hero-notice` 标注，声明内容性质：
+- ch05 UFO：官方披露与科研观测为可核实信息，推想性解读仅为观点
+- ch06 星际文明 / ch07 人类文明 / ch08 史前文明：假说与推演，非事实结论/非定论
+- ch09 高维典籍：文化解读，不构成科学结论
+- ch10 养生 / ch11 身心疗愈：不构成医疗建议，不适请就医
+- ch12 显化能量："能量"为隐喻框架，非物理事实
+
+ch01-ch04（事实资讯/方法论）无需标注。样式定义在首页源全局 CSS，频道页不重复定义。
+
+## 9. 站级组件（只在首页源定义，构建时全局生效）
+
+- **站内搜索**：`#search-box`（首页频道网格前），跨12频道过滤 `.news-card`，点击结果跳转定位；JS 在 build_spa.py 的 spa_js 中
+- **更新日志**：`#update-log` + `#log-list`，构建时自动把当天日期置顶（去重，保留14条）= 历史归档
+- **关于本站**：`#about`，含编辑规范 / 内容分级 / 数据来源 / 免责声明四块
+- **RSS**：构建生成根目录 `rss.xml`（12条目随每日构建刷新）；页脚"RSS订阅"指向线上绝对地址
+
+## 10. 卡片外壳统一规则
+
+- 新闻/趋势类条目一律用标准 news-card 解剖（第3条）
+- ch04 选题卡：外壳用 `news-card topic-card`、头部用标准 news-head 解剖，`topic-section` 内容区（推荐标题/适合平台/推荐理由/内容角度/开头钩子/简要大纲/文案内容）保留
+- ch04 TOP3 榜单：外壳用 `news-card top3-card`
+- 禁止 `class="badge tag badge-pN"` 混写——优先级徽章只用 `badge badge-pN`
+- 禁止 `item-header/item-num/item-title/item-body` 私有别名（ch08 已归一）

@@ -667,6 +667,33 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
   .features-grid { grid-template-columns: 1fr; }
 }
 
+
+/* === 站级组件：内容标注 / 搜索 / 关于 / 更新日志 === */
+.hero-notice{margin-top:14px;display:inline-block;max-width:640px;padding:8px 16px;border:1px solid rgba(201,169,110,0.35);border-radius:20px;background:rgba(201,169,110,0.08);color:var(--gold-bright,#d4b57a);font-size:12px;letter-spacing:1px;line-height:1.7}
+.search-box{position:relative;z-index:2000;max-width:640px;margin:0 auto 36px}
+.search-box input{width:100%;box-sizing:border-box;padding:14px 18px 14px 44px;border-radius:12px;border:1px solid var(--border-subtle,rgba(201,169,110,0.25));background:var(--bg-card,rgba(255,255,255,0.04));color:var(--text-primary,#fff);font-size:15px;outline:none;transition:border-color .3s}
+.search-box input:focus{border-color:var(--gold,#c9a96e)}
+.search-icon{position:absolute;left:14px;top:14px;font-size:16px;opacity:0.7;pointer-events:none}
+.search-results{position:absolute;top:52px;left:0;right:0;z-index:50;max-height:380px;overflow-y:auto;background:#141414;border:1px solid var(--border-subtle,rgba(201,169,110,0.25));border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,0.5)}
+.search-result-item{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer}
+.search-result-item:hover{background:rgba(201,169,110,0.1)}
+.search-result-item .sr-channel{font-size:11px;color:var(--gold,#c9a96e);letter-spacing:1px;margin-bottom:4px}
+.search-result-item .sr-title{font-size:14px;color:var(--text-primary,#fff)}
+.search-result-item .sr-snip{font-size:12px;color:var(--text-muted,#999);margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.search-empty{padding:16px;color:var(--text-muted,#999);font-size:13px;text-align:center}
+.about-site{margin:64px 0 8px}
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.about-block{background:var(--bg-card,rgba(255,255,255,0.04));border:1px solid var(--border-subtle,rgba(201,169,110,0.2));border-radius:12px;padding:20px}
+.about-title{font-size:15px;font-weight:600;color:var(--gold-bright,#d4b57a);margin-bottom:10px}
+.about-block p{font-size:13px;line-height:1.8;color:var(--text-secondary,#bbb);margin:0}
+.update-log{margin:56px 0 8px}
+.log-list{list-style:none;margin:20px 0 0;padding:0}
+.log-list li{display:flex;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px}
+.log-date{color:var(--gold,#c9a96e);font-family:'Cormorant Garamond',serif;font-size:15px;min-width:90px;flex-shrink:0}
+.log-note{color:var(--text-secondary,#bbb)}
+.footer-links{display:flex;gap:10px;justify-content:center;margin-top:14px;font-size:12px;color:var(--text-muted,#888)}
+.footer-links a{color:var(--gold,#c9a96e);text-decoration:none;letter-spacing:1px}
+.footer-links a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -701,6 +728,11 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
     <span class="section-label-line"></span>
   </div>
 
+  <div class="search-box" id="search-box" style="position:relative;z-index:2000">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="site-search" placeholder="搜索全站12个频道的内容，如：金砖、DeepSeek、白露养生" autocomplete="off" oninput="siteSearch(this.value)" />
+    <div class="search-results" id="search-results" style="display:none;z-index:2001"></div>
+  </div>
   <div class="channel-grid">
             <div class="channel-card" data-channel="ch01">
               <span class="channel-number">01</span>
@@ -800,6 +832,25 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
             </div>
   </div>
 
+  <div class="about-site" id="about">
+    <div class="section-label"><span class="section-label-text">ABOUT · EDITORIAL STANDARDS</span><span class="section-label-line"></span></div>
+    <h2 class="section-title"><span class="bar"></span>关于本站<span class="en"> · About &amp; Editorial Standards</span></h2>
+    <div class="about-grid">
+      <div class="about-block"><div class="about-title">✍️ 编辑规范</div><p>每日09:00（Asia/Shanghai）自动整编发布；事实类频道逐条标注真实来源与日期；每个板块末尾配趋势研判；发现错误当日核实修正，并在更新日志记录。</p></div>
+      <div class="about-block"><div class="about-title">🔬 内容分级</div><p>事实资讯（全球新闻、AI热点、商业趋势、自媒体选题、UFO官方披露）以可核实报道为准；探索解读类内容（星际文明、人类文明、史前文明、高维典籍、身心疗愈、显化能量）均在栏目页顶部标注"观点探索，非事实结论"。</p></div>
+      <div class="about-block"><div class="about-title">📚 数据来源</div><p>每条资讯卡片底部标注具体来源与发布日期；事实类新闻信源为官方机构发布与持牌媒体报道；研究类内容信源为学术论文、行业白皮书与考古简报。</p></div>
+      <div class="about-block"><div class="about-title">⚠️ 免责声明</div><p>本站内容仅作资讯整编与个人成长参考，不构成投资、医疗或法律建议；养生与疗愈内容不能替代专业诊疗；引用本站内容请注明出处。</p></div>
+    </div>
+  </div>
+
+  <div class="update-log" id="update-log">
+    <div class="section-label"><span class="section-label-text">UPDATE LOG · ARCHIVE</span><span class="section-label-line"></span></div>
+    <h2 class="section-title"><span class="bar"></span>更新日志<span class="en"> · Update Log</span></h2>
+    <ul class="log-list" id="log-list">
+      <li><span class="log-date">2026.09.11</span><span class="log-note">全站新增研判块、站内搜索、更新日志与RSS订阅；12频道卡片结构统一收口</span></li>
+    </ul>
+  </div>
+
   <div class="features-grid">
     <div class="feature-item">
       <span class="feature-icon">🔁</span>
@@ -826,6 +877,14 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;b
     <div>每日 <span class="footer-highlight">09:00</span> (Asia/Shanghai) 自动更新</div>
     <div>12个频道 · 全维度覆盖 · 研报级深度</div>
   </div>
+  <div class="footer-links">
+    <a href="#search-box" onclick="var i=document.getElementById('site-search'); if(i){i.focus();} return false;">站内搜索</a>
+    <span>·</span>
+    <a href="#home" onclick="var u=document.getElementById('update-log'); if(u){u.scrollIntoView({behavior:'smooth'});} return false;">更新日志</a>
+    <span>·</span>
+    <a href="https://gt-ai-3396815.github.io/guangti-channel/rss.xml" target="_blank" rel="noopener">RSS订阅</a>
+  </div>
+
 </footer>
 
 <script>

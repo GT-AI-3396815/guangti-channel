@@ -54,6 +54,27 @@ home_content = re.sub(
 )
 print(f"[OK] Home nav-date set to {_date_dot}")
 
+# 更新日志：确保当天日期在列表顶部（去重，保留最近14条，构成历史归档）
+_log_tag = _dt.date.today().strftime("%Y.%m.%d")
+_log_m = re.search(r'(<ul class="log-list" id="log-list">)(.*?)(</ul>)', home_content, re.S)
+if _log_m:
+    _inner = _log_m.group(2)
+    if f'<span class="log-date">{_log_tag}</span>' not in _inner:
+        _lis = re.findall(r"<li>.*?</li>", _inner, re.S)
+        _new_li = f'<li><span class="log-date">{_log_tag}</span><span class="log-note">12个频道每日整编更新，研判分析与要点速览同步刷新</span></li>'
+        _inner = "\n      " + _new_li + "".join("\n      " + li for li in _lis[:13])
+        home_content = (
+            home_content[:_log_m.start()]
+            + _log_m.group(1)
+            + _inner
+            + "\n    "
+            + _log_m.group(3)
+            + home_content[_log_m.end():]
+        )
+        print(f"[OK] Update log: prepended {_log_tag}")
+else:
+    print("[WARN] log-list not found in home source (update log skipped)")
+
 # 自动更新首页日期（替换硬编码日期为当天日期）
 # 日期更新由部署任务处理，构建脚本不做日期替换以保持版面稳定
 
@@ -508,9 +529,110 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 """
 
+# 站内搜索：跨12个频道过滤卡片，点击结果跳转并定位
+spa_js += """
+<script>
+function siteSearch(q) {
+  var box = document.getElementById('search-results');
+  if (!box) return;
+  q = (q || '').trim();
+  if (!q) { box.style.display = 'none'; box.innerHTML = ''; return; }
+  var cards = document.querySelectorAll('.channel-page .news-card');
+  var out = [];
+  var ql = q.toLowerCase();
+  for (var i = 0; i < cards.length && out.length < 30; i++) {
+    var card = cards[i];
+    var page = card.closest('.channel-page');
+    if (!page) continue;
+    var txt = card.innerText.replace(/\\s+/g, ' ');
+    var idx = txt.toLowerCase().indexOf(ql);
+    if (idx < 0) continue;
+    var chId = page.getAttribute('data-channel');
+    var nameEl = page.querySelector('.channel-page-title');
+    var name = nameEl ? nameEl.textContent : chId;
+    var hl = card.querySelector('.news-headline,.item-title,.top3-title');
+    var title = hl ? hl.textContent.trim() : txt.slice(0, 60);
+    var snip = txt.slice(Math.max(0, idx - 20), idx + 60);
+    out.push({ ch: chId, name: name, title: title, snip: snip });
+  }
+  var html = '';
+  if (!out.length) {
+    html = '<div class="search-empty">未找到与「' + q + '」相关的内容，换个关键词试试</div>';
+  } else {
+    for (var j = 0; j < out.length; j++) {
+      html += '<div class="search-result-item" data-ch="' + out[j].ch + '" data-q="' + q + '">'
+           +  '<div class="sr-channel">' + out[j].name + '</div>'
+           +  '<div class="sr-title">' + out[j].title + '</div>'
+           +  '<div class="sr-snip">…' + out[j].snip + '…</div></div>';
+    }
+  }
+  box.innerHTML = html;
+  box.style.display = 'block';
+}
+document.addEventListener('click', function (e) {
+  var box = document.getElementById('search-results');
+  if (!box) return;
+  var item = e.target.closest ? e.target.closest('.search-result-item') : null;
+  if (item) {
+    var ch = item.getAttribute('data-ch');
+    var q = item.getAttribute('data-q') || '';
+    box.style.display = 'none';
+    showChannel(ch);
+    setTimeout(function () {
+      var page = document.getElementById('page-' + ch);
+      if (!page) return;
+      var cards = page.querySelectorAll('.news-card');
+      for (var i = 0; i < cards.length; i++) {
+        if (cards[i].innerText.toLowerCase().indexOf(q.toLowerCase()) >= 0) {
+          cards[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          break;
+        }
+      }
+    }, 350);
+  } else if (!e.target.closest || !e.target.closest('.search-box')) {
+    box.style.display = 'none';
+  }
+});
+</script>
+"""
+
 # 提取head
 head_match = re.search(r"(<head>.*?</head>)", home_content, re.S | re.I)
 head_html = head_match.group(1) if head_match else ""
+
+# === SEO / 社交分享注入（幂等：先清旧再注新） ===
+SITE_URL = "https://gt-ai-3396815.github.io/guangti-channel/"
+SITE_NAME = "光体•星际频道"
+SITE_NAME_EN = "Luminary Interstellar Channel"
+SITE_DESC = (
+    "光体•星际频道 Luminary Interstellar Channel：每日09:00自动更新的12频道资讯站——"
+    "全球新闻、AI热点、商业趋势、自媒体选题推荐、UFO热点、星际文明解读、养生与身心疗愈。"
+)
+head_html = re.sub(r'<meta name="description"[^>]*>\s*', "", head_html)
+head_html = re.sub(r'<meta property="og:[^>]*>\s*', "", head_html)
+head_html = re.sub(r'<meta name="twitter:[^>]*>\s*', "", head_html)
+head_html = re.sub(r'<link rel="canonical"[^>]*>\s*', "", head_html)
+head_html = re.sub(
+    r'<script type="application/ld\+json">.*?</script>\s*', "", head_html, flags=re.S
+)
+seo_html = f'''<meta name="description" content="{SITE_DESC}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{SITE_NAME}">
+<meta property="og:title" content="{SITE_NAME} · {SITE_NAME_EN}">
+<meta property="og:description" content="{SITE_DESC}">
+<meta property="og:url" content="{SITE_URL}">
+<meta property="og:image" content="{SITE_URL}source/logo.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{SITE_NAME} · {SITE_NAME_EN}">
+<meta name="twitter:description" content="{SITE_DESC}">
+<meta name="twitter:image" content="{SITE_URL}source/logo.jpg">
+<link rel="canonical" href="{SITE_URL}">
+<script type="application/ld+json">
+{{"@context":"https://schema.org","@type":"WebSite","name":"{SITE_NAME}","alternateName":"{SITE_NAME_EN}","url":"{SITE_URL}","description":"{SITE_DESC}","inLanguage":"zh-CN"}}
+</script>
+'''
+head_html = head_html.replace("</head>", seo_html + "</head>")
+print("[OK] SEO meta injected (description/og/twitter/canonical/JSON-LD)")
 
 # 注入favicon（用logo，避免favicon.ico 404）
 if logo_base64 and "</head>" in head_html:
@@ -613,6 +735,47 @@ with open(output_path, "w", encoding="utf-8") as f:
 deploy_path = os.path.join(os.path.dirname(workdir), "index.html")
 with open(deploy_path, "w", encoding="utf-8") as f:
     f.write(final_html)
+
+# === 生成 rss.xml（每日订阅源，随构建自动刷新） ===
+import html as _html
+
+_rss_items = []
+for _i, _ch in enumerate(channels):
+    with open(f"{workdir}/{_ch}.html", "r", encoding="utf-8") as _f:
+        _c = _f.read()
+    _hls = re.findall(
+        r'class="(?:news-headline|item-title|topic-title-main)"[^>]*>(.*?)</(?:div|h3)>',
+        _c,
+        re.S,
+    )
+    _hls = [re.sub(r"<[^>]+>", "", x).strip() for x in _hls]
+    _hls = [re.sub(r"\s+", " ", x) for x in _hls if x.strip()][:3]
+    _summary = "；".join(_hls) if _hls else channel_names[_i]
+    _rss_items.append(
+        f"""    <item>
+      <title>{_html.escape(channel_names[_i])}（{_date_dot.replace(".", "-")}）</title>
+      <link>{SITE_URL}#ch{_ch[-2:]}</link>
+      <guid isPermaLink="false">{SITE_URL}#ch{_ch[-2:]}-{_date_dot}</guid>
+      <description>{_html.escape(_summary)}</description>
+    </item>"""
+    )
+
+_rss = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>{SITE_NAME} · {SITE_NAME_EN}</title>
+    <link>{SITE_URL}</link>
+    <description>{SITE_DESC}</description>
+    <language>zh-CN</language>
+    <lastBuildDate>{_dt.datetime.now(_dt.timezone(_dt.timedelta(hours=8))).strftime("%a, %d %b %Y %H:%M:%S +0800")}</lastBuildDate>
+{chr(10).join(_rss_items)}
+  </channel>
+</rss>
+"""
+rss_path = os.path.join(os.path.dirname(workdir), "rss.xml")
+with open(rss_path, "w", encoding="utf-8") as f:
+    f.write(_rss)
+print(f"[OK] RSS generated: {rss_path} ({len(_rss_items)} items)")
 
 print(f"\n[DONE] SPA版已生成: {output_path}")
 print(f"  大小: {len(final_html.encode('utf-8')) / 1024:.1f} KB")
