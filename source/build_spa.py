@@ -419,6 +419,60 @@ merged_extra_css = _deduped_css
 print(f"[CSS-GUARD] drift=0, rules deduped -> {len(_seen_rules)} unique rules, {len(merged_extra_css)/1024:.1f} KB")
 
 # ============================================================
+# 步骤2.6：容器结构守卫（防"半页裸奔"事故）
+# 每个频道正文的板块都必须在 <div class="container"> 内部，container 必须在 <footer> 之前闭合。
+# 事故复盘：ch01 曾多出一个 </div> 提前关闭 container，使「全球经济」及之后 6 个板块
+# 全部落在 container 之外 → 所有 `.container ...` 内容样式失效，线上第 2 屏开始变成
+# 无边框、无徽章、通栏长行的"纯文字"页面。div 总数平衡，所以旧的平衡检查发现不了。
+# ============================================================
+_struct_errors = []
+for _ch_name in channels:
+    with open(f"{workdir}/{_ch_name}.html", "r", encoding="utf-8") as _f:
+        _c = _f.read()
+    _b = _c[_c.find("<body"):] if "<body" in _c else _c
+    _cm = re.search(r'<div class="container">', _b)
+    if not _cm:
+        _struct_errors.append(f"{_ch_name}: 找不到 <div class=\"container\">")
+        continue
+    _d, _closed, _start = 0, None, _cm.start()
+    for _mm in re.finditer(r"<div\b[^>]*>|</div>", _b[_start:]):
+        if _mm.group(0).startswith("</"):
+            _d -= 1
+            if _d == 0:
+                _closed = _start + _mm.end()
+                break
+        else:
+            _d += 1
+    if _closed is None:
+        _struct_errors.append(f"{_ch_name}: <div class=\"container\"> 未闭合")
+        continue
+    _foot = _b.find("<footer")
+    if _foot != -1 and _closed > _foot:
+        _struct_errors.append(
+            f"{_ch_name}: container 闭合位置({_closed})晚于 <footer>({_foot})，footer 被包进容器"
+        )
+    _secs = [
+        (mm.start(), mm.group(1))
+        for mm in re.finditer(r'<section class="section" id="([^"]+)"', _b)
+    ]
+    _outside = [n for (p, n) in _secs if p > _closed]
+    if _outside:
+        _struct_errors.append(
+            f"{_ch_name}: 板块落在 container 之外 → 样式全丢: {', '.join(_outside)}"
+        )
+    _bal = len(re.findall(r"<div\b", _b)) - _b.count("</div>")
+    if _bal != 0:
+        _struct_errors.append(f"{_ch_name}: div 不平衡 diff={_bal}")
+if _struct_errors:
+    raise SystemExit(
+        "[STRUCT] 频道容器结构错误，拒绝构建（否则线上会出现半页无样式）:\n  - "
+        + "\n  - ".join(_struct_errors)
+    )
+print(
+    f"[STRUCT-GUARD] {len(channels)} channels: container 包裹全部板块 / 闭合于 footer 之前 / div 平衡 = OK"
+)
+
+# ============================================================
 # 步骤3：构建SPA版HTML
 # ============================================================
 
@@ -885,6 +939,173 @@ spa_css = """
 }
 """
 
+# ============================================================
+# 排版可读性覆盖层（全局，最后加载；只改"读起来舒不舒服"，不动页面骨架）
+# 解决的问题：
+#  1) .news-head 原本 justify-content:space-between，编号与标题被拉到两端，
+#     中间留下一大片空白（卡片第一眼像坏了）
+#  2) 正文 14px/1.8 偏小偏挤，一条新闻三段（摘要/关键细节/深度解析）连成一整面字墙
+#  3) 行宽不受限，宽屏下一行 90+ 字，眼睛会跑行
+#  4) 外部 webfont 失败时中文标题没有衬线回退
+# ============================================================
+typo_css = """
+/* === TYPO / READABILITY（全局排版优化，最后加载） === */
+
+/* 1) 卡片头部：编号与标题紧贴同一基线，消除中间巨洞 */
+.container .news-head,
+.container .card-head,
+.container .card-header,
+.container .topic-header {
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: 14px;
+}
+.container .news-head .news-num,
+.container .card-head .card-num {
+  min-width: auto;
+  line-height: 1.2;
+}
+.container .news-headline,
+.container .card-title,
+.container .news-title,
+.container .topic-title-main,
+.container .topic-title-alt {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+/* 2) 正文：15px / 1.95 行高 / 中文两端对齐 / 合理行宽（约 60 字/行） */
+.container .news-summary,
+.container .news-detail,
+.container .news-analysis,
+.container .news-body,
+.container .card-body,
+.container .desc,
+.container .analysis,
+.container .advice,
+.container .secondary,
+.container .topic-titles,
+.container .topic-img-suggest,
+.container .top3-reason,
+.container .level-desc,
+.container .modern,
+.container .yili,
+.container .shicao,
+.container .judgment,
+.container p,
+.container li {
+  font-size: 15px;
+  line-height: 1.95;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.container .news-summary,
+.container .news-detail,
+.container .news-analysis,
+.container .news-body,
+.container .card-body {
+  max-width: 64em;
+}
+
+/* 3) 三段式层级：标签独立成行，一眼看清结构 */
+.container .news-detail > strong:first-child,
+.container .news-analysis > strong:first-child,
+.container .trend-box > strong:first-child {
+  display: block;
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'SimSun', serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* 4) 呼吸感：卡片留白与段落节奏（桌面） */
+.container .news-card,
+.container .card,
+.container .news-item,
+.container .topic-card,
+.container .yangsheng-card {
+  padding: 30px 30px 26px;
+}
+.container .news-head {
+  margin-bottom: 14px;
+}
+.container .news-summary {
+  margin: 0 0 16px;
+}
+.container .news-detail {
+  margin: 16px 0;
+}
+.container .news-analysis {
+  margin: 16px 0 18px;
+}
+.container .news-source {
+  font-size: 12px;
+  padding-top: 12px;
+  margin-top: 14px;
+}
+.container .top-row {
+  margin-bottom: 16px;
+}
+.container .news-tags {
+  margin-bottom: 14px;
+}
+.container .section-title {
+  font-size: 26px;
+}
+.container .section-subtitle {
+  font-size: 13.5px;
+}
+
+/* 5) 中文衬线/黑体回退：webfont 挂了也不塌 */
+.hero-title,
+.section-title,
+.news-headline,
+.news-title,
+.card-title,
+.topic-title-main,
+.topic-title-alt,
+.footer-brand,
+.nav-brand-text,
+.channel-page-title,
+.judgment .key {
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'SimSun', Georgia, serif;
+}
+body,
+.hero-sub,
+.footer-en {
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+}
+
+/* 6) 窄屏收口气（媒体查询放在覆盖层内部，避免桌面留白规则在小屏反噬） */
+@media (max-width: 768px) {
+  .container .news-card,
+  .container .card,
+  .container .news-item,
+  .container .topic-card,
+  .container .yangsheng-card {
+    padding: 18px 16px;
+  }
+  .container .news-summary,
+  .container .news-detail,
+  .container .news-analysis,
+  .container .judgment,
+  .container p,
+  .container li {
+    font-size: 14.5px;
+    line-height: 1.9;
+  }
+  .container .section-title {
+    font-size: 21px;
+  }
+}
+"""
+
 # SPA专用JS
 spa_js = """
 <script>
@@ -1274,10 +1495,10 @@ if logo_base64 and "</head>" in head_html:
     favicon_link = f'<link rel="icon" type="image/jpeg" href="{logo_base64}">\n'
     head_html = head_html.replace("</head>", favicon_link + "</head>")
 
-# 在 </style> 前插入额外CSS和SPA CSS
+# 在 </style> 前插入额外CSS和SPA CSS（typo_css 放最后，同级覆盖优先）
 if "</style>" in head_html:
     head_html = head_html.replace(
-        "</style>", f"{merged_extra_css}\n{spa_css}\n</style>"
+        "</style>", f"{merged_extra_css}\n{spa_css}\n{typo_css}\n</style>"
     )
 
 # 提取body
@@ -1342,6 +1563,30 @@ if logo_base64:
     final_html = final_html.replace('src="logo.jpg"', f'src="{logo_base64}"')
     print(f"[OK] Replaced logo.jpg with base64 in final HTML")
 
+# === 字体：不再用渲染阻塞的 @import ===
+# @import 位于整张内联样式表的第一行，字体 CDN（fonts.loli.net）慢/被墙时会阻塞
+# 其后所有规则的解析与应用 → 页面在字体返回前是一张"裸奔"的白底文档。
+# 改为 <head> 里的非阻塞 <link>（media=print + onload 切换），失败也只是回落到系统字体。
+FONT_HREF = (
+    "https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@300;400;600;700;900"
+    "&family=Noto+Sans+SC:wght@200;300;400;500;700"
+    "&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400"
+    "&family=JetBrains+Mono:wght@300;400&display=swap"
+)
+_n_import = len(re.findall(r"@import\s+url\(", final_html))
+final_html = re.sub(r"@import\s+url\([^)]*\)\s*;?", "", final_html)
+font_links = (
+    '<link rel="preconnect" href="https://fonts.loli.net" crossorigin>\n'
+    f'<link rel="stylesheet" href="{FONT_HREF}" media="print" onload="this.media=\'all\'">\n'
+    f'<noscript><link rel="stylesheet" href="{FONT_HREF}"></noscript>\n'
+)
+if "</head>" in final_html:
+    final_html = final_html.replace("</head>", font_links + "</head>", 1)
+print(
+    f"[OK] Font loading de-blocked: removed {_n_import} blocking @import, "
+    f"injected non-blocking <link> (+system font fallback)"
+)
+
 # === 外链安全：所有 target="_blank" 一律补 noopener noreferrer ===
 def _harden_links(m):
     tag = m.group(0)
@@ -1377,6 +1622,10 @@ print(f"[CHECK] back-to-top/progress css: {final_html.count('read-progress')} (e
 print(f"[CHECK] search count/highlight: {final_html.count('sr-count')} (expect >= 1)")
 print(f"[CHECK] RSS alternate link: {final_html.count('application/rss+xml')} (expect 1)")
 print(f"[CHECK] channel-page-info: {final_html.count('channel-page-info')} (expect >= 12)")
+print(f"[CHECK] blocking @import: {final_html.count('@import url(')} (expect 0)")
+print(f"[CHECK] font link present: {final_html.count('fonts.loli.net')} (expect >= 2)")
+print(f"[CHECK] typo layer: {final_html.count('TYPO / READABILITY')} (expect 1)")
+print(f"[CHECK] news-head flex fix: {final_html.count('align-items: baseline')} (expect >= 1)")
 
 # 检查是否还有外部链接
 ext_links = re.findall(r'href="[^#][^"]*\.html"', final_html)
