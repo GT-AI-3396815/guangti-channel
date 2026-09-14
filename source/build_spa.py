@@ -13,15 +13,22 @@ import re, os, base64
 workdir = os.path.dirname(os.path.abspath(__file__))
 
 # === 读取logo并转为base64 ===
+# 内联进 HTML 的用压缩版 logo_inline.jpg（256px，约18KB）；
+# og:image / 社交分享仍指向高清原图 logo.jpg，两者兼顾体积与分享质量。
 logo_path = f"{workdir}/logo.jpg"
+logo_inline_path = f"{workdir}/logo_inline.jpg"
+_inline_src = logo_inline_path if os.path.exists(logo_inline_path) else logo_path
 logo_base64 = ""
-if os.path.exists(logo_path):
-    with open(logo_path, "rb") as f:
+if os.path.exists(_inline_src):
+    with open(_inline_src, "rb") as f:
         logo_data = f.read()
     logo_base64 = f"data:image/jpeg;base64,{base64.b64encode(logo_data).decode()}"
-    print(f"[OK] Logo embedded: {len(logo_data)} bytes -> {len(logo_base64)} chars")
+    print(
+        f"[OK] Logo embedded ({os.path.basename(_inline_src)}): "
+        f"{len(logo_data)} bytes -> {len(logo_base64)} chars"
+    )
 else:
-    print(f"[WARN] logo.jpg not found at {logo_path}")
+    print(f"[WARN] logo not found at {_inline_src}")
 channels = ["ch%02d" % i for i in range(1, 13)]
 channel_names = [
     "每日全球新闻",
@@ -37,6 +44,11 @@ channel_names = [
     "每日身心调频疗愈指南",
     "每日显化能量实操",
 ]
+# 频道简称：用于频道页顶部切换条（完整名太长，手机上放不下）
+channel_short = [
+    "新闻", "AI", "商业", "选题", "UFO", "星际",
+    "文明", "史前", "典籍", "养生", "疗愈", "显化",
+]
 
 # ============================================================
 # 步骤1：读取干净源文件（非自身输出，避免循环依赖）
@@ -44,34 +56,76 @@ channel_names = [
 with open(f"{workdir}/光体频道_source.html", "r", encoding="utf-8") as f:
     home_content = f.read()
 
-# 首页导航日期自动更新为构建当天（部署任务缺失时保证日期不滞后）
+# 首页导航日期与更新日志：一律以「内容日期」为准（各频道 hero-date 的众数），
+# 而不是构建日期——这样万一某天没有产出新内容，站点会如实显示真实日期，不谎报今天已更新。
 import datetime as _dt
 _date_dot = _dt.date.today().strftime("%Y.%m.%d")
+
+_channel_files_cache = {}
+_dates_pool = []
+for _ch in channels:
+    with open(f"{workdir}/{_ch}.html", "r", encoding="utf-8") as _f:
+        _cached = _f.read()
+    _channel_files_cache[_ch] = _cached
+    _dm = re.search(r'class="hero-date"[^>]*>\s*(\d{4})\s*/\s*(\d{2})\s*/\s*(\d{2})', _cached)
+    if _dm:
+        _dates_pool.append(f"{_dm.group(1)}.{_dm.group(2)}.{_dm.group(3)}")
+if _dates_pool:
+    _cnt = {}
+    for _d in _dates_pool:
+        _cnt[_d] = _cnt.get(_d, 0) + 1
+    _content_date = max(_cnt.items(), key=lambda kv: kv[1])[0]
+else:
+    _content_date = _date_dot
+print(f"[OK] Content date detected: {_content_date} (build day {_date_dot}, {len(_dates_pool)} channels)")
+
 home_content = re.sub(
     r'<span class="nav-date">[^<]*</span>',
-    f'<span class="nav-date">{_date_dot}</span>',
+    f'<span class="nav-date">{_content_date}</span>',
     home_content,
 )
-print(f"[OK] Home nav-date set to {_date_dot}")
+print(f"[OK] Home nav-date set to {_content_date}")
 
-# 更新日志：确保当天日期在列表顶部（去重，保留最近14条，构成历史归档）
-_log_tag = _dt.date.today().strftime("%Y.%m.%d")
+# 首页源里可能残留硬编码的高清 logo base64（1080px，约110KB）；
+# 统一替换为压缩版内联图，避免单文件体积膨胀（幂等）。
+if logo_base64:
+    home_content, _n_logo = re.subn(
+        r'data:image/jpeg;base64,[A-Za-z0-9+/=]+', lambda m: logo_base64, home_content
+    )
+    if _n_logo:
+        print(f"[OK] Home hardcoded logo base64 -> compressed inline ({_n_logo} place(s))")
+
+# 更新日志：把「内容日期」记入列表顶部并回写源文件，让它逐日累积成真正的历史归档
+# （只在出现更新的日期时才写入，且保留最近14条；幂等）
 _log_m = re.search(r'(<ul class="log-list" id="log-list">)(.*?)(</ul>)', home_content, re.S)
 if _log_m:
-    _inner = _log_m.group(2)
-    if f'<span class="log-date">{_log_tag}</span>' not in _inner:
-        _lis = re.findall(r"<li>.*?</li>", _inner, re.S)
-        _new_li = f'<li><span class="log-date">{_log_tag}</span><span class="log-note">12个频道每日整编更新，研判分析与要点速览同步刷新</span></li>'
-        _inner = "\n      " + _new_li + "".join("\n      " + li for li in _lis[:13])
-        home_content = (
-            home_content[:_log_m.start()]
-            + _log_m.group(1)
-            + _inner
-            + "\n    "
-            + _log_m.group(3)
-            + home_content[_log_m.end():]
+    _log_head, _log_inner, _log_tail = _log_m.group(1), _log_m.group(2), _log_m.group(3)
+    _existing = re.findall(r'<span class="log-date">([^<]*)</span>', _log_inner)
+    _newest = max(_existing) if _existing else ""
+    if _content_date not in _existing and _content_date > _newest and _content_date <= _date_dot:
+        _lis = re.findall(r"<li>.*?</li>", _log_inner, re.S)
+        _new_li = (
+            f'<li><span class="log-date">{_content_date}</span>'
+            f'<span class="log-note">12个频道每日整编更新，研判分析与要点速览同步刷新</span></li>'
         )
-        print(f"[OK] Update log: prepended {_log_tag}")
+        _rebuilt = _log_head + "\n      " + _new_li + "".join(
+            "\n      " + li for li in _lis[:13]
+        ) + "\n    " + _log_tail
+        home_content = home_content[:_log_m.start()] + _rebuilt + home_content[_log_m.end():]
+
+        # 回写源文件（否则更新日志每次构建都会重置，形不成归档）
+        _src_path = f"{workdir}/光体频道_source.html"
+        with open(_src_path, "r", encoding="utf-8") as _f:
+            _src_text = _f.read()
+        if _log_head + _log_inner + _log_tail in _src_text:
+            _src_text = _src_text.replace(_log_head + _log_inner + _log_tail, _rebuilt, 1)
+            with open(_src_path, "w", encoding="utf-8") as _f:
+                _f.write(_src_text)
+            print(f"[OK] Update log: {_content_date} prepended & persisted (archive grows)")
+        else:
+            print(f"[WARN] Update log: {_content_date} prepended in memory only")
+    else:
+        print(f"[INFO] Update log unchanged (content date {_content_date}, {len(_existing)} entries)")
 else:
     print("[WARN] log-list not found in home source (update log skipped)")
 
@@ -90,8 +144,10 @@ channel_pages = []
 
 for i, ch in enumerate(channels):
     fname = f"{workdir}/{ch}.html"
-    with open(fname, "r", encoding="utf-8") as f:
-        content = f.read()
+    content = _channel_files_cache.get(ch)
+    if content is None:
+        with open(fname, "r", encoding="utf-8") as f:
+            content = f.read()
 
     # --- 自动更新栏目页面日期（注释掉：日期由部署任务处理）---
     # content = re.sub(
@@ -224,6 +280,56 @@ for i, ch in enumerate(channels):
         'href="光体频道.html"', 'href="#home" onclick="showHome(); return false;"'
     )
 
+    # --- 频道切换条（12个频道横向芯片，当前频道高亮；移动端可横向滑动）---
+    _chip_items = []
+    for _j, _c in enumerate(channels):
+        _chip_cls = "ch-chip active" if _c == ch else "ch-chip"
+        _chip_items.append(
+            f'<a class="{_chip_cls}" href="#{_c}" data-target="{_c}" '
+            f"onclick=\"showChannel('{_c}');return false;\">"
+            f'<span class="ch-chip-num">{_j + 1:02d}</span>{channel_short[_j]}</a>'
+        )
+    channel_switch = (
+        '<div class="channel-switch" role="navigation" aria-label="频道切换">'
+        + "".join(_chip_items)
+        + "</div>"
+    )
+
+    # --- 阅读信息条：本频道条目数 / 预计阅读时长 / 内容日期（与该频道 hero 保持一致）---
+    _card_ct = len(re.findall(r'class="[^"]*news-card', body_html))
+    _plain = re.sub(r"<[^>]+>", "", body_html)
+    _chars = len(re.sub(r"\s+", "", _plain))
+    _readmin = max(1, round(_chars / 400))
+    _ch_dm = re.search(r'class="hero-date"[^>]*>\s*(\d{4})\s*/\s*(\d{2})\s*/\s*(\d{2})', content)
+    _ch_date = (
+        f"{_ch_dm.group(1)}.{_ch_dm.group(2)}.{_ch_dm.group(3)}" if _ch_dm else _content_date
+    )
+    channel_info = (
+        '<div class="channel-page-info">'
+        f"<span>本频道 {_card_ct} 条内容</span>"
+        '<span class="cpi-dot">·</span>'
+        f"<span>约 {_readmin} 分钟读完</span>"
+        '<span class="cpi-dot">·</span>'
+        f"<span>内容日期 {_ch_date}</span>"
+        "</div>"
+    )
+
+    # --- 上一频道 / 下一频道（首尾循环）---
+    _pi = (i - 1) % len(channels)
+    _ni = (i + 1) % len(channels)
+    channel_pager = (
+        '<div class="channel-pager">'
+        f'<a class="pager-btn prev" href="#{channels[_pi]}" '
+        f"onclick=\"showChannel('{channels[_pi]}');return false;\">"
+        f'<span class="pager-dir">← 上一频道</span>'
+        f'<span class="pager-name">{channel_names[_pi]}</span></a>'
+        f'<a class="pager-btn next" href="#{channels[_ni]}" '
+        f"onclick=\"showChannel('{channels[_ni]}');return false;\">"
+        f'<span class="pager-dir">下一频道 →</span>'
+        f'<span class="pager-name">{channel_names[_ni]}</span></a>'
+        "</div>"
+    )
+
     # --- 包装为频道页面容器 ---
     page_html = (
         f'<div class="channel-page" id="page-{ch}" data-channel="{ch}">\n'
@@ -235,10 +341,20 @@ for i, ch in enumerate(channels):
         f"      <span>返回首页</span>\n"
         f"    </div>\n"
         f'    <div class="channel-page-title">{channel_names[i]}</div>\n'
+        f'    <button class="channel-page-copy" type="button" onclick="copyPageLink()" '
+        f'title="复制本页链接" aria-label="复制本页链接">\n'
+        f'      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">\n'
+        f'        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>\n'
+        f'        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>\n'
+        f"      </svg>\n"
+        f"    </button>\n"
+        f"    {channel_switch}\n"
         f"  </div>\n"
         f'  <div class="channel-page-content">\n'
+        f"{channel_info}\n"
         f"{body_html}\n"
         f"  </div>\n"
+        f"{channel_pager}\n"
         f"</div>"
     )
 
@@ -428,6 +544,345 @@ spa_css = """
     padding: 16px 0 40px;
   }
 }
+
+/* === 频道切换条（频道页顶部，横向可滑动） === */
+.channel-page-header {
+  flex-wrap: wrap;
+}
+
+.channel-switch {
+  flex-basis: 100%;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 0 2px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.channel-switch::-webkit-scrollbar {
+  display: none;
+}
+
+.ch-chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.25s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.ch-chip:hover {
+  border-color: var(--gold);
+  color: var(--gold-bright);
+}
+
+.ch-chip.active {
+  background: var(--gold-faint);
+  border-color: var(--gold);
+  color: var(--gold-bright);
+  font-weight: 600;
+}
+
+.ch-chip-num {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  opacity: 0.65;
+  letter-spacing: 1px;
+}
+
+/* === 频道页阅读信息条 === */
+.channel-page-info {
+  max-width: 1080px;
+  margin: 0 auto 18px;
+  padding: 0 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.cpi-dot {
+  opacity: 0.45;
+}
+
+/* === 上一频道 / 下一频道 === */
+.channel-pager {
+  max-width: 1080px;
+  margin: 8px auto 0;
+  padding: 24px;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.pager-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  text-decoration: none;
+  transition: all 0.3s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pager-btn:hover {
+  border-color: var(--gold);
+  background: var(--gold-faint);
+  transform: translateY(-2px);
+}
+
+.pager-btn.next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.pager-dir {
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+.pager-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* === 频道页复制链接按钮 === */
+.channel-page-copy {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.25s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.channel-page-copy:hover {
+  background: var(--gold-faint);
+  border-color: var(--gold);
+}
+
+/* === 阅读进度条 === */
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+  z-index: 3000;
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+/* === 右下角悬浮按钮（回到顶部 / 复制链接） === */
+.fab-stack {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 2500;
+  pointer-events: none;
+}
+
+.fab {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-deep);
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s, background 0.25s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fab.show,
+.fab.always {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.fab:hover {
+  background: var(--gold-faint);
+  border-color: var(--gold);
+}
+
+/* === 轻提示 toast === */
+.site-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 92px;
+  transform: translateX(-50%) translateY(12px);
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: var(--bg-deep);
+  border: 1px solid var(--gold);
+  color: var(--gold-bright);
+  font-size: 13px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 3200;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.site-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* === 搜索结果增强 === */
+.search-results .sr-count {
+  padding: 10px 16px 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.search-results mark {
+  background: var(--gold-faint);
+  color: var(--gold-bright);
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+.search-result-item.active {
+  background: var(--gold-faint);
+}
+
+.search-result-item.hit-flash {
+  animation: hitFlash 2.2s ease-out;
+}
+
+@keyframes hitFlash {
+  0% { box-shadow: 0 0 0 2px var(--gold); }
+  100% { box-shadow: 0 0 0 2px transparent; }
+}
+
+/* === 搜索框快捷键提示 === */
+.search-hint {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: 5px;
+  padding: 2px 6px;
+  pointer-events: none;
+}
+
+/* === 打印样式（存 PDF / 打印收藏） === */
+@media print {
+  .nav,
+  .channel-page-header,
+  .channel-pager,
+  .fab-stack,
+  .read-progress,
+  .starfield,
+  .ambient,
+  .search-box,
+  .site-toast,
+  .channel-card .channel-status {
+    display: none !important;
+  }
+  body,
+  #home-section,
+  .channel-page,
+  .channel-page-content {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .channel-page:not(.active) {
+    display: none !important;
+  }
+  a {
+    color: #000 !important;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .channel-page-info {
+    padding: 0 16px;
+    margin-bottom: 12px;
+  }
+  .channel-pager {
+    flex-direction: column;
+    padding: 20px 16px;
+  }
+  .pager-btn.next {
+    text-align: left;
+    align-items: flex-start;
+  }
+  .fab-stack {
+    right: 14px;
+    bottom: 18px;
+  }
+  .fab {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  .channel-switch {
+    gap: 6px;
+  }
+  .ch-chip {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+}
 """
 
 # SPA专用JS
@@ -529,68 +984,247 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 """
 
-# 站内搜索：跨12个频道过滤卡片，点击结果跳转并定位
+# 站内搜索：跨12个频道过滤卡片，点击结果跳转并精确定位到那一张卡片
 spa_js += """
 <script>
+// === 站内搜索（带索引缓存 / 计数 / 关键词高亮 / 键盘操作） ===
+var __srIndex = null;
+var __srActive = -1;
+
+function __srBuildIndex() {
+  if (__srIndex) return __srIndex;
+  var cards = document.querySelectorAll('.channel-page .news-card');
+  var out = [];
+  for (var i = 0; i < cards.length; i++) {
+    var card = cards[i];
+    var page = card.closest ? card.closest('.channel-page') : null;
+    if (!page) continue;
+    // 用 textContent 而非 innerText：隐藏频道内的 innerText 取不到文本（重要 bug 修复）
+    var txt = (card.textContent || '').replace(/\\s+/g, ' ').trim();
+    if (!txt) continue;
+    var hl = card.querySelector('.news-headline,.item-title,.top3-title');
+    var nameEl = page.querySelector('.channel-page-title');
+    card.setAttribute('data-si', String(i));
+    out.push({
+      i: i,
+      ch: page.getAttribute('data-channel'),
+      name: nameEl ? nameEl.textContent.trim() : page.getAttribute('data-channel'),
+      title: hl ? hl.textContent.trim() : txt.slice(0, 60),
+      txt: txt
+    });
+  }
+  __srIndex = out;
+  return out;
+}
+
+function __srEsc(s) {
+  return String(s).replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');
+}
+
+function __srMark(s, q) {
+  try {
+    return String(s).replace(new RegExp('(' + __srEsc(q) + ')', 'gi'), '<mark>$1</mark>');
+  } catch (e) { return s; }
+}
+
 function siteSearch(q) {
   var box = document.getElementById('search-results');
   if (!box) return;
   q = (q || '').trim();
+  __srActive = -1;
   if (!q) { box.style.display = 'none'; box.innerHTML = ''; return; }
-  var cards = document.querySelectorAll('.channel-page .news-card');
-  var out = [];
+  var idx = __srBuildIndex();
   var ql = q.toLowerCase();
-  for (var i = 0; i < cards.length && out.length < 30; i++) {
-    var card = cards[i];
-    var page = card.closest('.channel-page');
-    if (!page) continue;
-    var txt = card.innerText.replace(/\\s+/g, ' ');
-    var idx = txt.toLowerCase().indexOf(ql);
-    if (idx < 0) continue;
-    var chId = page.getAttribute('data-channel');
-    var nameEl = page.querySelector('.channel-page-title');
-    var name = nameEl ? nameEl.textContent : chId;
-    var hl = card.querySelector('.news-headline,.item-title,.top3-title');
-    var title = hl ? hl.textContent.trim() : txt.slice(0, 60);
-    var snip = txt.slice(Math.max(0, idx - 20), idx + 60);
-    out.push({ ch: chId, name: name, title: title, snip: snip });
+  var hits = [];
+  var totalHit = 0;
+  for (var i = 0; i < idx.length; i++) {
+    var pos = idx[i].txt.toLowerCase().indexOf(ql);
+    if (pos < 0) continue;
+    totalHit++;
+    if (hits.length < 30) hits.push({ item: idx[i], pos: pos });
   }
   var html = '';
-  if (!out.length) {
+  if (!totalHit) {
     html = '<div class="search-empty">未找到与「' + q + '」相关的内容，换个关键词试试</div>';
   } else {
-    for (var j = 0; j < out.length; j++) {
-      html += '<div class="search-result-item" data-ch="' + out[j].ch + '" data-q="' + q + '">'
-           +  '<div class="sr-channel">' + out[j].name + '</div>'
-           +  '<div class="sr-title">' + out[j].title + '</div>'
-           +  '<div class="sr-snip">…' + out[j].snip + '…</div></div>';
+    html += '<div class="sr-count">共 ' + totalHit + ' 条结果'
+          + (totalHit > hits.length ? '，显示前 ' + hits.length + ' 条（加长关键词可缩小范围）' : '')
+          + ' · ↑↓ 选择，Enter 打开</div>';
+    for (var j = 0; j < hits.length; j++) {
+      var it = hits[j].item;
+      var snip = it.txt.slice(Math.max(0, hits[j].pos - 18), hits[j].pos + 58);
+      html += '<div class="search-result-item" data-si="' + it.i + '" data-ch="' + it.ch + '">'
+           +  '<div class="sr-channel">' + it.name + '</div>'
+           +  '<div class="sr-title">' + __srMark(it.title, q) + '</div>'
+           +  '<div class="sr-snip">…' + __srMark(snip, q) + '…</div></div>';
     }
   }
   box.innerHTML = html;
   box.style.display = 'block';
 }
+
+// 跳转到搜索命中的那张卡片，并高亮闪一下，方便用户立刻看到
+function __srJump(ch, si) {
+  var box = document.getElementById('search-results');
+  if (box) { box.style.display = 'none'; }
+  showChannel(ch);
+  setTimeout(function () {
+    var card = document.querySelector('.channel-page [data-si="' + si + '"]');
+    if (!card) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.classList.add('hit-flash');
+    setTimeout(function () { card.classList.remove('hit-flash'); }, 2400);
+  }, 360);
+}
+
+// 鼠标点击结果
 document.addEventListener('click', function (e) {
   var box = document.getElementById('search-results');
   if (!box) return;
   var item = e.target.closest ? e.target.closest('.search-result-item') : null;
   if (item) {
-    var ch = item.getAttribute('data-ch');
-    var q = item.getAttribute('data-q') || '';
+    __srJump(item.getAttribute('data-ch'), item.getAttribute('data-si'));
+  } else if (!e.target.closest || !e.target.closest('#search-box')) {
     box.style.display = 'none';
-    showChannel(ch);
-    setTimeout(function () {
-      var page = document.getElementById('page-' + ch);
-      if (!page) return;
-      var cards = page.querySelectorAll('.news-card');
-      for (var i = 0; i < cards.length; i++) {
-        if (cards[i].innerText.toLowerCase().indexOf(q.toLowerCase()) >= 0) {
-          cards[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          break;
-        }
+  }
+});
+
+// 键盘操作：Esc 关闭清空 / ↑↓ 选择 / Enter 打开
+document.addEventListener('keydown', function (e) {
+  var input = document.getElementById('site-search');
+  var box = document.getElementById('search-results');
+  var home = document.getElementById('home-section');
+
+  // “/” 快捷键聚焦搜索（在频道页会先回到首页）
+  if (e.key === '/' && document.activeElement !== input) {
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+      e.preventDefault();
+      if (home && home.classList.contains('hidden')) {
+        showHome();
+        setTimeout(function () { if (input) input.focus(); }, 320);
+      } else if (input) {
+        input.focus();
       }
-    }, 350);
-  } else if (!e.target.closest || !e.target.closest('.search-box')) {
+      return;
+    }
+  }
+
+  if (!box || box.style.display === 'none') return;
+
+  if (e.key === 'Escape') {
     box.style.display = 'none';
+    if (input) { input.value = ''; input.blur(); }
+    return;
+  }
+
+  var items = box.querySelectorAll('.search-result-item');
+  if (!items.length) return;
+
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    __srActive = e.key === 'ArrowDown'
+      ? (__srActive + 1) % items.length
+      : (__srActive - 1 + items.length) % items.length;
+    for (var i = 0; i < items.length; i++) items[i].classList.toggle('active', i === __srActive);
+    items[__srActive].scrollIntoView({ block: 'nearest' });
+    return;
+  }
+
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    var pick = items[__srActive >= 0 ? __srActive : 0];
+    __srJump(pick.getAttribute('data-ch'), pick.getAttribute('data-si'));
+  }
+});
+</script>
+"""
+
+# 阅读辅助：进度条 / 回到顶部 / 复制链接 / 轻提示
+spa_js += """
+<script>
+// === 轻提示 ===
+function siteToast(msg) {
+  var t = document.getElementById('site-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'site-toast';
+    t.className = 'site-toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t.__timer);
+  t.__timer = setTimeout(function () { t.classList.remove('show'); }, 1900);
+}
+
+// === 复制本页链接 ===
+function copyPageLink() {
+  var url = location.href;
+  var done = function () { siteToast('链接已复制，可直接分享'); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(done, function () { __copyFallback(url, done); });
+  } else {
+    __copyFallback(url, done);
+  }
+}
+
+function __copyFallback(text, done) {
+  try {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    done();
+  } catch (e) {
+    siteToast('复制失败，请手动复制地址栏链接');
+  }
+}
+
+// === 阅读进度条 + 回到顶部按钮 ===
+(function () {
+  var bar = document.createElement('div');
+  bar.className = 'read-progress';
+  document.body.appendChild(bar);
+
+  var stack = document.createElement('div');
+  stack.className = 'fab-stack';
+  stack.innerHTML =
+    '<button class="fab fab-copy always" type="button" title="复制本页链接" aria-label="复制本页链接">🔗</button>' +
+    '<button class="fab fab-top" type="button" title="回到顶部" aria-label="回到顶部">↑</button>';
+  document.body.appendChild(stack);
+
+  var topBtn = stack.querySelector('.fab-top');
+  var copyBtn = stack.querySelector('.fab-copy');
+  topBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  copyBtn.addEventListener('click', copyPageLink);
+
+  function onScroll() {
+    var doc = document.documentElement;
+    var max = (doc.scrollHeight - window.innerHeight);
+    var pct = max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0;
+    bar.style.width = pct + '%';
+    // 复制链接按钮常驻（任何位置都可能想分享）；仅回到顶部随滚动出现
+    topBtn.classList.toggle('show', window.scrollY > 420);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+})();
+
+// === 搜索框快捷键提示（仅桌面端显示） ===
+document.addEventListener('DOMContentLoaded', function () {
+  var box = document.getElementById('search-box');
+  if (box && !box.querySelector('.search-hint')) {
+    var hint = document.createElement('span');
+    hint.className = 'search-hint';
+    hint.textContent = '按 / 搜索';
+    box.appendChild(hint);
   }
 });
 </script>
@@ -627,12 +1261,13 @@ seo_html = f'''<meta name="description" content="{SITE_DESC}">
 <meta name="twitter:description" content="{SITE_DESC}">
 <meta name="twitter:image" content="{SITE_URL}source/logo.jpg">
 <link rel="canonical" href="{SITE_URL}">
+<link rel="alternate" type="application/rss+xml" title="{SITE_NAME} · 每日更新" href="rss.xml">
 <script type="application/ld+json">
 {{"@context":"https://schema.org","@type":"WebSite","name":"{SITE_NAME}","alternateName":"{SITE_NAME_EN}","url":"{SITE_URL}","description":"{SITE_DESC}","inLanguage":"zh-CN"}}
 </script>
 '''
 head_html = head_html.replace("</head>", seo_html + "</head>")
-print("[OK] SEO meta injected (description/og/twitter/canonical/JSON-LD)")
+print("[OK] SEO meta injected (description/og/twitter/canonical/JSON-LD + RSS alternate)")
 
 # 注入favicon（用logo，避免favicon.ico 404）
 if logo_base64 and "</head>" in head_html:
@@ -707,6 +1342,22 @@ if logo_base64:
     final_html = final_html.replace('src="logo.jpg"', f'src="{logo_base64}"')
     print(f"[OK] Replaced logo.jpg with base64 in final HTML")
 
+# === 外链安全：所有 target="_blank" 一律补 noopener noreferrer ===
+def _harden_links(m):
+    tag = m.group(0)
+    if 'target="_blank"' not in tag:
+        return tag
+    if "rel=" in tag:
+        def _merge(mm):
+            vals = set(mm.group(1).split()) | {"noopener", "noreferrer"}
+            return 'rel="' + " ".join(sorted(vals)) + '"'
+        return re.sub(r'rel="([^"]*)"', _merge, tag)
+    return re.sub(r"\s*/?>$", "", tag).rstrip() + ' rel="noopener noreferrer">'
+
+_before_unsafe = len(re.findall(r'<a\b[^>]*target="_blank"(?![^>]*noopener)[^>]*>', final_html))
+final_html = re.sub(r"<a\b[^>]*>", _harden_links, final_html, flags=re.I)
+print(f"[OK] External link hardening: {_before_unsafe} link(s) got rel=noopener noreferrer")
+
 # 验证
 print(f"[CHECK] File size: {len(final_html.encode('utf-8')) / 1024:.1f} KB")
 total_o = len(re.findall(r"<div\b", final_html, re.I))
@@ -720,6 +1371,12 @@ print(
     f"[CHECK] window.location.href: {final_html.count('window.location.href')} (should be 0)"
 )
 print(f"[CHECK] scrollIntoView: {final_html.count('scrollIntoView')}")
+print(f"[CHECK] channel switcher chips: {final_html.count('class=\"ch-chip')} (expect >= 144)")
+print(f"[CHECK] channel pager: {final_html.count('channel-pager')} (expect >= 12)")
+print(f"[CHECK] back-to-top/progress css: {final_html.count('read-progress')} (expect >= 1)")
+print(f"[CHECK] search count/highlight: {final_html.count('sr-count')} (expect >= 1)")
+print(f"[CHECK] RSS alternate link: {final_html.count('application/rss+xml')} (expect 1)")
+print(f"[CHECK] channel-page-info: {final_html.count('channel-page-info')} (expect >= 12)")
 
 # 检查是否还有外部链接
 ext_links = re.findall(r'href="[^#][^"]*\.html"', final_html)
@@ -753,9 +1410,9 @@ for _i, _ch in enumerate(channels):
     _summary = "；".join(_hls) if _hls else channel_names[_i]
     _rss_items.append(
         f"""    <item>
-      <title>{_html.escape(channel_names[_i])}（{_date_dot.replace(".", "-")}）</title>
+      <title>{_html.escape(channel_names[_i])}（{_content_date.replace(".", "-")}）</title>
       <link>{SITE_URL}#ch{_ch[-2:]}</link>
-      <guid isPermaLink="false">{SITE_URL}#ch{_ch[-2:]}-{_date_dot}</guid>
+      <guid isPermaLink="false">{SITE_URL}#ch{_ch[-2:]}-{_content_date}</guid>
       <description>{_html.escape(_summary)}</description>
     </item>"""
     )
