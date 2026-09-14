@@ -144,3 +144,26 @@ ch01-ch04（事实资讯/方法论）无需标注。样式定义在首页源全�
 - 内联图片一律使用压缩版 `logo_inline.jpg`（256px，约18KB）；高清 `logo.jpg`（1080px）只用于 `og:image`
 - 单文件体积红线 **≤ 760 KB**（当前约 705 KB）；超过即检查是否有重复内联大图
 - 禁止在频道源里硬编码 base64 图片（构建会自动替换，但源文件不应新增）
+
+## 15. 容器结构红线（2026-09-14 事故复盘）
+
+**事故**：ch01 在第一个板块 `.judgment` 之后多出一个 `</div>`，导致 `.container` 提前闭合。因所有内容样式都写成 `.container .news-card` / `.container .news-num` 形式，第二个板块起（economy/conflict/tech/society/climate/summary）整段落在容器之外 → **完全丢失样式**：无卡片边框与背景、编号回落成 16px 正文、正文通栏贴边。由于 div 开闭总数仍然配平，旧有的平衡校验无法发现。
+
+**防御（已内置，勿删）**：
+- `build_spa.py` 的 `[STRUCT-GUARD]`：逐频道解析 `<div class="container">` … 配平闭合位置，强制要求
+  1. `container` 闭合点必须在 `<footer class="footer">` 之前；
+  2. 所有 `<section class="section">` 必须落在 `container` 闭合点**之内**；
+  3. 整文件 `<div>`/`</div>` 配平。
+  任一不满足 → `raise SystemExit("[STRUCT] 频道容器结构错误，拒绝构建…")`。
+- 判断方法：`python -c "import re;h=open('chXX.html',encoding='utf-8').read();print(len(re.findall(r'<div\b',h))-len(re.findall(r'</div>',h)))"` 应为 **0**。
+
+**排版叠加层（typo layer）**：`build_spa.py` 在 `spa_css` 之后追加一层可读性覆盖，源码顺序靠后故优先级更高：
+- `.news-head` 改为 `justify-content:flex-start; align-items:baseline; gap:14px`，编号与标题紧贴（旧 `space-between` 会把二者撑到两端、中间留大片空白）；
+- `.news-num{min-width:auto}`、`.news-headline{flex:1 1 auto; min-width:0}`；
+- 正文 `font-size:15px; line-height:1.95; text-align:justify; text-justify:inter-ideograph`，摘要/解析/正文 `max-width:64em` 防止超宽通栏；
+- `.news-detail > strong:first-child` 提升为块级金色小标签；
+- 内置 `@media (max-width:768px)` 移动端收敛。
+
+**字体阻塞**：`<style>` 顶部的 `@import url(https://fonts…)` 会阻塞其后**全部** CSS 应用直到字体 CDN 响应/失败（表现为 FOUC）。构建已自动剥离 `@import`，改为 `<link rel="stylesheet" … media="print" onload="this.media='all'">` + `<noscript>` 兜底，并在 typo 层补中文系统字体 fallback。**不要在频道源里重新引入 `@import`。**
+
+**每日更新自检**：构建输出中 `[CHECK] blocking @import: 0`、`font link present >= 2`、`typo layer: 1`、`news-head flex fix >= 1`、`[STRUCT-GUARD] … OK` 必须全部符合预期。
