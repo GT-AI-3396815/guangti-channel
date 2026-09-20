@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gt-ai-3396815.github.io/guangti-channel/sitemap.xml

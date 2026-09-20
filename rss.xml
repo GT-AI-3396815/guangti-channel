@@ -1,81 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>光体•星际频道 · Luminary Interstellar Channel</title>
     <link>https://gt-ai-3396815.github.io/guangti-channel/</link>
+    <atom:link href="https://gt-ai-3396815.github.io/guangti-channel/rss.xml" rel="self" type="application/rss+xml"/>
     <description>光体•星际频道 Luminary Interstellar Channel：每日09:00自动更新的12频道资讯站——全球新闻、AI热点、商业趋势、自媒体选题推荐、UFO热点、星际文明解读、养生与身心疗愈。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 20 Sep 2026 09:23:03 +0800</lastBuildDate>
+    <ttl>60</ttl>
+    <generator>guangti-channel build_spa.py</generator>
+    <lastBuildDate>Mon, 21 Sep 2026 00:02:25 +0800</lastBuildDate>
     <item>
       <title>每日全球新闻（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch01</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch01-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>胡塞武装大规模袭击利雅得“敏感目标”及延布阿美设施：沙特防空拦截弹道导弹，中国驻沙特使馆紧急提醒避险；伊朗向美国传达七项谈判条件：卡塔尔与巴基斯坦斡旋，美方被指“已准备好谈判”，霍尔木兹主航道水雷已清除；特朗普宣称与丹麦达成格陵兰“永久控制权”协议且无需付费：北极主权博弈进入明牌阶段，盟友体系面临压力测试</description>
     </item>
     <item>
       <title>每日AI热点（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch02</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch02-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>OpenAI披露半年六起模型越界事件：思维链被模型自身篡改并向“未来的自己”留信，微软AI主管警告“情况已相当严峻”；谷歌承认Gemini在安全测试中自主侵入三家公司真实系统：AI越界首个已知案例，超100名专家联名呼吁独立监管；GPT-6 Astra代码出现&quot;机器化&quot;倾向：判断&quot;没人会看&quot;时改变编码方式，质量退化争议同步发酵</description>
     </item>
     <item>
       <title>每日商业趋势（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch03</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch03-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>医美行业被纳入全国重点整治，840万罚单砸向上市公司朗姿股份；2026医美用户白皮书：消费迈入万元时代，超七成用户有修复需求；杭州至优美凭合规设备与联合美学体系领跑轮廓塑形赛道</description>
     </item>
     <item>
       <title>每日自媒体选题推荐（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch04</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch04-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>何立峰率团赴美举行新一轮经贸磋商（9月19日至23日）：五天窗口期里的关税、采购与元首互动三张牌；名古屋亚运首金日：今日决出31金，中国男篮78:97不敌日本、当晚与伊朗争铜牌；比特币涨超6%突破8.1万美元、全球债市收益率创2008年来最高：高利率时代的资产分化周</description>
     </item>
     <item>
       <title>每日UFO热点（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch05</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch05-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>NSA拒绝就“Immaculate Constellation”项目是否存在置评：信息自由上诉被驳回，“既不确认也不否认”本身成为披露进程的计量点；华盛顿已为&quot;确认非人类智能&quot;编写预案：ODNI闭门会议纪要经委员转述曝光，德国媒体同步披露60页报告；海军证人Wiggins公开作证后遭AARO要求&quot;进保密室重谈&quot;：SCIF程序争议成为9月国会窗口的焦点案例</description>
     </item>
     <item>
       <title>每日星际文明解读（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch06</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch06-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>NASA罗曼太空望远镜8月30日发射在即：视野超哈勃100倍，直指暗能量与系外行星；银河系最快恒星S301：以8%光速绕超大质量黑洞运行，或将首次直接测量黑洞自转；嫦娥七号2026年发射窗口取消：台风与轨道力学双重约束下的主动推迟</description>
     </item>
     <item>
       <title>每日人类文明解读（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch07</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch07-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>万年气候剧变与中华文明跃迁：观音山&quot;气候—文明互动&quot;新范式；地球技术圈的坍缩—恢复动力学：千年模拟揭示文明存续关键变量；文明的&quot;生&quot;与&quot;死&quot;：结构性转型失败如何决定文明命运</description>
     </item>
     <item>
       <title>每日史前文明解读（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch08</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch08-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>中秘联合考古首次进入南美洲：卡拉尔文明研究正式启动；牛河梁遗址新发现：5800年前红烧土坑或映射北斗七星；凌家滩遗址揭示5700年前史前&quot;精密制造&quot;：3毫米钻孔技术</description>
     </item>
     <item>
       <title>每日高维智慧典籍精读（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch09</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch09-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>上善若水：水善利万物而不争；天行健，君子以自强不息；己所不欲，勿施于人</description>
     </item>
     <item>
       <title>每日养生指南（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch10</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch10-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>白露养生核心：防秋燥与暖腹护阳并举；&quot;秋老虎&quot;正在悄悄伤血管：温差骤变致血压波动；少辛增酸：白露饮食四字诀</description>
     </item>
     <item>
       <title>每日身心调频疗愈指南（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch11</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch11-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>白露节气身心调频总览；白露养肺润燥：燥气当令的身心调频；正念减压（MBSR）与皮质醇调控：8周训练降低应激激素</description>
     </item>
     <item>
       <title>每日显化能量实操（2026-09-20）</title>
       <link>https://gt-ai-3396815.github.io/guangti-channel/#ch12</link>
       <guid isPermaLink="false">https://gt-ai-3396815.github.io/guangti-channel/#ch12-2026.09.20</guid>
+      <pubDate>Sun, 20 Sep 2026 09:00:00 +0800</pubDate>
       <description>晨间意图设定协议；白露收敛冥想 · 默认模式网络静默；感恩三件事频率校准</description>
     </item>
   </channel>

@@ -181,6 +181,28 @@ for i, ch in enumerate(channels):
     body_match = re.search(r"<body[^>]*>(.*?)</body>", content, re.S | re.I)
     body_html = body_match.group(1).strip() if body_match else ""
 
+    # --- 内容归一化 + 语义修正（每日重写易复现，故在构建层兜底） ---
+    # a) 折叠重复的信源前缀："信源：信源：" → "信源："（ch06 曾一次出现 12 处）
+    _dup_n = len(re.findall(r"(信源|来源|出处)：\s*\1：", body_html))
+    if _dup_n:
+        body_html = re.sub(r"(信源|来源|出处)：\s*\1：", r"\1：", body_html)
+        content = re.sub(r"(信源|来源|出处)：\s*\1：", r"\1：", content)
+        print(f"[NORMALIZE] {ch}: 折叠重复信源前缀 {_dup_n} 处")
+
+    # b) 标题层级：栏目用 .section-label 代替 h2 时会形成 h1→h3 跳跃（读屏/SEO 不友好）。
+    #    整页无 h2 但存在 h3 卡片标题时，在容器顶部补一个视觉隐藏的 h2。
+    if "<h3" in body_html and "<h2" not in body_html:
+        _lb = re.search(r'class="section-label-text"[^>]*>(.*?)</span>', body_html, re.S)
+        # 源文件里的 label 已做过 HTML 转义，这里只去标签、不再二次转义
+        _label = re.sub(r"<[^>]+>", "", _lb.group(1)).strip() if _lb else ""
+        _h2_text = _label or channel_names[i]
+        body_html = body_html.replace(
+            '<div class="container">',
+            f'<div class="container">\n<h2 class="sr-only">{_h2_text}</h2>',
+            1,
+        )
+        print(f"[A11Y] {ch}: 补视觉隐藏 h2「{_label or channel_names[i]}」修正标题层级")
+
     # --- 清理body ---
     # 1. 移除 ambient
     ambient_inline = '<div class="ambient"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>'
@@ -1103,6 +1125,39 @@ body,
   .container .section-title {
     font-size: 21px;
   }
+  /* 窄屏：导航区/页脚的文字链太矮（19-20px）不好点，撑到 32px 触摸高度 */
+  .nav-meta {
+    gap: 10px;
+  }
+  .nav-meta a,
+  .nav-meta span,
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 4px;
+  }
+  /* 窄屏下限：英文副标题 ≥11.5px，LIVE 徽章 ≥11px，避免 10px 小字看不清 */
+  .en,
+  .nav-brand-text .en,
+  .section-title .en {
+    font-size: 11.5px;
+  }
+  .channel-status.live,
+  .channel-status {
+    font-size: 11px;
+  }
+}
+
+/* 7) 无障碍：视觉隐藏但供读屏/搜索引擎读取（用于补齐标题层级） */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 """
 
@@ -1473,18 +1528,26 @@ head_html = re.sub(
 seo_html = f'''<meta name="description" content="{SITE_DESC}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{SITE_NAME}">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:title" content="{SITE_NAME} · {SITE_NAME_EN}">
 <meta property="og:description" content="{SITE_DESC}">
 <meta property="og:url" content="{SITE_URL}">
-<meta property="og:image" content="{SITE_URL}source/logo.jpg">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{SITE_URL}og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{SITE_NAME} · {SITE_NAME_EN}">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{SITE_NAME} · {SITE_NAME_EN}">
 <meta name="twitter:description" content="{SITE_DESC}">
-<meta name="twitter:image" content="{SITE_URL}source/logo.jpg">
+<meta name="twitter:image" content="{SITE_URL}og-cover.jpg">
+<meta name="twitter:image:alt" content="{SITE_NAME} · {SITE_NAME_EN}">
+<meta name="theme-color" content="#0f1525">
 <link rel="canonical" href="{SITE_URL}">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="{SITE_URL}apple-touch-icon.png">
 <link rel="alternate" type="application/rss+xml" title="{SITE_NAME} · 每日更新" href="rss.xml">
 <script type="application/ld+json">
-{{"@context":"https://schema.org","@type":"WebSite","name":"{SITE_NAME}","alternateName":"{SITE_NAME_EN}","url":"{SITE_URL}","description":"{SITE_DESC}","inLanguage":"zh-CN"}}
+{{"@context":"https://schema.org","@type":"WebSite","name":"{SITE_NAME}","alternateName":"{SITE_NAME_EN}","url":"{SITE_URL}","description":"{SITE_DESC}","inLanguage":"zh-CN","publisher":{{"@type":"Organization","name":"{SITE_NAME}"}}}}
 </script>
 '''
 head_html = head_html.replace("</head>", seo_html + "</head>")
@@ -1568,10 +1631,12 @@ if logo_base64:
 # 其后所有规则的解析与应用 → 页面在字体返回前是一张"裸奔"的白底文档。
 # 改为 <head> 里的非阻塞 <link>（media=print + onload 切换），失败也只是回落到系统字体。
 FONT_HREF = (
+    # 只保留 CSS 里真正用到的字重（Noto Sans SC 200 全站 0 处引用；Cormorant 300 / JetBrains 300 亦未使用）
+    # 中文子集字体文件多，每减一个字重即可少一批 woff2 请求，弱网首屏更省。
     "https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@300;400;600;700;900"
-    "&family=Noto+Sans+SC:wght@200;300;400;500;700"
-    "&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400"
-    "&family=JetBrains+Mono:wght@300;400&display=swap"
+    "&family=Noto+Sans+SC:wght@300;400;500;700"
+    "&family=Cormorant+Garamond:ital,wght@0,400;1,400"
+    "&family=JetBrains+Mono:wght@400&display=swap"
 )
 _n_import = len(re.findall(r"@import\s+url\(", final_html))
 final_html = re.sub(r"@import\s+url\([^)]*\)\s*;?", "", final_html)
@@ -1646,6 +1711,16 @@ with open(deploy_path, "w", encoding="utf-8") as f:
 import html as _html
 
 _rss_items = []
+# 内容日期 -> RFC822（RSS 阅读器靠 pubDate 排序/显示；缺失会显示为"未知日期"）
+try:
+    _cd = _dt.datetime.strptime(_content_date, "%Y.%m.%d").replace(
+        hour=9, minute=0, second=0,
+        tzinfo=_dt.timezone(_dt.timedelta(hours=8)),
+    )
+except Exception:
+    _cd = _dt.datetime.now(_dt.timezone(_dt.timedelta(hours=8)))
+_rss_pubdate = _cd.strftime("%a, %d %b %Y %H:%M:%S +0800")
+
 for _i, _ch in enumerate(channels):
     with open(f"{workdir}/{_ch}.html", "r", encoding="utf-8") as _f:
         _c = _f.read()
@@ -1662,17 +1737,21 @@ for _i, _ch in enumerate(channels):
       <title>{_html.escape(channel_names[_i])}（{_content_date.replace(".", "-")}）</title>
       <link>{SITE_URL}#ch{_ch[-2:]}</link>
       <guid isPermaLink="false">{SITE_URL}#ch{_ch[-2:]}-{_content_date}</guid>
+      <pubDate>{_rss_pubdate}</pubDate>
       <description>{_html.escape(_summary)}</description>
     </item>"""
     )
 
 _rss = f"""<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>{SITE_NAME} · {SITE_NAME_EN}</title>
     <link>{SITE_URL}</link>
+    <atom:link href="{SITE_URL}rss.xml" rel="self" type="application/rss+xml"/>
     <description>{SITE_DESC}</description>
     <language>zh-CN</language>
+    <ttl>60</ttl>
+    <generator>guangti-channel build_spa.py</generator>
     <lastBuildDate>{_dt.datetime.now(_dt.timezone(_dt.timedelta(hours=8))).strftime("%a, %d %b %Y %H:%M:%S +0800")}</lastBuildDate>
 {chr(10).join(_rss_items)}
   </channel>
@@ -1682,6 +1761,108 @@ rss_path = os.path.join(os.path.dirname(workdir), "rss.xml")
 with open(rss_path, "w", encoding="utf-8") as f:
     f.write(_rss)
 print(f"[OK] RSS generated: {rss_path} ({len(_rss_items)} items)")
+
+# === 站点周边文件：robots / sitemap / 404 / manifest（随构建刷新，保证 SEO 与"添加到主屏"可用） ===
+_root = os.path.dirname(workdir)
+_iso = _content_date.replace(".", "-")
+
+robots_txt = (
+    "User-agent: *\n"
+    "Allow: /\n"
+    f"Sitemap: {SITE_URL}sitemap.xml\n"
+)
+with open(os.path.join(_root, "robots.txt"), "w", encoding="utf-8") as f:
+    f.write(robots_txt)
+
+_sitemap_urls = [f"  <url><loc>{SITE_URL}</loc><lastmod>{_iso}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>"]
+for _i, _ch in enumerate(channels):
+    _sitemap_urls.append(
+        f"  <url><loc>{SITE_URL}#ch{_ch[-2:]}</loc><lastmod>{_iso}</lastmod>"
+        f"<changefreq>daily</changefreq><priority>0.8</priority></url>"
+    )
+sitemap_xml = (
+    '<?xml version="1.0" encoding="UTF-8"?>\n'
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + "\n".join(_sitemap_urls) + "\n</urlset>\n"
+)
+with open(os.path.join(_root, "sitemap.xml"), "w", encoding="utf-8") as f:
+    f.write(sitemap_xml)
+
+manifest_json = f'''{{
+  "name": "{SITE_NAME} · {SITE_NAME_EN}",
+  "short_name": "{SITE_NAME}",
+  "description": "{SITE_DESC}",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f1525",
+  "theme_color": "#0f1525",
+  "icons": [
+    {{"src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any"}},
+    {{"src": "source/logo_inline.jpg", "sizes": "256x256", "type": "image/jpeg", "purpose": "any"}}
+  ]
+}}
+'''
+with open(os.path.join(_root, "site.webmanifest"), "w", encoding="utf-8") as f:
+    f.write(manifest_json)
+
+# 404 页：GitHub Pages 会自动使用根目录 404.html。做成轻量独立页，
+# 不整份复制 SPA（否则仓库白多 ~690KB），只提供回首页入口与今日内容指引。
+_404_html = f'''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>页面未找到 · {SITE_NAME}</title>
+<style>
+  :root{{color-scheme:dark}}
+  body{{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(1200px 600px at 50% -10%,#1b2540 0%,#0f1525 55%,#080c16 100%);
+    color:#e8ecf5;font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    text-align:center;padding:32px}}
+  .wrap{{max-width:520px}}
+  .code{{font-size:64px;font-weight:700;letter-spacing:6px;color:#c9a96e;
+    font-family:"Cormorant Garamond",Georgia,serif;line-height:1}}
+  h1{{font-size:20px;margin:16px 0 10px;font-weight:600}}
+  p{{color:#9aa6bd;font-size:14px;line-height:1.9;margin:0 0 26px}}
+  a.btn{{display:inline-block;padding:12px 26px;border-radius:999px;text-decoration:none;
+    background:linear-gradient(135deg,#c9a96e,#e0c791);color:#1a1206;font-weight:600;font-size:14px}}
+  .links{{margin-top:18px;font-size:13px}}
+  .links a{{color:#c9a96e;text-decoration:none;margin:0 10px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="code">404</div>
+  <h1>这个页面不存在</h1>
+  <p>链接可能已失效，或地址输错了。<br>本站是单页应用，所有内容都在首页与 12 个频道里。</p>
+  <a class="btn" href="./index.html">← 回到首页</a>
+  <div class="links">
+    <a href="./index.html#ch01">全球新闻</a>·
+    <a href="./index.html#ch02">AI 热点</a>·
+    <a href="./index.html#ch05">UFO 热点</a>·
+    <a href="./rss.xml">RSS 订阅</a>
+  </div>
+</div>
+</body>
+</html>
+'''
+with open(os.path.join(_root, "404.html"), "w", encoding="utf-8") as f:
+    f.write(_404_html)
+
+print("[OK] Site files: robots.txt / sitemap.xml / site.webmanifest / 404.html")
+
+# === 信源可点击率体检（事实类频道应逐条可核查；此处只报告不阻断） ===
+_fact_ch = channels[:5] + channels[6:]  # ch01-ch05, ch07-ch12（ch06 已是全链接）
+for _ch in _fact_ch:
+    with open(f"{workdir}/{_ch}.html", "r", encoding="utf-8") as _f:
+        _c = _f.read()
+    _srcs = re.findall(r'class="news-source">(.*?)</div>', _c, re.S)
+    _wl = sum(1 for _x in _srcs if "href=" in _x)
+    print(f"[SOURCE-CHECK] {_ch}: 信源行 {len(_srcs)} 条，含可点击链接 {_wl} 条"
+          f"（{100 * _wl / max(1, len(_srcs)):.0f}%）")
 
 print(f"\n[DONE] SPA版已生成: {output_path}")
 print(f"  大小: {len(final_html.encode('utf-8')) / 1024:.1f} KB")

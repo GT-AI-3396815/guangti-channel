@@ -1,0 +1,15 @@
+{
+  "name": "光体•星际频道 · Luminary Interstellar Channel",
+  "short_name": "光体•星际频道",
+  "description": "光体•星际频道 Luminary Interstellar Channel：每日09:00自动更新的12频道资讯站——全球新闻、AI热点、商业趋势、自媒体选题推荐、UFO热点、星际文明解读、养生与身心疗愈。",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f1525",
+  "theme_color": "#0f1525",
+  "icons": [
+    {"src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any"},
+    {"src": "source/logo_inline.jpg", "sizes": "256x256", "type": "image/jpeg", "purpose": "any"}
+  ]
+}
