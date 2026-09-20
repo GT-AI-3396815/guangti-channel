@@ -167,3 +167,39 @@ ch01-ch04（事实资讯/方法论）无需标注。样式定义在首页源全�
 **字体阻塞**：`<style>` 顶部的 `@import url(https://fonts…)` 会阻塞其后**全部** CSS 应用直到字体 CDN 响应/失败（表现为 FOUC）。构建已自动剥离 `@import`，改为 `<link rel="stylesheet" … media="print" onload="this.media='all'">` + `<noscript>` 兜底，并在 typo 层补中文系统字体 fallback。**不要在频道源里重新引入 `@import`。**
 
 **每日更新自检**：构建输出中 `[CHECK] blocking @import: 0`、`font link present >= 2`、`typo layer: 1`、`news-head flex fix >= 1`、`[STRUCT-GUARD] … OK` 必须全部符合预期。
+
+## 16. 站点完备性 / 分享 / 无障碍规范（2026-09-20 增补）
+
+**站点周边文件（全部由 build_spa.py 自动生成，勿手改；部署时必须一并上传）**
+| 文件 | 作用 | 生成规则 |
+|---|---|---|
+| `robots.txt` | 允许全站抓取 + 指向 sitemap | 固定 |
+| `sitemap.xml` | 首页 + 12 个 `#chNN`，`lastmod` 取内容日期 | 每日刷新 |
+| `site.webmanifest` | 支持"添加到主屏"（standalone） | 固定 |
+| `404.html` | 轻量独立错误页（约 1.7KB），**不要整份复制 SPA** | 固定 |
+| `og-cover.jpg` | 社交分享大图 1200×630 | 品牌资产，已生成 |
+| `apple-touch-icon.png` | iOS 主屏图标 180×180 | 品牌资产，已生成 |
+
+**分享元数据**：`og:image` 指向根目录 `og-cover.jpg`（不要指 `source/logo.jpg`），必须带 `og:image:width/height/alt`；`twitter:card` 用 `summary_large_image`；另需 `og:locale`、`og:site_name`、`theme-color`。
+
+**RSS 规范**：每个 `<item>` 必须有 `<pubDate>`（内容日期 09:00 +0800，**缺失会让阅读器显示"未知日期"**）；`<channel>` 需含 `<atom:link rel="self">`、`<ttl>`、`<generator>`。
+
+**无障碍**：
+- 标题层级不得跳跃（h1→h3）。栏目用 `.section-label` 代替 h2 时，构建会自动补一个 `<h2 class="sr-only">`；`.sr-only` 样式在 typo 层。
+- 移动端（≤768px）独立链接的触摸高度 ≥32px（`.nav-meta a`、`.footer-links a`）；正文段落内的行内链接豁免（WCAG 2.5.8）。
+- 移动端最小字号 ≥11px（`.en` 11.5px、`.channel-status.live` 11px）。
+- 所有 `<img>` 必须有 `alt`；图标按钮必须有 `aria-label`。
+
+**内容归一化（构建层兜底，源文件也别写错）**：
+- 折叠重复信源前缀：`信源：信源：` → `信源：`（曾出现 12 处）。
+- 事实类频道（ch01-ch05）每条卡片"来源"行应给真实机构 + 日期，并**尽量附可点击原文/官方链接**；构建会打印 `[SOURCE-CHECK]` 报告可点击率。**严禁编造 URL**——搜不到就只写机构名。
+
+**审计脚本（都在 `test/`，可重复使用）**
+- `audit-static.py` — 占位符/锚点/结构/日期/重复标题/外链清单（纯静态）
+- `audit-runtime.cjs` — 深链/复制链接/搜索/无障碍/移动端/性能
+- `audit-focus.cjs` — 搜索正确性、复制链接一致性、返回键、字体开销、标题层级、小点击目标
+- `verify-fixes.cjs` — 站点文件可达性、manifest、404 页、移动端、字体、深链
+- `verify-live.cjs` — 对线上 GitHub Pages 跑完整 12 频道与元数据校验
+- `make-assets.py` — 重新生成 `og-cover.jpg` / `apple-touch-icon.png`
+
+**已知取舍**：中文 webfont 走 `fonts.loli.net`（Google Fonts 镜像），CSS 约 1MB（gzip 后 ~30KB）、925 条 @font-face，实际按 unicode-range 只拉取用到的子集（约 35 个 woff2）。已做：非阻塞 `<link media=print onload>` + `<noscript>` 兜底 + 系统字体 fallback + 只声明用到的字重。断网/被墙时自动回落系统字体，不影响可用性。
